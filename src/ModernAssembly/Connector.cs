@@ -42,6 +42,9 @@ namespace Modern
                 }
             }
         }
+        public Port PrePort;
+
+        public LineRenderer Line;
 
         RaycastHit[] RaycastAllSorted(Ray ray, float dist)
         {
@@ -55,19 +58,31 @@ namespace Modern
             return hits;
         }
 
+        public void CreateConnection(Port p1, Port p2)
+        {
+            if (p1 && p2)
+            {
+                Debug.Log("Create connection between " + p1.name + " and " + p2.name);
+            }
+        }
+
         public void Awake()
         {
-
+            Line = gameObject.AddComponent<LineRenderer>();
+            Line.enabled = false;
+            Line.SetWidth(0.05f, 0.05f);
         }
         public void Start()
         {
         }
+
         public void Update()
         {
             if (Enabled)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = RaycastAllSorted(ray, 10f);
+                bool getPort = false;
                 if (hits.Length > 0)
                 {
                     foreach (var hit in hits)
@@ -80,16 +95,65 @@ namespace Modern
                         if (port)
                         {
                             RefPort = port;
-                            return;
+                            getPort = true;
+                            break;
                         }
                     }
                 }
-                RefPort = null;
+                if (!getPort)
+                {
+                    RefPort = null;
+                }
+
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (RefPort)
+                    {
+                        PrePort = RefPort;
+                    }
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    CreateConnection(PrePort, RefPort);
+                    PrePort = null;
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    if (PrePort)
+                    {
+                        Line.enabled = true;
+                        Line.SetPosition(0, PrePort.transform.position);
+                        if (RefPort)
+                        {
+                            Line.SetPosition(1, RefPort.transform.position);
+                        }
+                        else
+                        {
+                            Vector3 normal = PrePort.transform.position - Camera.main.transform.position;
+                            Vector3 screenPoint = Input.mousePosition;
+                            screenPoint.z = normal.magnitude;
+                            Line.SetPosition(1, Camera.main.ScreenToWorldPoint(screenPoint));
+                        }
+                    }
+                    else
+                    {
+                        Line.enabled = false;
+                    }
+                }
+                else
+                {
+                    Line.enabled = false;
+                }
             }
             else
             {
+                PrePort = null;
                 RefPort = null;
             }
+
+            
+
         }
         
     }
