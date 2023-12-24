@@ -20,6 +20,33 @@ namespace Modern
         private Stack<Port> _connectedPorts = new Stack<Port>(); // only for output
         private Data _data = new Data();
 
+        private bool _highlight = false;
+        public bool Highlight
+        {
+            get
+            {
+                return _highlight;
+            }
+            set
+            {
+                if (value == _highlight)
+                {
+                    return;
+                }
+                _highlight = value;
+                if (_highlight)
+                {
+                    Vis.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Unlit/Color"));
+                    Vis.GetComponent<MeshRenderer>().material.color = Color.yellow;
+                }
+                else
+                {
+                    Vis.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
+                    Vis.GetComponent<MeshRenderer>().material.mainTexture = ModResource.GetTexture("Port Texture").Texture;
+                }
+            }
+        }
+
         public Data MyData
         {
             get
@@ -61,6 +88,7 @@ namespace Modern
             Type = type;
             parentUnit = unit;
             InitPortVis(index, totalPort);
+            InitPortTrigger();
             name = (IO ? "Output" : "Input") + " Port " + index.ToString();
             Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
         }
@@ -87,6 +115,12 @@ namespace Modern
             MF.sharedMesh = ModResource.GetMesh("Port Mesh").Mesh;
             MeshRenderer MR = Vis.AddComponent<MeshRenderer>();
             MR.material.mainTexture = ModResource.GetTexture("Port Texture").Texture;
+        }
+        public void InitPortTrigger()
+        {
+            SphereCollider SC = Vis.AddComponent<SphereCollider>();
+            SC.isTrigger = true;
+            SC.radius = 0.05f;
         }
 
         public void AddConnection(Port port)

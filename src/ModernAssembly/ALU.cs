@@ -74,6 +74,9 @@ namespace Modern
         public MMenu TypeMenu;
         public MMenu InputNumMenu;
 
+        public MSlider[] InputChannel = new MSlider[2];
+        public MSlider OutputChannel;
+
         public void UpdateCalType()
         {
         }
@@ -128,6 +131,11 @@ namespace Modern
             {
                 UpdateInputType();
             };
+
+            InputChannel[0] = AddSlider("Input Channel 1", "Input Channel 1", 0, 0, float.MaxValue);
+            InputChannel[1] = AddSlider("Input Channel 2", "Input Channel 2", 0, 0, float.MaxValue);
+            OutputChannel = AddSlider("Output Channel", "Output Channel", 0, 0, float.MaxValue);
+
         }
         public void Start()
         {
