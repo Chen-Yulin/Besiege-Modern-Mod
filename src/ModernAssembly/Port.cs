@@ -17,8 +17,30 @@ namespace Modern
         public bool IO = false; // false = input, true = output
         public Data.DataType Type = Data.DataType.Null;
 
-        private Stack<Port> _connectedPorts = new Stack<Port>(); // only for output
+        private Stack<Port> _distPorts = new Stack<Port>(); // only for output
+        private Port _srcPort; // only for input
         private Data _data = new Data();
+
+        public Port SrcPort
+        {
+            get { return _srcPort; }
+            set
+            {
+                if (value == _srcPort)
+                {
+                    return;
+                }
+                _srcPort = value;
+                if (_srcPort == null)
+                {
+                    SrcLine.enabled = false;
+                }
+                else
+                {
+                    SrcLine.enabled = true;
+                }
+            }
+        }
 
         private bool _highlight = false;
         public bool Highlight
@@ -47,6 +69,8 @@ namespace Modern
             }
         }
 
+        public LineRenderer SrcLine;
+
         public Data MyData
         {
             get
@@ -62,7 +86,7 @@ namespace Modern
                 _data = value;
                 if (IO) // output
                 {
-                    foreach (var port in _connectedPorts)
+                    foreach (var port in _distPorts)
                     {
                         if (!port.IO) // the connected input ports
                         {
@@ -123,11 +147,33 @@ namespace Modern
             SC.radius = 0.05f;
         }
 
-        public void AddConnection(Port port)
+        public void AddDistConnection(Port port)
         {
-            if (!_connectedPorts.Contains<Port>(port))
+            if (!_distPorts.Contains<Port>(port))
             {
-                _connectedPorts.Push(port);
+                _distPorts.Push(port);
+                port.SrcPort = this;
+            }
+        }
+
+        public void Awake()
+        {
+            
+        }
+
+        public void Start()
+        {
+            SrcLine = gameObject.AddComponent<LineRenderer>();
+            SrcLine.enabled = false;
+            SrcLine.SetWidth(0.05f, 0.05f);
+        }
+
+        public void LateUpdate()
+        {
+            if (SrcPort)
+            {
+                SrcLine.SetPosition(1, transform.position);
+                SrcLine.SetPosition(0, SrcPort.transform.position);
             }
         }
 

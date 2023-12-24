@@ -60,8 +60,16 @@ namespace Modern
 
         public void CreateConnection(Port p1, Port p2)
         {
-            if (p1 && p2)
+            if (p1 && p2 && (p1.IO != p2.IO))
             {
+                if (p1.IO) // p1 output p2 input
+                {
+                    p1.AddDistConnection(p2);
+                }
+                else // p2 output p1 input
+                {
+                    p2.AddDistConnection(p1);
+                }
                 Debug.Log("Create connection between " + p1.name + " and " + p2.name);
             }
         }
