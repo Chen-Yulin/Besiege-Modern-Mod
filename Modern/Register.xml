@@ -1,0 +1,39 @@
+<Block>
+	<Debug>True</Debug>
+	
+	<ID>8</ID>
+	
+	<Name>REGISTER</Name>
+	
+	<Mass>0.1</Mass>
+	
+	<Mesh name="Ladder Mesh">
+		<Position x="0.0" y="0.0" z="0.05" />
+		<Rotation x="0.0" y="90.0" z="90.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Mesh>
+	
+	<Texture name="IF Texture" />
+	
+	<Icon>
+		<Position x="0.0" y="0.0" z="0.0" />
+		<Rotation x="-90.0" y="0.0" z="0.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Icon>
+	
+	<Colliders>
+		<BoxCollider>
+			<Position x="0.0" y="0.0" z="0.1" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="0.3" y="0.3" z="0.1" />
+		</BoxCollider>
+	</Colliders>
+	
+	<BasePoint hasAddingPoint="false">
+		<Stickiness enabled="true" radius="0.2" />
+		<Motion x="false" y="false" z="false" />
+	</BasePoint>
+	
+	<AddingPoints>
+	</AddingPoints>
+</Block>

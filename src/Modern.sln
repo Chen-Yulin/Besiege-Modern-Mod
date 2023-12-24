@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{d5524d9b-7edf-45e5-b427-7c989746dd4b}") = "ModernAssembly", "ModernAssembly\ModernAssembly.csproj", "{14f615b8-fc28-4da5-867d-99ae455aa7b8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14f615b8-fc28-4da5-867d-99ae455aa7b8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14f615b8-fc28-4da5-867d-99ae455aa7b8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14f615b8-fc28-4da5-867d-99ae455aa7b8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14f615b8-fc28-4da5-867d-99ae455aa7b8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {fd45ebf8-fbe9-4c67-97c5-3ad8e01b2ff3}
+	EndGlobalSection
+EndGlobal
