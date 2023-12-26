@@ -74,8 +74,7 @@ namespace Modern
         public MMenu TypeMenu;
         public MMenu InputNumMenu;
 
-        public MSlider[] InputChannel = new MSlider[2];
-        public MSlider OutputChannel;
+        public new MSlider[] InputChannel = new MSlider[2];
 
         public void UpdateCalType()
         {
@@ -83,9 +82,11 @@ namespace Modern
 
         public void UpdateInputPort()
         {
+            int j = 0;
             foreach (var port in Inputs)
             {
                 Destroy(port.gameObject);
+                j++;
             }
             Inputs.Clear();
             for (int i = 0; i < InputNum; i++)
@@ -94,6 +95,8 @@ namespace Modern
                 Port port = vis.AddComponent<Port>();
                 port.InitPort(this, false, Data.DataType.Any, i, InputNum);
                 Inputs.Add(port);
+                InputChannel[i].SetValue(WireManager.Instance.AddPort(port, (int)InputChannel[i].Value));
+                InputChannel[i].ApplyValue();
             }
         }
         public void UpdateInputMapper()
@@ -105,7 +108,19 @@ namespace Modern
             for (int i = 0; i < InputNum; i++)
             {
                 Inputs[i].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), InputType[i].Selection);
-                Debug.Log("Update Input Port " + i.ToString() + " to " + Inputs[i].Type.ToString());
+                //Debug.Log("Update Input Port " + i.ToString() + " to " + Inputs[i].Type.ToString());
+            }
+        }
+
+        public override int GetPortMapperKey(bool IO, int index)
+        {
+            if (IO)
+            {
+                return (int)OutputChannel.Value;
+            }
+            else
+            {
+                return (int)InputChannel[index].Value;
             }
         }
 
@@ -140,6 +155,7 @@ namespace Modern
         public void Start()
         {
             name = "ALU";
+            UpdateInputPort();
             InitOutputPorts();
         }
 

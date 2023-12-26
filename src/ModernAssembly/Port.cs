@@ -16,22 +16,23 @@ namespace Modern
     {
         public bool IO = false; // false = input, true = output
         public Data.DataType Type = Data.DataType.Null;
+        public int Index = 0;
 
-        private Stack<Port> _distPorts = new Stack<Port>(); // only for output
-        private Port _srcPort; // only for input
+        private List<int> _distPortsKey = new List<int>(); // only for output
+        private int _srcPortKey; // only for input
         private Data _data = new Data();
 
-        public Port SrcPort
+        public int SrcPort
         {
-            get { return _srcPort; }
+            get { return _srcPortKey; }
             set
             {
-                if (value == _srcPort)
+                if (value == _srcPortKey)
                 {
                     return;
                 }
-                _srcPort = value;
-                if (_srcPort == null)
+                _srcPortKey = value;
+                if (WireManager.Instance.GetPort(_srcPortKey) == null)
                 {
                     SrcLine.enabled = false;
                 }
@@ -39,6 +40,14 @@ namespace Modern
                 {
                     SrcLine.enabled = true;
                 }
+            }
+        }
+
+        public int MapperKey
+        {
+            get
+            {
+                return parentUnit.GetPortMapperKey(IO, Index);
             }
         }
 
@@ -86,11 +95,11 @@ namespace Modern
                 _data = value;
                 if (IO) // output
                 {
-                    foreach (var port in _distPorts)
+                    foreach (var port in _distPortsKey)
                     {
-                        if (!port.IO) // the connected input ports
+                        if (!WireManager.Instance.GetPort(port).IO) // the connected input ports
                         {
-                            port.MyData = value;
+                            WireManager.Instance.GetPort(port).MyData = value;
                         }
                     }
                 }
@@ -111,10 +120,11 @@ namespace Modern
             IO = io;
             Type = type;
             parentUnit = unit;
+            Index = index;
             InitPortVis(index, totalPort);
             InitPortTrigger();
             name = (IO ? "Output" : "Input") + " Port " + index.ToString();
-            Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
+            //Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
         }
 
         public float GetOffset(int index, int totalPort)
@@ -147,12 +157,13 @@ namespace Modern
             SC.radius = 0.05f;
         }
 
-        public void AddDistConnection(Port port)
+        public void AddDistConnection(int portKey)
         {
-            if (!_distPorts.Contains<Port>(port))
+            if (!_distPortsKey.Contains<int>(portKey))
             {
-                _distPorts.Push(port);
-                port.SrcPort = this;
+                _distPortsKey.Add(portKey);
+                WireManager.Instance.GetPort(WireManager.Instance.GetPort(portKey).SrcPort)._distPortsKey.Remove(portKey);
+                WireManager.Instance.GetPort(portKey).SrcPort = MapperKey;
             }
         }
 
@@ -170,10 +181,10 @@ namespace Modern
 
         public void LateUpdate()
         {
-            if (SrcPort)
+            if (WireManager.Instance.GetPort(SrcPort))
             {
                 SrcLine.SetPosition(1, transform.position);
-                SrcLine.SetPosition(0, SrcPort.transform.position);
+                SrcLine.SetPosition(0, WireManager.Instance.GetPort(SrcPort).transform.position);
             }
         }
 

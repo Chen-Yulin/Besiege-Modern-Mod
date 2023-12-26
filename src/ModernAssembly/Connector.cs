@@ -64,13 +64,13 @@ namespace Modern
             {
                 if (p1.IO) // p1 output p2 input
                 {
-                    p1.AddDistConnection(p2);
+                    p1.AddDistConnection(p2.MapperKey);
                 }
                 else // p2 output p1 input
                 {
-                    p2.AddDistConnection(p1);
+                    p2.AddDistConnection(p1.MapperKey);
                 }
-                Debug.Log("Create connection between " + p1.name + " and " + p2.name);
+                Debug.Log("Create connection between " + p1.MapperKey + " and " + p2.MapperKey);
             }
         }
 
