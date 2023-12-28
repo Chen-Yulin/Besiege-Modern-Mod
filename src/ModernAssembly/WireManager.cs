@@ -18,16 +18,56 @@ namespace Modern
 
         public Dictionary<int, Port> PortMap = new Dictionary<int, Port>();
 
-        public int newKey = 0;
+        public int newKey = 1;
 
         public int AddPort(Port port, int key) // return the actual mapper key
         {
             if (PortMap.ContainsKey(key))
             {
-                PortMap.Add(newKey, port);
+                if (PortMap[key] == port)
+                {
+                    Debug.Log("Duplicate port added to mapper");
+                    return key;
+                }
+                
+                Port originPort = PortMap[key];
+                PortMap.Remove(key);
+
+                // update the reference to the existing port
+                foreach (var p in PortMap.Values)
+                {
+                    if (p.IO)
+                    {
+                        //output
+                        p.UpdateDistKey(key, newKey);
+                    }
+                    else
+                    {
+                        //input
+                        p.UpdateSrcKey(key, newKey);
+
+                    }
+                }
+
+                // reallocate the key for the existing port
+                PortMap.Add(newKey, originPort);
+                if (originPort.IO)
+                {
+                    originPort.parentUnit.SaveOutputKey(originPort.Index, newKey);
+                }
+                else
+                {
+                    originPort.parentUnit.SaveInputKey(originPort.Index, newKey);
+                }
+                
+
+                
+
+                // Add the new port to the mapper
+                PortMap.Add(key, port);
                 //Debug.Log("Port key " + key + " already exists, adding port to key " + newKey);
                 newKey++;
-                return newKey - 1;
+                return key;
             }
             else
             {
@@ -42,7 +82,6 @@ namespace Modern
             if (PortMap.ContainsKey(key))
             {
                 PortMap.Remove(key);
-                //Debug.Log("Port key " + key + " removed from mapper");
             }
         }
 

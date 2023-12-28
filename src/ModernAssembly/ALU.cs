@@ -75,9 +75,72 @@ namespace Modern
         public MMenu InputNumMenu;
 
         public new MSlider[] InputChannel = new MSlider[2];
+        public new MSlider[] InputSrcChannel = new MSlider[2]; // -1 for no connection
+        public new MSlider[] OutputChannel = new MSlider[1];
+
+        public bool InputNumChanged = false;
+        public bool InputTypeChanged = false;
 
         public void UpdateCalType()
         {
+        }
+
+        public void InputNumChangeHandler()
+        {
+            InputNumChanged = false;
+            //Debug.Log("InputNumMenu.ValueChanged " + value.ToString());
+            InputNum = InputNumMenu.Value + 1;
+            UpdateInputPort();
+            UpdateInputMapper();
+            UpdateInputType();
+        }
+
+        public void InputTypeChangeHandler()
+        {
+            InputTypeChanged = false;
+            //Debug.Log("InputTypeMenu.ValueChanged " + value.ToString());
+            UpdateInputType();
+        }
+        public void UpdateInputMapper()
+        {
+            InputType[1].DisplayInMapper = !(InputNum == 1);
+        }
+        public void UpdateInputType()
+        {
+            for (int i = 0; i < InputNum; i++)
+            {
+                Inputs[i].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), InputType[i].Selection);
+            }
+        }
+
+        public override int GetPortKey(bool IO, int index)
+        {
+            if (IO)
+            {
+                return (int)OutputChannel[index].Value;
+            }
+            else
+            {
+                return (int)InputChannel[index].Value;
+            }
+        }
+
+        public override void SaveInputSrcKey(int index, int key)
+        {
+            InputSrcChannel[index].SetValue(key);
+            InputSrcChannel[index].ApplyValue();
+        }
+
+        public override void SaveInputKey(int index, int key)
+        {
+            InputChannel[index].SetValue(key);
+            InputChannel[index].ApplyValue();
+        }
+
+        public override void SaveOutputKey(int index, int key)
+        {
+            OutputChannel[index].SetValue(key);
+            OutputChannel[index].ApplyValue();
         }
 
         public void UpdateInputPort()
@@ -95,32 +158,21 @@ namespace Modern
                 Port port = vis.AddComponent<Port>();
                 port.InitPort(this, false, Data.DataType.Any, i, InputNum);
                 Inputs.Add(port);
-                InputChannel[i].SetValue(WireManager.Instance.AddPort(port, (int)InputChannel[i].Value));
-                InputChannel[i].ApplyValue();
-            }
-        }
-        public void UpdateInputMapper()
-        {
-            InputType[1].DisplayInMapper = !(InputNum == 1);
-        }
-        public void UpdateInputType()
-        {
-            for (int i = 0; i < InputNum; i++)
-            {
-                Inputs[i].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), InputType[i].Selection);
-                //Debug.Log("Update Input Port " + i.ToString() + " to " + Inputs[i].Type.ToString());
+                int inputKey = WireManager.Instance.AddPort(port, (int)InputChannel[i].Value);
+                SaveInputKey(i, inputKey);
             }
         }
 
-        public override int GetPortMapperKey(bool IO, int index)
+        public override void InitOutputPorts()
         {
-            if (IO)
+            for (int i = 0; i < OutputNum; i++)
             {
-                return (int)OutputChannel.Value;
-            }
-            else
-            {
-                return (int)InputChannel[index].Value;
+                GameObject vis = new GameObject();
+                Port port = vis.AddComponent<Port>();
+                port.InitPort(this, true, Data.DataType.Any, i, OutputNum);
+                Outputs.Add(port);
+                int outputKey = WireManager.Instance.AddPort(port, (int)OutputChannel[i].Value);
+                SaveOutputKey(i, outputKey);
             }
         }
 
@@ -132,31 +184,45 @@ namespace Modern
             TypeMenu = AddMenu("Type", 0, FloatTypeString);
             InputNumMenu.ValueChanged += (int value) =>
             {
-                //Debug.Log("InputNumMenu.ValueChanged " + value.ToString());
-                InputNum = value + 1;
-                UpdateInputPort();
-                UpdateInputMapper();
-                UpdateInputType();
+                InputNumChanged = true;
             };
             InputType[0].ValueChanged += (int value) =>
             {
-                UpdateInputType();
+                InputTypeChanged = true;
             };
             InputType[1].ValueChanged += (int value) =>
             {
-                UpdateInputType();
+                InputTypeChanged = true;
             };
 
             InputChannel[0] = AddSlider("Input Channel 1", "Input Channel 1", 0, 0, float.MaxValue);
             InputChannel[1] = AddSlider("Input Channel 2", "Input Channel 2", 0, 0, float.MaxValue);
-            OutputChannel = AddSlider("Output Channel", "Output Channel", 0, 0, float.MaxValue);
-
+            InputSrcChannel[0] = AddSlider("Input Src Channel 1", "Input Src Channel 1", -1, -1, float.MaxValue);
+            InputSrcChannel[1] = AddSlider("Input Src Channel 2", "Input Src Channel 2", -1, -1, float.MaxValue);
+            OutputChannel[0] = AddSlider("Output Channel", "Output Channel", 0, 0, float.MaxValue);
         }
-        public void Start()
+        public override void OnBlockPlaced()
         {
             name = "ALU";
-            UpdateInputPort();
+            //UpdateInputPort();
             InitOutputPorts();
+        }
+
+        public override void OnSimulateStart()
+        {
+            name = "ALU";
+        }
+
+        public override void BuildingUpdate()
+        {
+            if (InputNumChanged)
+            {
+                InputNumChangeHandler();
+            }
+            if (InputTypeChanged)
+            {
+                InputTypeChangeHandler();
+            }
         }
 
     }

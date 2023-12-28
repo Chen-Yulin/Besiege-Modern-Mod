@@ -19,7 +19,7 @@ namespace Modern
         public int Index = 0;
 
         private List<int> _distPortsKey = new List<int>(); // only for output
-        private int _srcPortKey; // only for input
+        private int _srcPortKey = -1; // only for input
         private Data _data = new Data();
 
         public int SrcPort
@@ -27,19 +27,32 @@ namespace Modern
             get { return _srcPortKey; }
             set
             {
+                if (IO)
+                {
+                    return;
+                }
                 if (value == _srcPortKey)
                 {
                     return;
                 }
                 _srcPortKey = value;
-                if (WireManager.Instance.GetPort(_srcPortKey) == null)
+
+                if (!SrcLine)
                 {
-                    SrcLine.enabled = false;
+                    InitSrcLine();
                 }
-                else
+                if (SrcLine)
                 {
-                    SrcLine.enabled = true;
+                    if (WireManager.Instance.GetPort(_srcPortKey) == null)
+                    {
+                        SrcLine.enabled = false;
+                    }
+                    else
+                    {
+                        SrcLine.enabled = true;
+                    }
                 }
+
             }
         }
 
@@ -47,7 +60,7 @@ namespace Modern
         {
             get
             {
-                return parentUnit.GetPortMapperKey(IO, Index);
+                return parentUnit.GetPortKey(IO, Index);
             }
         }
 
@@ -154,17 +167,71 @@ namespace Modern
         {
             SphereCollider SC = Vis.AddComponent<SphereCollider>();
             SC.isTrigger = true;
-            SC.radius = 0.05f;
+            SC.radius = 0.07f;
         }
 
-        public void AddDistConnection(int portKey)
+        public void AddDistConnection(int portKey) // portKey: the mapper key of the dist port
         {
-            if (!_distPortsKey.Contains<int>(portKey))
+            // only for output port
+            if (IO)
             {
-                _distPortsKey.Add(portKey);
-                WireManager.Instance.GetPort(WireManager.Instance.GetPort(portKey).SrcPort)._distPortsKey.Remove(portKey);
-                WireManager.Instance.GetPort(portKey).SrcPort = MapperKey;
+                if (!_distPortsKey.Contains<int>(portKey))
+                {
+                    Port inputPort = WireManager.Instance.GetPort(portKey);
+                    // my port is output, add dist port
+                    _distPortsKey.Add(portKey);
+                    // remove other reference to this dist port
+                    WireManager.Instance.GetPort(inputPort.SrcPort)._distPortsKey.Remove(portKey);
+                    // modify the src port of the dist port
+                    inputPort.SrcPort = MapperKey;
+                    // save the src port to the unit of this dist port
+                    inputPort.parentUnit.SaveInputSrcKey(inputPort.Index, MapperKey);
+                }
             }
+        }
+
+        public void UpdateDistKey(int oldKey, int newKey) 
+        {
+            // only for output
+            if (IO)
+            {
+                if (_distPortsKey.Contains<int>(oldKey))
+                {
+                    _distPortsKey.Remove(oldKey);
+                    _distPortsKey.Add(newKey);
+                }
+            }
+        }
+
+        public void UpdateSrcKey(int oldKey, int newKey)
+        {
+            // only for input
+            if (!IO)
+            {
+                if (SrcPort == oldKey)
+                {
+                    SrcPort = newKey;
+                    parentUnit.SaveInputSrcKey(Index, newKey);
+                }
+            }
+        }
+
+        public void InitSrcLine()
+        {
+            try
+            {
+                SrcLine = gameObject.GetComponent<LineRenderer>();
+
+                if (!SrcLine)
+                {
+                    SrcLine = gameObject.AddComponent<LineRenderer>();
+                    SrcLine.enabled = false;
+                    SrcLine.material.shader = Shader.Find("Unlit/Color");
+                    SrcLine.material.color = Color.gray;
+                    SrcLine.SetWidth(0.05f, 0.05f);
+                }
+            }
+            catch { }
         }
 
         public void Awake()
@@ -174,15 +241,14 @@ namespace Modern
 
         public void Start()
         {
-            SrcLine = gameObject.AddComponent<LineRenderer>();
-            SrcLine.enabled = false;
-            SrcLine.SetWidth(0.05f, 0.05f);
+            InitSrcLine();
         }
 
         public void LateUpdate()
         {
-            if (WireManager.Instance.GetPort(SrcPort))
+            if (WireManager.Instance.GetPort(SrcPort) && SrcLine)
             {
+                
                 SrcLine.SetPosition(1, transform.position);
                 SrcLine.SetPosition(0, WireManager.Instance.GetPort(SrcPort).transform.position);
             }
