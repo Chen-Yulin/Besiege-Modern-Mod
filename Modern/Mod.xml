@@ -31,6 +31,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Decoder.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
+		<Block path="Board.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -60,11 +61,16 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
+		<Mesh name="Board Mesh" path="Board/board.obj" />
+		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
+		<Mesh name="Board Wire Mesh" path="Board/joint.obj" />
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
 		<Texture name="IF Texture" path="Unit/IF.png" />
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
+		<Texture name="Board Texture" path="Board/board.png" />
+		<Texture name="Board wire Texture" path="Board/wire.png" />
 	</Resources>
 
 
