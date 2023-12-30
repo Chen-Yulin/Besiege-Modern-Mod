@@ -11,7 +11,11 @@ namespace Modern
 		{
 			// Called when the mod is loaded.
 			Debug.Log("Welcome to Modern Besiege");
-            myMod = new GameObject("WW2 Naval Mod");
+            myMod = new GameObject("Modern Mod");
+            UnityEngine.Object.DontDestroyOnLoad(myMod);
+            myMod.AddComponent<ModController>();
+            myMod.AddComponent<Connector>();
+            myMod.AddComponent<WireManager>();
         }
 	}
 }
