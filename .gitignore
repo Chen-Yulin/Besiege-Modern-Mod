@@ -1,6 +1,7 @@
 src/.vs/
 src/ModernAssembly/bin/Debug/*
 src/ModernAssembly/obj/Debug/*
+src/ModernAssembly/*.csproj.user
 *.zip
 *.cache
 *.dll
