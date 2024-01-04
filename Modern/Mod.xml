@@ -63,7 +63,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
 		<Mesh name="Board Mesh" path="Board/board.obj" />
 		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
-		<Mesh name="Board Wire Mesh" path="Board/joint.obj" />
+		<Mesh name="Board Wire Mesh" path="Board/wire.obj" />
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
 		<Texture name="IF Texture" path="Unit/IF.png" />
