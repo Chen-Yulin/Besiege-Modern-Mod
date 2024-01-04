@@ -70,7 +70,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
-		<Texture name="Board wire Texture" path="Board/wire.png" />
+		<Texture name="Board Wire Texture" path="Board/wire.png" />
 	</Resources>
 
 

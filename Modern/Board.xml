@@ -8,7 +8,7 @@
 	
 	<Mass>0.2</Mass>
 
-	<Script>Modern.ALU</Script>
+	<Script>Modern.Board</Script>
 	
 	<Mesh name="Board Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
