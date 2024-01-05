@@ -9,6 +9,7 @@ using Modding.Blocks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Modding.Blocks;
+using mattmc3.dotmore.Collections.Generic;
 
 namespace Modern
 {
@@ -133,7 +134,9 @@ namespace Modern
         public GameObject JointGhost;
         public GameObject WireGhost;
 
-        public List<Connection> Connections = new List<Connection>();
+        public BlockBehaviour bb;
+
+        public Stack<Connection> Connections = new Stack<Connection>();
 
         public List<BoardWire> wires = new List<BoardWire>();
 
@@ -172,7 +175,9 @@ namespace Modern
 
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
-            Connections.Add(new Connection(p1, p2));
+            Connections.Push(new Connection(p1, p2));
+            CircuitText.SetValue(CircuitText.Value + ";" + "1:" + p1.ToString() + " 2:" + p2.ToString());
+            bb.OnSave(new XDataHolder());
 
             GameObject WireObject = new GameObject("Circuit Wire");
             WireObject.transform.parent = transform;
@@ -190,7 +195,17 @@ namespace Modern
             if (currentWire)
             {
                 currentWire.SetJointPosition(currentWire.connection.joint1, pos);
+                Connections.Peek().joint2 = pos;
+                CircuitText.Value = Tool.RemoveLastLine(CircuitText.Value);
+                CircuitText.SetValue(CircuitText.Value + ";" + "1:" + currentWire.connection.joint1.ToString() + " 2:" + pos.ToString());
+                bb.OnSave(new XDataHolder());
             }
+        }
+
+        public override void SafeAwake()
+        {
+            bb = GetComponent<BlockBehaviour>();
+            CircuitText = AddText("Circuit Wire", "CW", "");
         }
 
         public override void OnBlockPlaced()
@@ -259,6 +274,7 @@ namespace Modern
 
         public void Start()
         {
+            bb = GetComponent<BlockBehaviour>();
             gameObject.name = "Circuit Board";
             transform.Find("Adding Point").GetComponent<BoxCollider>().size = new Vector3(3.8f, 3.8f, 0.1f);
         }

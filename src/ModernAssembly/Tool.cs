@@ -19,5 +19,19 @@ namespace Modern
             Array.Sort(distances, hits);
             return hits;
         }
+        public static string RemoveLastLine(string str)
+        {
+            int index = str.LastIndexOf(";");
+            if (index >= 0)
+            {
+                return str.Substring(0, index);
+            }
+            else
+            {
+                return str;
+            }
+        }
     }
+
+    
 }
