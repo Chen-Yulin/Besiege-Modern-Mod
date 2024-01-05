@@ -83,7 +83,7 @@ namespace Modern
                     JointVis[0].SetActive(true);
                 }
                 connection.joint1 = p1;
-                JointVis[0].transform.localPosition = new Vector3(p1.x * 0.058f - 0.058f * 31f - 0.029f, p1.y * 0.058f - 0.058f * 31f - 0.029f, 0.1f);
+                JointVis[0].transform.localPosition = new Vector3(p1.x * 0.058f - 0.058f * 31f - 0.029f, p1.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
                 changed = true;
             }
 
@@ -98,7 +98,7 @@ namespace Modern
                     JointVis[1].SetActive(true);
                 }
                 connection.joint2 = p2;
-                JointVis[1].transform.localPosition = new Vector3(p2.x * 0.058f - 0.058f * 31f - 0.029f, p2.y * 0.058f - 0.058f * 31f - 0.029f, 0.1f);
+                JointVis[1].transform.localPosition = new Vector3(p2.x * 0.058f - 0.058f * 31f - 0.029f, p2.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
                 changed |= true;
             }
 
@@ -109,7 +109,7 @@ namespace Modern
                 {
                     WireVis.SetActive(true);
                     WireVis.transform.localPosition = (JointVis[0].transform.localPosition + JointVis[1].transform.localPosition) / 2f;
-                    WireVis.transform.localScale = new Vector3(0.3f, 0.3f, (JointVis[0].transform.localPosition - JointVis[1].transform.localPosition).magnitude * 5f);
+                    WireVis.transform.localScale = new Vector3(0.3f, 0.3f, (JointVis[0].transform.localPosition - JointVis[1].transform.localPosition).magnitude * 5f - 0.1f);
                     WireVis.transform.localRotation = Quaternion.LookRotation(JointVis[0].transform.localPosition - JointVis[1].transform.localPosition, Vector3.up);
                 }
                 else
@@ -227,7 +227,7 @@ namespace Modern
                             continue;
                         }
                         Vector2 spotCoord = GetJointCoordinate(hit.point);
-                        JointGhost.transform.localPosition = new Vector3(spotCoord.x * 0.058f - 0.058f * 31f - 0.029f, spotCoord.y * 0.058f - 0.058f * 31f - 0.029f, 0.1f);
+                        JointGhost.transform.localPosition = new Vector3(spotCoord.x * 0.058f - 0.058f * 31f - 0.029f, spotCoord.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
                         ShowJointGhost = true;
 
                         if (Input.GetMouseButtonDown(0))
