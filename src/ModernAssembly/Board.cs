@@ -176,7 +176,7 @@ namespace Modern
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
             Connections.Push(new Connection(p1, p2));
-            CircuitText.SetValue(CircuitText.Value + ";" + "1:" + p1.ToString() + " 2:" + p2.ToString());
+            CircuitText.SetValue(CircuitText.Value + ";"+ p1.ToString() + "-" + p2.ToString());
             bb.OnSave(new XDataHolder());
 
             GameObject WireObject = new GameObject("Circuit Wire");
@@ -197,8 +197,32 @@ namespace Modern
                 currentWire.SetJointPosition(currentWire.connection.joint1, pos);
                 Connections.Peek().joint2 = pos;
                 CircuitText.Value = Tool.RemoveLastLine(CircuitText.Value);
-                CircuitText.SetValue(CircuitText.Value + ";" + "1:" + currentWire.connection.joint1.ToString() + " 2:" + pos.ToString());
+                CircuitText.SetValue(CircuitText.Value + ";" + currentWire.connection.joint1.ToString() + "-" + pos.ToString());
                 bb.OnSave(new XDataHolder());
+            }
+        }
+
+        public void LoadWire()
+        {
+            string wireData = CircuitText.Value;
+
+            bool hasWire = wireData.Length > 0;
+
+            if (hasWire)
+            {
+                string[] wires = wireData.Split(';');
+                foreach (string wire in wires)
+                {
+                    if (wire.Length == 0)
+                    {
+                        continue;
+                    }
+                    string[] joints = wire.Split('-');
+                    Debug.Log(joints[0] + " " + joints[1]);
+                    Vector2 p1 = Tool.StringToVector2(joints[0]);
+                    Vector2 p2 = Tool.StringToVector2(joints[1]);
+                    CreateConnection(p1, p2);
+                }
             }
         }
 
@@ -225,6 +249,9 @@ namespace Modern
             {
                 JointGhost = transform.Find("Circuit Joint Ghost").gameObject;
             }
+
+            LoadWire();
+
         }
 
         public override void BuildingUpdate()
