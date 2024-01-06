@@ -110,7 +110,7 @@ namespace Modern
                 {
                     WireVis.SetActive(true);
                     WireVis.transform.localPosition = (JointVis[0].transform.localPosition + JointVis[1].transform.localPosition) / 2f;
-                    WireVis.transform.localScale = new Vector3(0.3f, 0.3f, (JointVis[0].transform.localPosition - JointVis[1].transform.localPosition).magnitude * 5f - 0.1f);
+                    WireVis.transform.localScale = new Vector3(0.3f, 0.3f, (JointVis[0].transform.localPosition - JointVis[1].transform.localPosition).magnitude * 5f - 0.15f);
                     WireVis.transform.localRotation = Quaternion.LookRotation(JointVis[0].transform.localPosition - JointVis[1].transform.localPosition, Vector3.up);
                 }
                 else
