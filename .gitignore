@@ -2,6 +2,7 @@ src/.vs/
 src/ModernAssembly/bin/Debug/*
 src/ModernAssembly/obj/Debug/*
 src/ModernAssembly/*.csproj.user
+.vs
 *.zip
 *.cache
 *.dll
