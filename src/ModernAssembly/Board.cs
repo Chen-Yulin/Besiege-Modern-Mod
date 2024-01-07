@@ -218,7 +218,6 @@ namespace Modern
                         continue;
                     }
                     string[] joints = wire.Split('-');
-                    Debug.Log(joints[0] + " " + joints[1]);
                     Vector2 p1 = Tool.StringToVector2(joints[0]);
                     Vector2 p2 = Tool.StringToVector2(joints[1]);
                     CreateConnection(p1, p2);
@@ -275,7 +274,6 @@ namespace Modern
                         if (Input.GetMouseButtonDown(0))
                         {
                             currentWire = CreateConnection(spotCoord, spotCoord);
-                            Debug.Log("Created wire at: " + spotCoord);
                         }
                         else if (Input.GetMouseButton(0))
                         {
@@ -284,7 +282,6 @@ namespace Modern
                         }
                         else if(Input.GetMouseButtonUp(0))
                         {
-                            Debug.Log("Finish wire at: " + spotCoord);
                             currentWire = null;
                         }
 

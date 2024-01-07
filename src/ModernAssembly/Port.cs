@@ -150,7 +150,7 @@ namespace Modern
             Index = index;
             InitPortVis(index, totalPort);
             InitPortTrigger();
-            name = (IO ? "Output" : "Input") + " Port " + index.ToString();
+            name = (IO ? "Output" : (AsControl? "Control" : "Input")) + " Port " + index.ToString();
             //Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
         }
 
@@ -172,7 +172,7 @@ namespace Modern
             if (AsControl)
             {
                 Vis.transform.localPosition = new Vector3(0.3f, GetOffset(index, totalPort), 0.05f);
-                Vis.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                Vis.transform.localRotation = Quaternion.Euler(0, 90, 90);
             }
             else
             {
