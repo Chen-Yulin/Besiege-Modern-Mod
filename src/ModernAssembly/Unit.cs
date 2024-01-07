@@ -16,11 +16,23 @@ namespace Modern
     {
         public int InputNum = 1;
         public int OutputNum = 1;
+        public int ControlNum = 0;
 
         public List<Port> Inputs = new List<Port>();
+        public List<Port> Controls = new List<Port>();
         public List<Port> Outputs = new List<Port>();
 
-        public virtual void InitInputPorts()
+        public void InitControlPorts()
+        {
+            for (int i = 0; i < ControlNum; i++)
+            {
+                GameObject vis = new GameObject();
+                Port port = vis.AddComponent<Port>();
+                port.InitPort(this, false, Data.DataType.Any, i, ControlNum, true);
+                Controls.Add(port);
+            }
+        }
+        public void InitInputPorts()
         {
             for (int i = 0; i < InputNum; i++)
             {
@@ -30,7 +42,7 @@ namespace Modern
                 Inputs.Add(port);
             }
         }   
-        public virtual void InitOutputPorts()
+        public void InitOutputPorts()
         {
             for (int i = 0; i < OutputNum; i++)
             {

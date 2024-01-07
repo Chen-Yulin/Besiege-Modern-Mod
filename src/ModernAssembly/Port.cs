@@ -18,6 +18,27 @@ namespace Modern
         public Data.DataType Type = Data.DataType.Null;
         public int Index = 0;
 
+        private bool _asControl = false;
+        public bool AsControl
+        {
+            set
+            {
+                if (!IO)
+                {
+                    _asControl = value;
+                }
+                else
+                {
+                    _asControl = false;
+                }
+            }
+            get
+            {
+                return _asControl;
+            }
+
+        }
+
         private List<Port> _distPorts = new List<Port>(); // only for output
         private Port _srcPort = null; // only for input
         private Data _data = new Data();
@@ -119,10 +140,11 @@ namespace Modern
 
         public GameObject Vis;
 
-        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort) 
+        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort, bool asControl = false) 
         {
             Vis = gameObject;
             IO = io;
+            AsControl = asControl;
             Type = type;
             parentUnit = unit;
             Index = index;
@@ -147,8 +169,17 @@ namespace Modern
         public void InitPortVis(int index, int totalPort)
         {
             Vis.transform.SetParent(parentUnit.transform);
-            Vis.transform.localPosition = new Vector3(GetOffset(index,totalPort), (IO ? 0.3f : -0.3f), 0.05f);
-            Vis.transform.localRotation = Quaternion.Euler(90,0,0);
+            if (AsControl)
+            {
+                Vis.transform.localPosition = new Vector3(0.3f, GetOffset(index, totalPort), 0.05f);
+                Vis.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                Vis.transform.localPosition = new Vector3(GetOffset(index, totalPort), (IO ? 0.3f : -0.3f), 0.05f);
+                Vis.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            }
+            
             Vis.transform.localScale = new Vector3(1f, 1f, (IO ? -1 : 1));
             MeshFilter MF = Vis.AddComponent<MeshFilter>();
             MF.sharedMesh = ModResource.GetMesh("Port Mesh").Mesh;

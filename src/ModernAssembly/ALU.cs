@@ -109,17 +109,6 @@ namespace Modern
             }
         }
 
-        public override void InitInputPorts()
-        {
-            for (int i = 0; i < InputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, false, Data.DataType.Any, i, InputNum);
-                Inputs.Add(port);
-            }
-        }
-
         public void UpdateInputPort()
         {
             // first clear
@@ -132,17 +121,6 @@ namespace Modern
             Inputs.Clear();
             // then init again
             InitInputPorts();
-        }
-
-        public override void InitOutputPorts()
-        {
-            for (int i = 0; i < OutputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, true, Data.DataType.Any, i, OutputNum);
-                Outputs.Add(port);
-            }
         }
 
         public override void SafeAwake()
@@ -167,7 +145,7 @@ namespace Modern
         public override void OnBlockPlaced()
         {
             name = "ALU";
-            //UpdateInputPort();
+            OutputNum = 1;
             InitOutputPorts();
         }
 

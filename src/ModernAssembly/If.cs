@@ -8,30 +8,6 @@ namespace Modern
 {
     public class If : Unit
     {
-        public new int InputNum = 2;
-        public new int OutputNum = 1;
-
-        public override void InitInputPorts()
-        {
-            for (int i = 0; i < InputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, false, Data.DataType.Any, i, InputNum);
-                Inputs.Add(port);
-            }
-        }
-
-        public override void InitOutputPorts()
-        {
-            for (int i = 0; i < OutputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, true, Data.DataType.Any, i, OutputNum);
-                Outputs.Add(port);
-            }
-        }
 
         public override void SafeAwake()
         {
@@ -39,6 +15,9 @@ namespace Modern
         public override void OnBlockPlaced()
         {
             name = "If Unit";
+            InputNum = 2;
+            OutputNum = 1;
+            ControlNum = 0;
             InitInputPorts();
             InitOutputPorts();
         }
