@@ -109,6 +109,17 @@ namespace Modern
             }
         }
 
+        public override void InitInputPorts()
+        {
+            for (int i = 0; i < InputNum; i++)
+            {
+                GameObject vis = new GameObject();
+                Port port = vis.AddComponent<Port>();
+                port.InitPort(this, false, Data.DataType.Any, i, InputNum);
+                Inputs.Add(port);
+            }
+        }
+
         public void UpdateInputPort()
         {
             // first clear

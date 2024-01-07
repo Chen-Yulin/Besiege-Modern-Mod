@@ -6,6 +6,8 @@
 	<Name>WHILE</Name>
 	
 	<Mass>0.1</Mass>
+
+	<Script>Modern.While</Script>
 	
 	<Mesh name="Square Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
