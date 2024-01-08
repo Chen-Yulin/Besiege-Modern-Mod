@@ -43,6 +43,19 @@ namespace Modern
 
             return new Vector2(x, y); // 返回Vector2实例
         }
+        public static Vector2 GetBoardCoordinate(Vector3 point, Transform board_t)
+        {
+            Vector3 localPoint = board_t.InverseTransformPoint(point);
+            Vector2 joint = new Vector2(localPoint.x, localPoint.y);
+            joint.x += 0.058f * 31f + 0.029f;
+            joint.y += 0.058f * 31f + 0.029f;
+            joint.x = Mathf.Round(joint.x / 0.058f);
+            joint.x = Mathf.Clamp(joint.x, 0, 63);
+            joint.y = Mathf.Round(joint.y / 0.058f);
+            joint.y = Mathf.Clamp(joint.y, 0, 63);
+            return joint;
+        }
+
     }
 
     

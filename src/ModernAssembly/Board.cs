@@ -160,18 +160,7 @@ namespace Modern
             }
         }
 
-        public Vector2 GetJointCoordinate(Vector3 point)
-        {
-            Vector3 localPoint = transform.InverseTransformPoint(point);
-            Vector2 joint = new Vector2(localPoint.x, localPoint.y);
-            joint.x += 0.058f * 31f + 0.029f;
-            joint.y += 0.058f * 31f + 0.029f;
-            joint.x = Mathf.Round(joint.x/0.058f);
-            joint.x = Mathf.Clamp(joint.x, 0, 63);
-            joint.y = Mathf.Round(joint.y/0.058f);
-            joint.y = Mathf.Clamp(joint.y, 0, 63);
-            return joint;
-        }
+        
 
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
@@ -267,7 +256,7 @@ namespace Modern
                         {
                             continue;
                         }
-                        Vector2 spotCoord = GetJointCoordinate(hit.point);
+                        Vector2 spotCoord = Tool.GetBoardCoordinate(hit.point, transform);
                         JointGhost.transform.localPosition = new Vector3(spotCoord.x * 0.058f - 0.058f * 31f - 0.029f, spotCoord.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
                         ShowJointGhost = true;
 

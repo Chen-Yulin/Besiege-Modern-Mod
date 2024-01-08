@@ -149,9 +149,8 @@ namespace Modern
             parentUnit = unit;
             Index = index;
             InitPortVis(index, totalPort);
-            InitPortTrigger();
+            //InitPortTrigger();
             name = (IO ? "Output" : (AsControl? "Control" : "Input")) + " Port " + index.ToString();
-            //Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
         }
 
         public float GetOffset(int index, int totalPort)
@@ -190,7 +189,13 @@ namespace Modern
         {
             SphereCollider SC = Vis.AddComponent<SphereCollider>();
             SC.isTrigger = true;
-            SC.radius = 0.07f;
+            SC.radius = 0.04f;
+            SC.center = Vector3.zero;
+        }
+
+        public void FindConnectedPorts(Transform board_t)
+        {
+            Vector3 portCoord = Tool.GetBoardCoordinate(transform.position, board_t);
         }
 
         public void AddDistConnection(Port port) // port: the dist port (I), my: (O)
