@@ -160,8 +160,47 @@ namespace Modern
             }
         }
 
-        
+        public List<GameObject> AttachedUnit = new List<GameObject>();
 
+        public List<Port> FindDistPort(Vector2 coord, Port srcP)
+        {
+            List<Port> res = new List<Port>();
+            List<Vector2> wayPoints = new List<Vector2>();
+
+            FindDistPortHelper(coord, srcP, ref res, ref wayPoints);
+
+            return res;
+        }
+
+        public void FindDistPortHelper(Vector2 coord, Port srcP, ref List<Port> res, ref List<Vector2> waypoint)
+        {
+            waypoint.Add(coord);
+            foreach (var connection in Connections)
+            {
+                Vector2 nextWaypoint = Vector2.zero;
+                if (Vector2.Equals(coord, connection.joint1))
+                {
+                    nextWaypoint = connection.joint1;
+                }
+                else if (Vector2.Equals(coord, connection.joint2))
+                {
+                    nextWaypoint= connection.joint2;
+                }
+                else
+                {
+                    continue;
+                }
+                FindDistPortHelper(nextWaypoint, srcP, ref res, ref waypoint);
+            }
+        }
+
+        public void AddAttachedUnit(GameObject attachedUnit)
+        {
+            if (attachedUnit && AttachedUnit.Contains(attachedUnit))
+            {
+                AttachedUnit.Add(attachedUnit);
+            }
+        }
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
             Connections.Push(new Connection(p1, p2));

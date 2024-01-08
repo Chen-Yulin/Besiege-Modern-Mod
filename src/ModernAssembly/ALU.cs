@@ -149,10 +149,7 @@ namespace Modern
             InitOutputPorts();
         }
 
-        public override void OnSimulateStart()
-        {
-            name = "ALU";
-        }
+        
 
         public override void BuildingUpdate()
         {
@@ -165,6 +162,9 @@ namespace Modern
                 InputTypeChangeHandler();
             }
         }
-
+        public override void OnUnitSimulateStart()
+        {
+            name = "ALU";
+        }
     }
 }

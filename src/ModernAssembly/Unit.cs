@@ -9,6 +9,7 @@ using Modding.Blocks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Modding.Blocks;
+using System.Xml.Serialization;
 
 namespace Modern
 {
@@ -21,6 +22,8 @@ namespace Modern
         public List<Port> Inputs = new List<Port>();
         public List<Port> Controls = new List<Port>();
         public List<Port> Outputs = new List<Port>();
+
+        public Board MotherBoard;
 
         public void InitControlPorts()
         {
@@ -52,6 +55,49 @@ namespace Modern
                 Outputs.Add(port);
             }
         }
+
+        public void FindMotherBoard()
+        {
+            foreach (var joint in GetComponent<BlockBehaviour>().iJointTo)
+            {
+                try
+                {
+                    MotherBoard = joint.gameObject.GetComponent<Board>();
+                    Debug.Log("Mother board found");
+                    break;
+                }
+                catch { }
+            }
+        }
+
+        public void PortsFindConnection()
+        {
+            foreach (var port in Inputs)
+            {
+                port.FindConnectedPorts(MotherBoard);
+            }
+            foreach (var port in Outputs)
+            {
+                port.FindConnectedPorts(MotherBoard);
+            }
+            foreach (var port in Controls)
+            {
+                port.FindConnectedPorts(MotherBoard);
+            }
+        }
+
+        public override void OnSimulateStart()
+        {
+            FindMotherBoard();
+            PortsFindConnection();
+            OnUnitSimulateStart();
+        }
+
+        public virtual void OnUnitSimulateStart()
+        {
+            return;
+        }
+
 
         public virtual void UpdateUnit()
         {

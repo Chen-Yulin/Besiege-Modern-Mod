@@ -24,7 +24,7 @@ namespace Modern
             InitControlPorts();
         }
 
-        public override void OnSimulateStart()
+        public override void OnUnitSimulateStart()
         {
             name = "Switch Unit";
         }

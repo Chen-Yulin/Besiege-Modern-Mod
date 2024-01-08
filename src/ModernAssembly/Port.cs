@@ -193,9 +193,9 @@ namespace Modern
             SC.center = Vector3.zero;
         }
 
-        public void FindConnectedPorts(Transform board_t)
+        public void FindConnectedPorts(Board board_t)
         {
-            Vector3 portCoord = Tool.GetBoardCoordinate(transform.position, board_t);
+            Vector3 portCoord = Tool.GetBoardCoordinate(transform.position, board_t.transform);
         }
 
         public void AddDistConnection(Port port) // port: the dist port (I), my: (O)

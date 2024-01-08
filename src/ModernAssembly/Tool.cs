@@ -55,7 +55,6 @@ namespace Modern
             joint.y = Mathf.Clamp(joint.y, 0, 63);
             return joint;
         }
-
     }
 
     

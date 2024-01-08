@@ -22,7 +22,7 @@ namespace Modern
             InitOutputPorts();
         }
 
-        public override void OnSimulateStart()
+        public override void OnUnitSimulateStart()
         {
             name = "If Unit";
         }
