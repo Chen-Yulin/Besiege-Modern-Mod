@@ -118,6 +118,10 @@ namespace Modern
                 {
                     return;
                 }
+                if (value.Type != Type)
+                {
+                    return;
+                }
                 _data = value;
                 if (IO) // output
                 {
