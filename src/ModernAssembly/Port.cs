@@ -193,9 +193,29 @@ namespace Modern
             SC.center = Vector3.zero;
         }
 
-        public void FindConnectedPorts(Board board_t)
+        public void SettlePorts(Board board)
         {
-            Vector3 portCoord = Tool.GetBoardCoordinate(transform.position, board_t.transform);
+            Vector2 portCoord = Tool.GetBoardCoordinate(transform.position, board.transform);
+            transform.position = board.transform.TransformPoint((Vector3)portCoord * 0.058f - (0.058f * 31f + 0.029f) * Vector3.one);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0.05f);
+        }
+
+        public void FindConnectedPorts(Board board) // only for output
+        {
+            Vector2 portCoord = Tool.GetBoardCoordinate(transform.position, board.transform);
+            transform.position = board.transform.TransformPoint((Vector3)portCoord * 0.058f - (0.058f * 31f + 0.029f) *Vector3.one);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0.05f);
+
+            List<Port> connected = board.FindConnectedPort(portCoord);
+            //Debug.Log(connected.Count);
+            foreach (var port in connected)
+            {
+                if (port != this)
+                {
+                    //Debug.Log("Add " + port.parentUnit.name + " " + port.Index);
+                    AddDistConnection(port);
+                }
+            }
         }
 
         public void AddDistConnection(Port port) // port: the dist port (I), my: (O)
@@ -209,9 +229,13 @@ namespace Modern
                     // my port is output, add dist port
                     _distPorts.Add(port);
                     // remove other reference to this dist port
-                    inputPort.SrcPort._distPorts.Remove(port);
+                    if (inputPort.SrcPort)
+                    {
+                        inputPort.SrcPort._distPorts.Remove(port);
+                    }
                     // modify the src port of the dist port
                     inputPort.SrcPort = this;
+
                 }
             }
         }
@@ -227,8 +251,9 @@ namespace Modern
                     SrcLine = gameObject.AddComponent<LineRenderer>();
                     SrcLine.enabled = false;
                     SrcLine.material.shader = Shader.Find("Unlit/Color");
-                    SrcLine.material.color = Color.gray;
-                    SrcLine.SetWidth(0.05f, 0.05f);
+                    SrcLine.material.color = Color.yellow;
+                    SrcLine.SetWidth(0.02f, 0.02f);
+                    SrcLine.SetVertexCount(4);
                 }
             }
             catch { }
@@ -248,8 +273,15 @@ namespace Modern
         {
             if (SrcPort && SrcLine)
             {
-                SrcLine.SetPosition(1, transform.position);
+                SrcLine.enabled = true;
+                SrcLine.SetPosition(3, transform.position);
+                SrcLine.SetPosition(2, transform.position + transform.up * transform.lossyScale.y * 0.2f);
+                SrcLine.SetPosition(1, SrcPort.transform.position + transform.up * transform.lossyScale.y * 0.2f);
                 SrcLine.SetPosition(0, SrcPort.transform.position);
+            }
+            else
+            {
+                SrcLine.enabled = false;
             }
         }
 

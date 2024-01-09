@@ -29,6 +29,11 @@ namespace Modern
             joint1 = p1;
             joint2 = p2;
         }
+
+        public string sprint()
+        {
+            return joint1.ToString() + "-" + joint2.ToString();
+        }
     }
 
     public class BoardWire : MonoBehaviour
@@ -136,6 +141,8 @@ namespace Modern
 
         public BlockBehaviour bb;
 
+        public Dictionary<Vector2, List<Port>> AttachedPorts = new Dictionary<Vector2, List<Port>>();
+
         public Stack<Connection> Connections = new Stack<Connection>();
 
         public List<BoardWire> wires = new List<BoardWire>();
@@ -160,47 +167,52 @@ namespace Modern
             }
         }
 
-        public List<GameObject> AttachedUnit = new List<GameObject>();
 
-        public List<Port> FindDistPort(Vector2 coord, Port srcP)
+        public List<Port> FindConnectedPort(Vector2 coord)
         {
             List<Port> res = new List<Port>();
             List<Vector2> wayPoints = new List<Vector2>();
 
-            FindDistPortHelper(coord, srcP, ref res, ref wayPoints);
+            FindConnectedPortHelper(coord, ref res, ref wayPoints);
 
             return res;
         }
 
-        public void FindDistPortHelper(Vector2 coord, Port srcP, ref List<Port> res, ref List<Vector2> waypoint)
+        private void FindConnectedPortHelper(Vector2 coord, ref List<Port> res, ref List<Vector2> waypoint)
         {
+            //Debug.Log("Waypoint " + coord);
+            if (waypoint.Contains(coord))
+            {
+                //Debug.Log("Waypoint " + coord + " meet again");
+                return;
+            }
             waypoint.Add(coord);
+            if (AttachedPorts.ContainsKey(coord))
+            {
+                //Debug.Log("Find ports on " + coord);
+                res = res.Union(AttachedPorts[coord]).ToList<Port>();
+            }
+            //Debug.Log("Finding connections in " + Connections.Count);
             foreach (var connection in Connections)
             {
                 Vector2 nextWaypoint = Vector2.zero;
                 if (Vector2.Equals(coord, connection.joint1))
                 {
-                    nextWaypoint = connection.joint1;
+                    nextWaypoint = connection.joint2;
                 }
                 else if (Vector2.Equals(coord, connection.joint2))
                 {
-                    nextWaypoint= connection.joint2;
+                    nextWaypoint= connection.joint1;
                 }
                 else
                 {
                     continue;
                 }
-                FindDistPortHelper(nextWaypoint, srcP, ref res, ref waypoint);
+                //Debug.Log(connection.sprint());
+                FindConnectedPortHelper(nextWaypoint, ref res, ref waypoint);
             }
         }
 
-        public void AddAttachedUnit(GameObject attachedUnit)
-        {
-            if (attachedUnit && AttachedUnit.Contains(attachedUnit))
-            {
-                AttachedUnit.Add(attachedUnit);
-            }
-        }
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
             Connections.Push(new Connection(p1, p2));
@@ -248,7 +260,7 @@ namespace Modern
                     string[] joints = wire.Split('-');
                     Vector2 p1 = Tool.StringToVector2(joints[0]);
                     Vector2 p2 = Tool.StringToVector2(joints[1]);
-                    CreateConnection(p1, p2);
+                    CreateConnection(p1, p2);Debug.Log(Connections.Count);
                 }
             }
         }
@@ -329,6 +341,12 @@ namespace Modern
             bb = GetComponent<BlockBehaviour>();
             gameObject.name = "Circuit Board";
             transform.Find("Adding Point").GetComponent<BoxCollider>().size = new Vector3(3.8f, 3.8f, 0.1f);
+        }
+
+        public override void OnSimulateStart()
+        {
+            Connections = GetComponent<BlockBehaviour>().BuildingBlock.GetComponent<Board>().Connections;
+            Debug.Log(Connections.Count);
         }
 
     }
