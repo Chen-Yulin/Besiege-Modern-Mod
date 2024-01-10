@@ -18,24 +18,45 @@ namespace Modern
         public Data.DataType Type = Data.DataType.Null;
         public int Index = 0;
 
-        private List<int> _distPortsKey = new List<int>(); // only for output
-        private int _srcPortKey = -1; // only for input
+        private bool _asControl = false;
+        public bool AsControl
+        {
+            set
+            {
+                if (!IO)
+                {
+                    _asControl = value;
+                }
+                else
+                {
+                    _asControl = false;
+                }
+            }
+            get
+            {
+                return _asControl;
+            }
+
+        }
+
+        private List<Port> _distPorts = new List<Port>(); // only for output
+        private Port _srcPort = null; // only for input
         private Data _data = new Data();
 
-        public int SrcPort
+        public Port SrcPort
         {
-            get { return _srcPortKey; }
+            get { return _srcPort; }
             set
             {
                 if (IO)
                 {
                     return;
                 }
-                if (value == _srcPortKey)
+                if (value == _srcPort)
                 {
                     return;
                 }
-                _srcPortKey = value;
+                _srcPort = value;
 
                 if (!SrcLine)
                 {
@@ -43,7 +64,7 @@ namespace Modern
                 }
                 if (SrcLine)
                 {
-                    if (WireManager.Instance.GetPort(_srcPortKey) == null)
+                    if (_srcPort == null)
                     {
                         SrcLine.enabled = false;
                     }
@@ -53,14 +74,6 @@ namespace Modern
                     }
                 }
 
-            }
-        }
-
-        public int MapperKey
-        {
-            get
-            {
-                return parentUnit.GetPortKey(IO, Index);
             }
         }
 
@@ -105,14 +118,19 @@ namespace Modern
                 {
                     return;
                 }
+                if (Type != Data.DataType.Any && value.Type != Type)
+                {
+                    _data.Type = Data.DataType.Null;
+                    return;
+                }
                 _data = value;
                 if (IO) // output
                 {
-                    foreach (var port in _distPortsKey)
+                    foreach (var port in _distPorts)
                     {
-                        if (!WireManager.Instance.GetPort(port).IO) // the connected input ports
+                        if (port.IO) // the connected input ports
                         {
-                            WireManager.Instance.GetPort(port).MyData = value;
+                            port.MyData = value;
                         }
                     }
                 }
@@ -127,17 +145,17 @@ namespace Modern
 
         public GameObject Vis;
 
-        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort) 
+        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort, bool asControl = false) 
         {
             Vis = gameObject;
             IO = io;
+            AsControl = asControl;
             Type = type;
             parentUnit = unit;
             Index = index;
             InitPortVis(index, totalPort);
-            InitPortTrigger();
-            name = (IO ? "Output" : "Input") + " Port " + index.ToString();
-            //Debug.Log("Create Port " + (io ? "Output" : "Input") + " " + index.ToString() + " of " + totalPort.ToString() + " of " + unit.name + " with type " + type.ToString() + ".");
+            //InitPortTrigger();
+            name = (IO ? "Output" : (AsControl? "Control" : "Input")) + " Port " + index.ToString();
         }
 
         public float GetOffset(int index, int totalPort)
@@ -155,8 +173,17 @@ namespace Modern
         public void InitPortVis(int index, int totalPort)
         {
             Vis.transform.SetParent(parentUnit.transform);
-            Vis.transform.localPosition = new Vector3(GetOffset(index,totalPort), (IO ? 0.3f : -0.3f), 0.05f);
-            Vis.transform.localRotation = Quaternion.Euler(90,0,0);
+            if (AsControl)
+            {
+                Vis.transform.localPosition = new Vector3(0.3f, GetOffset(index, totalPort), 0.05f);
+                Vis.transform.localRotation = Quaternion.Euler(0, 90, 90);
+            }
+            else
+            {
+                Vis.transform.localPosition = new Vector3(GetOffset(index, totalPort), (IO ? 0.3f : -0.3f), 0.05f);
+                Vis.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            }
+            
             Vis.transform.localScale = new Vector3(1f, 1f, (IO ? -1 : 1));
             MeshFilter MF = Vis.AddComponent<MeshFilter>();
             MF.sharedMesh = ModResource.GetMesh("Port Mesh").Mesh;
@@ -167,51 +194,53 @@ namespace Modern
         {
             SphereCollider SC = Vis.AddComponent<SphereCollider>();
             SC.isTrigger = true;
-            SC.radius = 0.07f;
+            SC.radius = 0.04f;
+            SC.center = Vector3.zero;
         }
 
-        public void AddDistConnection(int portKey) // portKey: the mapper key of the dist port
+        public void SettlePorts(Board board)
+        {
+            Vector2 portCoord = Tool.GetBoardCoordinate(transform.position, board.transform);
+            transform.position = board.transform.TransformPoint((Vector3)portCoord * 0.058f - (0.058f * 31f + 0.029f) * Vector3.one);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0.05f);
+        }
+
+        public void FindConnectedPorts(Board board) // only for output
+        {
+            Vector2 portCoord = Tool.GetBoardCoordinate(transform.position, board.transform);
+            transform.position = board.transform.TransformPoint((Vector3)portCoord * 0.058f - (0.058f * 31f + 0.029f) *Vector3.one);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0.05f);
+
+            List<Port> connected = board.FindConnectedPort(portCoord);
+            //Debug.Log(connected.Count);
+            foreach (var port in connected)
+            {
+                if (port != this)
+                {
+                    //Debug.Log("Add " + port.parentUnit.name + " " + port.Index);
+                    AddDistConnection(port);
+                }
+            }
+        }
+
+        public void AddDistConnection(Port port) // port: the dist port (I), my: (O)
         {
             // only for output port
-            if (IO)
+            if (IO && !port.IO)
             {
-                if (!_distPortsKey.Contains<int>(portKey))
+                if (!_distPorts.Contains<Port>(port))
                 {
-                    Port inputPort = WireManager.Instance.GetPort(portKey);
+                    Port inputPort = port;
                     // my port is output, add dist port
-                    _distPortsKey.Add(portKey);
+                    _distPorts.Add(port);
                     // remove other reference to this dist port
-                    WireManager.Instance.GetPort(inputPort.SrcPort)._distPortsKey.Remove(portKey);
+                    if (inputPort.SrcPort)
+                    {
+                        inputPort.SrcPort._distPorts.Remove(port);
+                    }
                     // modify the src port of the dist port
-                    inputPort.SrcPort = MapperKey;
-                    // save the src port to the unit of this dist port
-                    inputPort.parentUnit.SaveInputSrcKey(inputPort.Index, MapperKey);
-                }
-            }
-        }
+                    inputPort.SrcPort = this;
 
-        public void UpdateDistKey(int oldKey, int newKey) 
-        {
-            // only for output
-            if (IO)
-            {
-                if (_distPortsKey.Contains<int>(oldKey))
-                {
-                    _distPortsKey.Remove(oldKey);
-                    _distPortsKey.Add(newKey);
-                }
-            }
-        }
-
-        public void UpdateSrcKey(int oldKey, int newKey)
-        {
-            // only for input
-            if (!IO)
-            {
-                if (SrcPort == oldKey)
-                {
-                    SrcPort = newKey;
-                    parentUnit.SaveInputSrcKey(Index, newKey);
                 }
             }
         }
@@ -227,8 +256,9 @@ namespace Modern
                     SrcLine = gameObject.AddComponent<LineRenderer>();
                     SrcLine.enabled = false;
                     SrcLine.material.shader = Shader.Find("Unlit/Color");
-                    SrcLine.material.color = Color.gray;
-                    SrcLine.SetWidth(0.05f, 0.05f);
+                    SrcLine.material.color = Color.yellow;
+                    SrcLine.SetWidth(0.02f, 0.02f);
+                    SrcLine.SetVertexCount(4);
                 }
             }
             catch { }
@@ -246,11 +276,17 @@ namespace Modern
 
         public void LateUpdate()
         {
-            if (WireManager.Instance.GetPort(SrcPort) && SrcLine)
+            if (SrcPort && SrcLine)
             {
-                
-                SrcLine.SetPosition(1, transform.position);
-                SrcLine.SetPosition(0, WireManager.Instance.GetPort(SrcPort).transform.position);
+                SrcLine.enabled = true;
+                SrcLine.SetPosition(3, transform.position);
+                SrcLine.SetPosition(2, transform.position + transform.up * transform.lossyScale.y * 0.2f);
+                SrcLine.SetPosition(1, SrcPort.transform.position + transform.up * transform.lossyScale.y * 0.2f);
+                SrcLine.SetPosition(0, SrcPort.transform.position);
+            }
+            else
+            {
+                SrcLine.enabled = false;
             }
         }
 

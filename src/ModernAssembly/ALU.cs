@@ -74,10 +74,6 @@ namespace Modern
         public MMenu TypeMenu;
         public MMenu InputNumMenu;
 
-        public new MSlider[] InputChannel = new MSlider[2];
-        public new MSlider[] InputSrcChannel = new MSlider[2]; // -1 for no connection
-        public new MSlider[] OutputChannel = new MSlider[1];
-
         public bool InputNumChanged = false;
         public bool InputTypeChanged = false;
 
@@ -113,38 +109,9 @@ namespace Modern
             }
         }
 
-        public override int GetPortKey(bool IO, int index)
-        {
-            if (IO)
-            {
-                return (int)OutputChannel[index].Value;
-            }
-            else
-            {
-                return (int)InputChannel[index].Value;
-            }
-        }
-
-        public override void SaveInputSrcKey(int index, int key)
-        {
-            InputSrcChannel[index].SetValue(key);
-            InputSrcChannel[index].ApplyValue();
-        }
-
-        public override void SaveInputKey(int index, int key)
-        {
-            InputChannel[index].SetValue(key);
-            InputChannel[index].ApplyValue();
-        }
-
-        public override void SaveOutputKey(int index, int key)
-        {
-            OutputChannel[index].SetValue(key);
-            OutputChannel[index].ApplyValue();
-        }
-
         public void UpdateInputPort()
         {
+            // first clear
             int j = 0;
             foreach (var port in Inputs)
             {
@@ -152,28 +119,8 @@ namespace Modern
                 j++;
             }
             Inputs.Clear();
-            for (int i = 0; i < InputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, false, Data.DataType.Any, i, InputNum);
-                Inputs.Add(port);
-                int inputKey = WireManager.Instance.AddPort(port, (int)InputChannel[i].Value);
-                SaveInputKey(i, inputKey);
-            }
-        }
-
-        public override void InitOutputPorts()
-        {
-            for (int i = 0; i < OutputNum; i++)
-            {
-                GameObject vis = new GameObject();
-                Port port = vis.AddComponent<Port>();
-                port.InitPort(this, true, Data.DataType.Any, i, OutputNum);
-                Outputs.Add(port);
-                int outputKey = WireManager.Instance.AddPort(port, (int)OutputChannel[i].Value);
-                SaveOutputKey(i, outputKey);
-            }
+            // then init again
+            InitInputPorts();
         }
 
         public override void SafeAwake()
@@ -194,24 +141,15 @@ namespace Modern
             {
                 InputTypeChanged = true;
             };
-
-            InputChannel[0] = AddSlider("Input Channel 1", "Input Channel 1", 0, 0, float.MaxValue);
-            InputChannel[1] = AddSlider("Input Channel 2", "Input Channel 2", 0, 0, float.MaxValue);
-            InputSrcChannel[0] = AddSlider("Input Src Channel 1", "Input Src Channel 1", -1, -1, float.MaxValue);
-            InputSrcChannel[1] = AddSlider("Input Src Channel 2", "Input Src Channel 2", -1, -1, float.MaxValue);
-            OutputChannel[0] = AddSlider("Output Channel", "Output Channel", 0, 0, float.MaxValue);
         }
         public override void OnBlockPlaced()
         {
             name = "ALU";
-            //UpdateInputPort();
+            OutputNum = 1;
             InitOutputPorts();
         }
 
-        public override void OnSimulateStart()
-        {
-            name = "ALU";
-        }
+        
 
         public override void BuildingUpdate()
         {
@@ -224,6 +162,9 @@ namespace Modern
                 InputTypeChangeHandler();
             }
         }
-
+        public override void OnUnitSimulateStart()
+        {
+            name = "ALU";
+        }
     }
 }

@@ -8,7 +8,7 @@
 	
 	<Mass>0.2</Mass>
 
-	<Script>Modern.ALU</Script>
+	<Script>Modern.Board</Script>
 	
 	<Mesh name="Board Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
@@ -26,9 +26,9 @@
 	
 	<Colliders>
 		<BoxCollider>
-			<Position x="0.0" y="0.0" z="0.02" />
+			<Position x="0.0" y="0.0" z="0.04" />
 			<Rotation x="0.0" y="0.0" z="0.0" />
-			<Scale x="4" y="4" z="0.02" />
+			<Scale x="4" y="4" z="0.06" />
 		</BoxCollider>
 	</Colliders>
 	

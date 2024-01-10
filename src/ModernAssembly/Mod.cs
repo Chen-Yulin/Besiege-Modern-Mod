@@ -15,7 +15,6 @@ namespace Modern
             UnityEngine.Object.DontDestroyOnLoad(myMod);
             myMod.AddComponent<ModController>();
             myMod.AddComponent<Connector>();
-            myMod.AddComponent<WireManager>();
         }
 	}
 }
