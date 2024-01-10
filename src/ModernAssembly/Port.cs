@@ -118,8 +118,9 @@ namespace Modern
                 {
                     return;
                 }
-                if (value.Type != Type)
+                if (Type != Data.DataType.Any && value.Type != Type)
                 {
+                    _data.Type = Data.DataType.Null;
                     return;
                 }
                 _data = value;

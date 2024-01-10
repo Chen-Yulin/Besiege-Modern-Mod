@@ -24,12 +24,9 @@ namespace Modern
         public MMenu InputType;
         public MMenu OptType;
 
-        public bool CheckInputs()
+        public bool CheckInput()
         {
-            if (Inputs[0].MyData.Type == )
-            {
-                
-            }
+            return Inputs[0].MyData.Type != Data.DataType.Null && Inputs[1].MyData.Type != Data.DataType.Null;
         }
 
         public override void SafeAwake()
@@ -57,14 +54,51 @@ namespace Modern
 
         public override void UpdateUnit()
         {
-            bool res = false;
-            switch (OptType.Value)
+            if (CheckInput())
             {
-                case 0:
-                    res = Inputs[0].MyData.Bool
-                    break;
-                default:
-                    break;
+                bool res = false;
+
+                float i1, i2;
+
+                if (Inputs[0].Type == Data.DataType.Bool)
+                {
+                    i1 = Inputs[0].MyData.Bool ? 1 : 0;
+                    i2 = Inputs[1].MyData.Bool ? 1 : 0;
+                }
+                else
+                {
+                    i1 = Inputs[0].MyData.Flt;
+                    i2 = Inputs[1].MyData.Flt;
+                }
+
+                switch (OptType.Value)
+                {
+                    case 0:
+                        res = i1 == i2;
+                        break;
+                    case 1:
+                        res = i1 != i2;
+                        break;
+                    case 2:
+                        res = i1 > i2;
+                        break;
+                    case 3:
+                        res = i1 < i2;
+                        break;
+                    case 4:
+                        res = i1 >= i2;
+                        break;
+                    case 5:
+                        res = i1 <= i2;
+                        break;
+                    default:
+                        break;
+                }
+                Outputs[0].MyData = new Data(res);
+            }
+            else
+            {
+                Outputs[0].MyData = new Data();
             }
         }
     }
