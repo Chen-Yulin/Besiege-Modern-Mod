@@ -128,7 +128,7 @@ namespace Modern
                 {
                     foreach (var port in _distPorts)
                     {
-                        if (port.IO) // the connected input ports
+                        if (!port.IO) // the connected input ports
                         {
                             port.MyData = value;
                         }

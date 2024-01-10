@@ -52,6 +52,7 @@
     <Compile Include="ALU.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Connector.cs" />
+    <Compile Include="Const.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="For.cs" />
     <Compile Include="If.cs" />
