@@ -105,7 +105,7 @@ namespace Modern
                 }
                 connection.joint2 = p2;
                 JointVis[1].transform.localPosition = new Vector3(p2.x * 0.058f - 0.058f * 31f - 0.029f, p2.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
-                changed |= true;
+                changed = true;
             }
 
             if (changed)
@@ -116,7 +116,10 @@ namespace Modern
                     WireVis.SetActive(true);
                     WireVis.transform.localPosition = (JointVis[0].transform.localPosition + JointVis[1].transform.localPosition) / 2f;
                     WireVis.transform.localScale = new Vector3(0.3f, 0.3f, (JointVis[0].transform.localPosition - JointVis[1].transform.localPosition).magnitude * 5f - 0.15f);
-                    WireVis.transform.localRotation = Quaternion.LookRotation(JointVis[0].transform.localPosition - JointVis[1].transform.localPosition, Vector3.up);
+                    if (p2 != p1)
+                    {
+                        WireVis.transform.localRotation = Quaternion.LookRotation(JointVis[0].transform.localPosition - JointVis[1].transform.localPosition, Vector3.up);
+                    }
                 }
                 else
                 {
@@ -260,7 +263,8 @@ namespace Modern
                     string[] joints = wire.Split('-');
                     Vector2 p1 = Tool.StringToVector2(joints[0]);
                     Vector2 p2 = Tool.StringToVector2(joints[1]);
-                    CreateConnection(p1, p2);Debug.Log(Connections.Count);
+                    CreateConnection(p1, p2);
+                    //Debug.Log(Connections.Count);
                 }
             }
         }
@@ -346,7 +350,7 @@ namespace Modern
         public override void OnSimulateStart()
         {
             Connections = GetComponent<BlockBehaviour>().BuildingBlock.GetComponent<Board>().Connections;
-            Debug.Log(Connections.Count);
+            //Debug.Log(Connections.Count);
         }
 
     }
