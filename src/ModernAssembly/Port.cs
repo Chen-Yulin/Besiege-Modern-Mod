@@ -39,7 +39,7 @@ namespace Modern
 
         }
 
-        private List<Port> _distPorts = new List<Port>(); // only for output
+        public List<Port> _distPorts = new List<Port>(); // only for output
         private Port _srcPort = null; // only for input
         private Data _data = new Data();
 
@@ -114,20 +114,25 @@ namespace Modern
             }
             set
             {
+                //Debug.Log(Index + (IO?" output":" input") + " port of " + parentUnit.name);
                 if (value == _data)
                 {
+                    //Debug.Log("same data");
                     return;
                 }
                 if (Type != Data.DataType.Any && value.Type != Type)
                 {
+                    //Debug.Log("different type: " + Type + " " + value.Type);
                     _data.Type = Data.DataType.Null;
                     return;
                 }
                 _data = value;
                 if (IO) // output
                 {
+                    //Debug.Log("as output to " + _distPorts.Count);
                     foreach (var port in _distPorts)
                     {
+                        //Debug.Log("update dist port " + port);
                         if (!port.IO) // the connected input ports
                         {
                             port.MyData = value;
@@ -276,7 +281,7 @@ namespace Modern
 
         public void LateUpdate()
         {
-            if (SrcPort && SrcLine)
+            if (SrcPort && SrcPort._distPorts.Contains(this) && SrcLine)
             {
                 SrcLine.enabled = true;
                 SrcLine.SetPosition(3, transform.position);

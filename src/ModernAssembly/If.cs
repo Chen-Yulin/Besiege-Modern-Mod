@@ -24,6 +24,8 @@ namespace Modern
         public MMenu InputType;
         public MMenu OptType;
 
+        private bool init = false;
+
         public bool CheckInput()
         {
             return Inputs[0].MyData.Type != Data.DataType.Null && Inputs[1].MyData.Type != Data.DataType.Null;
@@ -52,8 +54,14 @@ namespace Modern
             Inputs[1].Type = Inputs[0].Type;
         }
 
+        public override void UnitSimulateFixedUpdateHost()
+        {
+
+        }
+
         public override void UpdateUnit()
         {
+            //Debug.Log("Update");
             if (CheckInput())
             {
                 bool res = false;
@@ -94,11 +102,12 @@ namespace Modern
                     default:
                         break;
                 }
-                Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
+                //Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
                 Outputs[0].MyData = new Data(res);
             }
             else
             {
+                //Debug.Log("Invalid input");
                 Outputs[0].MyData = new Data();
             }
         }

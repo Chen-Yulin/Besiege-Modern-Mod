@@ -25,7 +25,7 @@ namespace Modern
 
         public bool TypeChanged = false;
 
-        private bool init = false;
+        private int initCount = 0;
 
         public void TypeChangeHandler()
         {
@@ -147,9 +147,9 @@ namespace Modern
 
         public override void UnitSimulateFixedUpdateHost()
         {
-            if (!init)
+            if (initCount == 1)
             {
-                init = true;
+                initCount++;
                 switch (TypeMenu.Value)
                 {
                     case 0:
@@ -170,6 +170,10 @@ namespace Modern
                     default:
                         break;
                 }
+            }
+            else if (initCount == 0) 
+            {
+                initCount++;
             }
         }
     }

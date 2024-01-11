@@ -73,7 +73,7 @@ namespace Modern
                         MotherBoard = joint.connectedBody.gameObject.GetComponent<Board>();
                         if (MotherBoard)
                         {
-                            Debug.Log("Mother board found");
+                            //Debug.Log("Mother board found");
                             break;
                         }
                     }
@@ -96,7 +96,7 @@ namespace Modern
                 {
                     MotherBoard.AttachedPorts.Add(portCoord, new List<Port>() { port });
                 }
-                Debug.Log("Add port to board at " + portCoord.ToString());
+                //Debug.Log("Add port to board at " + portCoord.ToString());
             }
             foreach (var port in Outputs)
             {
@@ -109,7 +109,7 @@ namespace Modern
                 {
                     MotherBoard.AttachedPorts.Add(portCoord, new List<Port>() { port });
                 }
-                Debug.Log("Add port to board at " + portCoord.ToString());
+                //Debug.Log("Add port to board at " + portCoord.ToString());
             }
             foreach (var port in Controls)
             {
@@ -122,7 +122,7 @@ namespace Modern
                 {
                     MotherBoard.AttachedPorts.Add(portCoord, new List<Port>() { port });
                 }
-                Debug.Log("Add port to board at " + portCoord.ToString());
+                //Debug.Log("Add port to board at " + portCoord.ToString());
             }
         }
 
