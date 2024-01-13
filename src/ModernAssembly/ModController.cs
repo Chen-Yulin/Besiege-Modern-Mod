@@ -15,6 +15,7 @@ namespace Modern
         private readonly int windowID = ModUtility.GetWindowId();
         public bool windowHidden = false;
         private bool _wireConnector = false;
+        public bool _debug = false;
 
         public bool WireConnector
         {
@@ -26,6 +27,19 @@ namespace Modern
             {
                 _wireConnector = value;
                 Connector.Instance.Enabled = value;
+            }
+        }
+
+        public bool Debug
+        {
+            get
+            {
+                return _debug;
+            }
+            set
+            {
+                _debug = value;
+                DebugProbe.Instance.Enabled = value;
             }
         }
 
@@ -55,6 +69,7 @@ namespace Modern
             GUILayout.BeginVertical();
             {
                 WireConnector = GUILayout.Toggle(WireConnector, "Use Wire Connector");
+                Debug = GUILayout.Toggle(Debug, "Use Debug Probe");
                 GUILayout.Label("Press Ctrl+M to hide");
             }
 

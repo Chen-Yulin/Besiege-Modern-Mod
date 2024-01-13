@@ -83,6 +83,33 @@ namespace Modern
             Type = DataType.Null;
         }
 
+        public override string ToString()
+        {
+            switch (Type)
+            {
+                case DataType.Null:
+                    return "(null)";
+                case DataType.String:
+                    return "(str)"+Str;
+                case DataType.Float:
+                    return "(float)"+Flt.ToString();
+                case DataType.Bool:
+                    return "(bool)"+Bool.ToString();
+                case DataType.Vector2:
+                    return "(vec2)"+Vec2.ToString();
+                case DataType.Vector3:
+                    return "(vec3)"+Vec3.ToString();
+                case DataType.Quaternion:
+                    return "(quat)"+Quat.ToString();
+                case DataType.Icon:
+                    return "(icon)";
+                case DataType.Package:
+                    return "(package)";
+                default:
+                    return "(null)";
+            }
+        }
+
     }
 
     public class M_Icon

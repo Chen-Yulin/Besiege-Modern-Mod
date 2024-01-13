@@ -34,7 +34,6 @@ namespace Modern
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Tool.RaycastAllSorted(ray, 20f);
-                bool getBoard = false;
                 if (hits.Length > 0)
                 {
                     foreach (var hit in hits)
@@ -55,7 +54,6 @@ namespace Modern
                         if (board)
                         {
                             board.Spotted = true;
-                            getBoard = true;
                         }
                         else
                         {

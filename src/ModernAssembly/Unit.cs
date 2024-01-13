@@ -207,5 +207,35 @@ namespace Modern
         {
             return;
         }
+        public string DebugString()
+        {
+            string res = "";
+            res += name + "\n";
+            if (InputNum != 0)
+            {
+                res += "[INPUT (" + InputNum.ToString() + ")]\n";
+                foreach (var input in Inputs)
+                {
+                    res += "∟ " + input.Index.ToString() + ": " + input.MyData.ToString() + "\n";
+                }
+            }
+            if (ControlNum != 0)
+            {
+                res += "[CONTROL (" + ControlNum.ToString() + ")]\n";
+                foreach (var control in Controls)
+                {
+                    res += "∟ " + control.Index.ToString() + ": " + control.MyData.ToString() + "\n";
+                }
+            }
+            if (OutputNum != 0)
+            {
+                res += "[OUTPUT (" + OutputNum.ToString() + ")]\n";
+                foreach (var output in Outputs)
+                {
+                    res += "∟ " + output.Index.ToString() + ": " + output.MyData.ToString() + "\n";
+                }
+            }
+            return res;
+        }
     }
 }
