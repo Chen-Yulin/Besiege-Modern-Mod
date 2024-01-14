@@ -66,7 +66,8 @@ namespace Modern
                 },
                 new List<string>() // single quaternion
                 {
-                    "to vector3",
+                    "to euler (vector 3)",
+                    "Inverse",
                 }
             },
             new List<List<string>>() // two data opt
@@ -76,7 +77,7 @@ namespace Modern
                     "and",
                     "or",
                     "xor",
-                    "xand",
+                    "xnor",
                     "nand",
                     "nor",
                 },
@@ -94,7 +95,6 @@ namespace Modern
                 {
                     "A + B",
                     "A - B",
-                    "A x B",
                     "A · B",
                 },
                 new List<string>() // two vector 3 opt
@@ -107,7 +107,6 @@ namespace Modern
                 new List<string>() // two quaternion opt
                 {
                     "A · B",
-                    "A / B",
                 },
                 new List<string>() // vector2 & float opt
                 {
@@ -141,7 +140,6 @@ namespace Modern
         public MMenu[] TwoDataOptMenu = new MMenu[7];
 
         public bool InputNumChanged = false;
-        public bool InputTypeChanged = false;
 
         public void UpdateCalType()
         {
@@ -154,14 +152,6 @@ namespace Modern
             InputNum = InputNumMenu.Value + 1;
             UpdateInputPort();
             UpdateInputMapper();
-            UpdateInputType();
-        }
-
-        public void InputTypeChangeHandler()
-        {
-            InputTypeChanged = false;
-            //Debug.Log("InputTypeMenu.ValueChanged " + value.ToString());
-            UpdateInputType();
         }
         public void UpdateOptTypeMapper(int inputNum)
         {
@@ -217,15 +207,55 @@ namespace Modern
                 UpdateOptTypeMapper(2);
             }
         }
-        public void UpdateInputType()
+        public void UpdatePortType()
         {
             if (InputNum == 1)
             {
                 Inputs[0].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), OneTypeMenu.Selection);
+                switch (OneTypeMenu.Value)
+                {
+                    case 0:
+                        if (OneDataOptMenu[0].Value == 1)
+                        {
+                            Outputs[0].Type = Data.DataType.Float;
+                            return;
+                        }
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        if (OneDataOptMenu[2].Value == 1)
+                        {
+                            Outputs[0].Type = Data.DataType.Float;
+                            return;
+                        }
+                        break;
+                    case 3:
+                        if (OneDataOptMenu[3].Value == 1)
+                        {
+                            Outputs[0].Type = Data.DataType.Float;
+                            return;
+                        }
+                        else if (OneDataOptMenu[3].Value == 2)
+                        {
+                            Outputs[0].Type = Data.DataType.Quaternion;
+                            return;
+                        }
+                        break;
+                    case 4:
+                        if (OneDataOptMenu[4].Value == 0)
+                        {
+                            Outputs[0].Type = Data.DataType.Vector3;
+                            return;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
-                switch (OneTypeMenu.Value)
+                switch (TwoTypeMenu.Value)
                 {
                     case 0:
                         Inputs[0].Type = Data.DataType.Bool;
@@ -238,27 +268,38 @@ namespace Modern
                     case 2:
                         Inputs[0].Type = Data.DataType.Vector2;
                         Inputs[1].Type = Data.DataType.Vector2;
+                        if (TwoDataOptMenu[2].Value == 3)
+                        {
+                            Outputs[0].Type = Data.DataType.Float;
+                            return;
+                        }
                         break;
                     case 3:
                         Inputs[0].Type = Data.DataType.Vector3;
                         Inputs[1].Type = Data.DataType.Vector3;
+                        if (TwoDataOptMenu[3].Value == 3)
+                        {
+                            Outputs[0].Type = Data.DataType.Float;
+                            return;
+                        }
                         break;
                     case 4:
                         Inputs[0].Type = Data.DataType.Quaternion;
                         Inputs[1].Type = Data.DataType.Quaternion;
                         break;
                     case 5:
-                        Inputs[0].Type = Data.DataType.Float;
-                        Inputs[1].Type = Data.DataType.Vector2;
+                        Inputs[0].Type = Data.DataType.Vector2;
+                        Inputs[1].Type = Data.DataType.Float;
                         break;
                     case 6:
-                        Inputs[0].Type = Data.DataType.Float;
-                        Inputs[1].Type = Data.DataType.Vector3;
+                        Inputs[0].Type = Data.DataType.Vector3;
+                        Inputs[1].Type = Data.DataType.Float;
                         break;
                     default:
                         break;
                 }
             }
+            Outputs[0].Type = Inputs[0].Type;
         }
 
         public void UpdateInputPort()
@@ -319,21 +360,254 @@ namespace Modern
             {
                 InputNumChangeHandler();
             }
-            if (InputTypeChanged)
-            {
-                InputTypeChangeHandler();
-            }
         }
         public override void OnUnitSimulateStart()
         {
             name = "ALU";
+            UpdatePortType();
         }
 
         public override void UpdateUnit()
         {
             if (InputNum == 1)
             {
-                
+                switch (OneTypeMenu.Value)
+                {
+                    case 0:
+                        switch (OneDataOptMenu[0].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(!Inputs[0].MyData.Bool);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Bool ? 1 : 0);
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        switch (OneDataOptMenu[1].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Mathf.Sign(Inputs[0].MyData.Flt));
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Mathf.Abs(Inputs[0].MyData.Flt));
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Mathf.Sin(Inputs[0].MyData.Flt));
+                                break;
+                            case 3:
+                                Outputs[0].MyData = new Data(Mathf.Cos(Inputs[0].MyData.Flt));
+                                break;
+                            case 4:
+                                Outputs[0].MyData = new Data(Mathf.Tan(Inputs[0].MyData.Flt));
+                                break;
+                            case 5:
+                                Outputs[0].MyData = new Data(Mathf.Asin(Inputs[0].MyData.Flt));
+                                break;
+                            case 6:
+                                Outputs[0].MyData = new Data(Mathf.Acos(Inputs[0].MyData.Flt));
+                                break;
+                            case 7:
+                                Outputs[0].MyData = new Data(Mathf.Atan(Inputs[0].MyData.Flt));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (OneDataOptMenu[2].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2.normalized);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2.magnitude);
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (OneDataOptMenu[3].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3.normalized);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3.magnitude);
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Quaternion.Euler(Inputs[0].MyData.Vec3));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (OneDataOptMenu[3].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Quat.eulerAngles);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Quaternion.Inverse(Inputs[0].MyData.Quat));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    default:
+                        Outputs[0].MyData = new Data();
+                        break;
+                }
+            }
+            else
+            {
+                switch (TwoTypeMenu.Value)
+                {
+                    case 0:
+                        switch (TwoDataOptMenu[0].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Bool && Inputs[1].MyData.Bool);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data( Inputs[0].MyData.Bool || Inputs[1].MyData.Bool);
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Bool ^ Inputs[1].MyData.Bool);
+                                break;
+                            case 3:
+                                Outputs[0].MyData = new Data(!(Inputs[0].MyData.Bool ^ Inputs[1].MyData.Bool));
+                                break;
+                            case 4:
+                                Outputs[0].MyData = new Data(!(Inputs[0].MyData.Bool && Inputs[1].MyData.Bool));
+                                break;
+                            case 5:
+                                Outputs[0].MyData = new Data(!(Inputs[0].MyData.Bool || Inputs[1].MyData.Bool));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        switch (TwoDataOptMenu[1].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Flt + Inputs[1].MyData.Flt);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Flt - Inputs[1].MyData.Flt);
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Flt * Inputs[1].MyData.Flt);
+                                break;
+                            case 3:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Flt / Inputs[1].MyData.Flt);
+                                break;
+                            case 4:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Flt % Inputs[1].MyData.Flt);
+                                break;
+                            case 5:
+                                Outputs[0].MyData = new Data(Mathf.Pow(Inputs[0].MyData.Flt, Inputs[1].MyData.Flt));
+                                break;
+                            case 6:
+                                Outputs[0].MyData = new Data(Mathf.Log(Inputs[1].MyData.Flt, Inputs[0].MyData.Flt));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (TwoDataOptMenu[2].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2 + Inputs[1].MyData.Vec2);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2 - Inputs[1].MyData.Vec2);
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Vector2.Dot(Inputs[0].MyData.Vec2, Inputs[1].MyData.Vec2));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (TwoDataOptMenu[3].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3 + Inputs[1].MyData.Vec3);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3 - Inputs[1].MyData.Vec3);
+                                break;
+                            case 2:
+                                Outputs[0].MyData = new Data(Vector3.Dot(Inputs[0].MyData.Vec3, Inputs[1].MyData.Vec3));
+                                break;
+                            case 3:
+                                Outputs[0].MyData = new Data(Vector3.Cross(Inputs[0].MyData.Vec3, Inputs[1].MyData.Vec3));
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (TwoDataOptMenu[4].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Quat * Inputs[1].MyData.Quat);
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 5:
+                        switch (TwoDataOptMenu[6].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2 * Inputs[1].MyData.Flt);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec2 / Inputs[1].MyData.Flt);
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    case 6:
+                        switch (TwoDataOptMenu[5].Value)
+                        {
+                            case 0:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3 * Inputs[1].MyData.Flt);
+                                break;
+                            case 1:
+                                Outputs[0].MyData = new Data(Inputs[0].MyData.Vec3 / Inputs[1].MyData.Flt);
+                                break;
+                            default:
+                                Outputs[0].MyData = new Data();
+                                break;
+                        }
+                        break;
+                    default:
+                        Outputs[0].MyData = new Data();
+                        break;
+                }
             }
         }
     }
