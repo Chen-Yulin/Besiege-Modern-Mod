@@ -26,7 +26,7 @@ namespace Modern
             Quaternion,
             Icon,
             Package,
-            Any
+            Any // only for port
         }
         public DataType Type = DataType.Null;
         public string Str;
@@ -107,6 +107,33 @@ namespace Modern
                     return "(package)";
                 default:
                     return "(null)";
+            }
+        }
+
+        public object GetValue()
+        {
+            switch (Type)
+            {
+                case DataType.Null:
+                    return null;
+                case DataType.String:
+                    return Str;
+                case DataType.Float:
+                    return Flt;
+                case DataType.Bool:
+                    return Bool;
+                case DataType.Vector2:
+                    return Vec2;
+                case DataType.Vector3:
+                    return Vec3;
+                case DataType.Quaternion:
+                    return Quat;
+                case DataType.Icon:
+                    return Icon;
+                case DataType.Package:
+                    return Package;
+                default:
+                    return null;
             }
         }
 
