@@ -2,7 +2,7 @@
 
 	<Debug>True</Debug>
 	
-	<ID>10</ID>
+	<ID>1</ID>
 	
 	<Name>Board</Name>
 	
@@ -19,8 +19,8 @@
 	<Texture name="Board Texture" />
 	
 	<Icon>
-		<Position x="0.0" y="0.0" z="0.0" />
-		<Rotation x="-90.0" y="0" z="0" />
+		<Position x="0.0" y="0.0" z="-0.2" />
+		<Rotation x="-60.0" y="30" z="0" />
 		<Scale x="0.1" y="0.1" z="-0.1" />
 	</Icon>
 	

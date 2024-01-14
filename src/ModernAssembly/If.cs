@@ -10,16 +10,16 @@ namespace Modern
     public class If : Unit
     {
         List<string> DataTypeString = new List<string> {
-            "Bool",
-            "Float"
+              "Bool",
+              "Float"
         };
         List<string> OptTypeString = new List<string> {
-            " == ",
-            " !=", 
-            " > ",
-            " < ",
-            " >= ",
-            " <= ",
+              " == ",
+              " !=", 
+              " > ",
+              " < ",
+              " >= ",
+              " <= ",
         };
         public MMenu InputType;
         public MMenu OptType;
@@ -61,55 +61,52 @@ namespace Modern
 
         public override void UpdateUnit()
         {
-            //Debug.Log("Update");
-            if (CheckInput())
+            if (!CheckInputs())
             {
-                bool res = false;
+                Debug.Log("null");
+                Outputs[0].MyData = new Data();
+                return;
+            }
+            bool res = false;
 
-                float i1, i2;
+            float i1, i2;
 
-                if (Inputs[0].Type == Data.DataType.Bool)
-                {
-                    i1 = Inputs[0].MyData.Bool ? 1 : 0;
-                    i2 = Inputs[1].MyData.Bool ? 1 : 0;
-                }
-                else
-                {
-                    i1 = Inputs[0].MyData.Flt;
-                    i2 = Inputs[1].MyData.Flt;
-                }
-
-                switch (OptType.Value)
-                {
-                    case 0:
-                        res = i1 == i2;
-                        break;
-                    case 1:
-                        res = i1 != i2;
-                        break;
-                    case 2:
-                        res = i1 > i2;
-                        break;
-                    case 3:
-                        res = i1 < i2;
-                        break;
-                    case 4:
-                        res = i1 >= i2;
-                        break;
-                    case 5:
-                        res = i1 <= i2;
-                        break;
-                    default:
-                        break;
-                }
-                //Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
-                Outputs[0].MyData = new Data(res);
+            if (Inputs[0].Type == Data.DataType.Bool)
+            {
+                i1 = Inputs[0].MyData.Bool ? 1 : 0;
+                i2 = Inputs[1].MyData.Bool ? 1 : 0;
             }
             else
             {
-                //Debug.Log("Invalid input");
-                Outputs[0].MyData = new Data();
+                i1 = Inputs[0].MyData.Flt;
+                i2 = Inputs[1].MyData.Flt;
             }
+
+            switch (OptType.Value)
+            {
+                case 0:
+                    res = i1 == i2;
+                    break;
+                case 1:
+                    res = i1 != i2;
+                    break;
+                case 2:
+                    res = i1 > i2;
+                    break;
+                case 3:
+                    res = i1 < i2;
+                    break;
+                case 4:
+                    res = i1 >= i2;
+                    break;
+                case 5:
+                    res = i1 <= i2;
+                    break;
+                default:
+                    break;
+            }
+            //Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
+            Outputs[0].MyData = new Data(res);
         }
     }
 }

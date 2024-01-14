@@ -78,6 +78,47 @@ namespace Modern
             Type = DataType.Package;
             this.Package = package;
         }
+        public Data(Data data)
+        {
+            Type = data.Type;
+            Str = data.Str;
+            Flt = data.Flt;
+            Bool = data.Bool;
+            Vec2 = data.Vec2;
+            Vec3 = data.Vec3;
+            Quat = data.Quat;
+            Icon = data.Icon;
+            Package = data.Package;
+        }
+
+        public bool Equal(Data d)
+        {
+            if (Type != d.Type) return false;
+            switch (Type)
+            {
+                case DataType.Null:
+                    return true;
+                case DataType.String:
+                    return Str == d.Str;
+                case DataType.Float:
+                    return Flt == d.Flt;
+                case DataType.Bool:
+                    return Bool == d.Bool;
+                case DataType.Vector2:
+                    return Vec2 == d.Vec2;
+                case DataType.Vector3:
+                    return Vec3 == d.Vec3;
+                case DataType.Quaternion:
+                    return Quat == d.Quat;
+                case DataType.Icon:
+                    return Icon == d.Icon;
+                case DataType.Package:
+                    return Package == d.Package;
+                default:
+                    return false;
+            }
+        }
+
         public Data()
         {
             Type = DataType.Null;
@@ -88,25 +129,25 @@ namespace Modern
             switch (Type)
             {
                 case DataType.Null:
-                    return "(null)";
+                    return "<null>";
                 case DataType.String:
-                    return "(str)"+Str;
+                    return "<str>\n      "+Str;
                 case DataType.Float:
-                    return "(float)"+Flt.ToString();
+                    return "<float>\n      " + Flt.ToString();
                 case DataType.Bool:
-                    return "(bool)"+Bool.ToString();
+                    return "<bool>\n      " + Bool.ToString();
                 case DataType.Vector2:
-                    return "(vec2)"+Vec2.ToString();
+                    return "<vec2>\n      " + Vec2.ToString();
                 case DataType.Vector3:
-                    return "(vec3)"+Vec3.ToString();
+                    return "<vec3>\n      " + Vec3.ToString();
                 case DataType.Quaternion:
-                    return "(quat)"+Quat.ToString();
+                    return "<quat>\n      " + Quat.ToString();
                 case DataType.Icon:
-                    return "(icon)";
+                    return "<icon>\n      ";
                 case DataType.Package:
-                    return "(package)";
+                    return "<package>\n      ";
                 default:
-                    return "(null)";
+                    return "<null>\n      ";
             }
         }
 

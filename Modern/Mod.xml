@@ -22,7 +22,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		 The path attribute is relative to the location of this file. -->
 	<Blocks>
 		<!-- <Block path="SomeBlock.xml" /> -->
-		<Block path="Switch.xml" />
+		<Block path="Board.xml" />
 		<Block path="If.xml" />
 		<Block path="ALU.xml" />
 		<Block path="While.xml" />
@@ -31,8 +31,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Decoder.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
-		<Block path="Board.xml" />
 		<Block path="Const.xml" />
+		<Block path="Switch.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.

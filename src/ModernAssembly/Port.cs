@@ -115,18 +115,28 @@ namespace Modern
             set
             {
                 //Debug.Log(Index + (IO?" output":" input") + " port of " + parentUnit.name);
-                if (value == _data)
+                if (_data.Equal(value))
                 {
                     //Debug.Log("same data");
                     return;
                 }
+
                 if (Type != Data.DataType.Any && value.Type != Type)
                 {
                     //Debug.Log("different type: " + Type + " " + value.Type);
-                    _data.Type = Data.DataType.Null;
-                    return;
+                    if (_data.Type != Data.DataType.Null)
+                    {
+                        _data.Type = Data.DataType.Null;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                _data = value;
+                else
+                {
+                    _data = value;
+                }
                 if (IO) // output
                 {
                     //Debug.Log("as output to " + _distPorts.Count);
