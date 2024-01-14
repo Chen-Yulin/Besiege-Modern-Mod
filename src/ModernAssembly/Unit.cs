@@ -158,6 +158,25 @@ namespace Modern
             }
         }
 
+        public bool CheckInputs()
+        {
+            foreach (var port in Inputs)
+            {
+                if (port.MyData.Type == Data.DataType.Null)
+                {
+                    return false;
+                }
+            }
+            foreach (var port in Controls)
+            {
+                if (port.MyData.Type == Data.DataType.Null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public override void OnSimulateStart()
         {
             ClearPorts();
@@ -213,7 +232,7 @@ namespace Modern
             res += name + "\n";
             if (InputNum != 0)
             {
-                res += "[INPUT (" + InputNum.ToString() + ")]\n";
+                res += "\n=== INPUT (" + InputNum.ToString() + ") ===\n";
                 foreach (var input in Inputs)
                 {
                     res += "∟ " + input.Index.ToString() + ": " + input.MyData.ToString() + "\n";
@@ -221,7 +240,7 @@ namespace Modern
             }
             if (ControlNum != 0)
             {
-                res += "[CONTROL (" + ControlNum.ToString() + ")]\n";
+                res += "\n=== CONTROL (" + ControlNum.ToString() + ") ===\n";
                 foreach (var control in Controls)
                 {
                     res += "∟ " + control.Index.ToString() + ": " + control.MyData.ToString() + "\n";
@@ -229,7 +248,7 @@ namespace Modern
             }
             if (OutputNum != 0)
             {
-                res += "[OUTPUT (" + OutputNum.ToString() + ")]\n";
+                res += "\n=== OUTPUT (" + OutputNum.ToString() + ") ===\n";
                 foreach (var output in Outputs)
                 {
                     res += "∟ " + output.Index.ToString() + ": " + output.MyData.ToString() + "\n";

@@ -15,22 +15,22 @@ namespace Modern
     public class ALU : Unit
     {
         List<string> SingleDataTypeString = new List<string> {
-            "Bool",
-            "Float",
-            "Vector2",
-            "Vector3",
-            "Quaternion",
+              "Bool",
+              "Float",
+              "Vector2",
+              "Vector3",
+              "Quaternion",
         };
 
         List<string> TwoDataTypeString = new List<string>
         {
-            "Bool",
-            "Float",
-            "Vector2",
-            "Vector3",
-            "Quaternion",
-            "Vector2 & Float",
-            "Vector3 & Float",
+              "Bool",
+              "Float",
+              "Vector2",
+              "Vector3",
+              "Quaternion",
+              "Vector2 & Float",
+              "Vector3 & Float",
         };
 
         List<List<string>>[] OptTypeString = new List<List<string>>[]
@@ -39,98 +39,98 @@ namespace Modern
             {
                 new List<string>() // single bool opt
                 {
-                    "not",
-                    "to float"
+                      "not",
+                      "to float"
                 },
                 new List<string>() // single float opt
                 {
-                    "sign",
-                    "abs",
-                    "sin",
-                    "cos",
-                    "tan",
-                    "asin",
-                    "acos",
-                    "atan",
+                      "sign",
+                      "abs",
+                      "sin",
+                      "cos",
+                      "tan",
+                      "asin",
+                      "acos",
+                      "atan",
                 },
                 new List<string>() // single Vector2 opt
                 {
-                    "normalize",
-                    "magnitude",
+                      "normalize",
+                      "magnitude",
                 },
                 new List<string>() // single Vector3 opt
                 {
-                    "normalize",
-                    "magnitude",
-                    "to quaternion",
+                      "normalize",
+                      "magnitude",
+                      "to quaternion",
                 },
                 new List<string>() // single quaternion
                 {
-                    "to euler (vector 3)",
-                    "Inverse",
+                      "to euler (vector 3)",
+                      "Inverse",
                 }
             },
             new List<List<string>>() // two data opt
             {
                 new List<string>() // two bool opt
                 {
-                    "and",
-                    "or",
-                    "xor",
-                    "xnor",
-                    "nand",
-                    "nor",
+                      "and",
+                      "or",
+                      "xor",
+                      "xnor",
+                      "nand",
+                      "nor",
                 },
                 new List<string>() // two float opt
                 {
-                    "a + b",
-                    "a - b",
-                    "a x b",
-                    "a / b",
-                    "a % b",
-                    "a ^ b",
-                    "log_b (a)",
+                      "a + b",
+                      "a - b",
+                      "a x b",
+                      "a / b",
+                      "a % b",
+                      "a ^ b",
+                      "log_b (a)",
                 },
                 new List<string>() // two vecto2 opt
                 {
-                    "A + B",
-                    "A - B",
-                    "A · B",
+                      "A + B",
+                      "A - B",
+                      "A · B",
                 },
                 new List<string>() // two vector 3 opt
                 {
-                    "A + B",
-                    "A - B",
-                    "A x B",
-                    "A · B",
+                      "A + B",
+                      "A - B",
+                      "A x B",
+                      "A · B",
                 },
                 new List<string>() // two quaternion opt
                 {
-                    "A · B",
+                      "A · B",
                 },
                 new List<string>() // vector2 & float opt
                 {
-                    "A · b",
-                    "A / b",
+                      "A · b",
+                      "A / b",
                 },
                 new List<string>() // vector3 & float opt
                 {
-                    "A · b",
-                    "A / b",
+                      "A · b",
+                      "A / b",
                 },
             }
         };
 
         List<string> VectorFloatTypeString = new List<string>
         {
-            "A x b",
-            "A / b",
+              "A x b",
+              "A / b",
         };
 
         List<string> QuaternionTypeString = new List<string>
         {
-            "A x B",
-            "A / B",
+              "A x B",
+              "A / B",
         };
 
         public MMenu InputNumMenu;
@@ -365,10 +365,16 @@ namespace Modern
         {
             name = "ALU";
             UpdatePortType();
+            Outputs[0].Type = Data.DataType.Any;
         }
 
         public override void UpdateUnit()
         {
+            if (!CheckInputs())
+            {
+                Outputs[0].MyData = new Data();
+                return;
+            }
             if (InputNum == 1)
             {
                 switch (OneTypeMenu.Value)

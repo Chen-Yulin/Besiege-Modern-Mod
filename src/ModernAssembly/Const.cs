@@ -10,11 +10,11 @@ namespace Modern
     public class Const : Unit
     {
         List<string> DataTypeString = new List<string> {
-            "Bool",
-            "Float",
-            "Vector2",
-            "Vector3",
-            "Quaternion",
+              "Bool",
+              "Float",
+              "Vector2",
+              "Vector3",
+              "Quaternion",
         };
         public MMenu TypeMenu;
         public MMenu BoolSelection;
