@@ -255,9 +255,7 @@ namespace Modern
                         Inputs[0].Type = Data.DataType.Float;
                         Inputs[1].Type = Data.DataType.Vector3;
                         break;
-                    case 7:
-                        Inputs[0].Type = Data.DataType.Float;
-                        Inputs[1].Type = Data.DataType.Quaternion;
+                    default:
                         break;
                 }
             }
@@ -290,7 +288,7 @@ namespace Modern
             for (int i = 0; i < 7; i++)
             {
                 string type = TwoDataTypeString[i];
-                TwoDataOptMenu[i] = AddMenu("Two " + type + " Opt", 0, OptTypeString[0][i]);
+                TwoDataOptMenu[i] = AddMenu("Two " + type + " Opt", 0, OptTypeString[1][i]);
             }
 
             InputNumMenu.ValueChanged += (int value) =>
