@@ -136,6 +136,7 @@ namespace Modern
     public class Board : BlockScript
     {
         public MText CircuitText;
+        public MToggle CreateWire;
 
         public bool Spotted;
 
@@ -170,6 +171,7 @@ namespace Modern
             }
         }
 
+        public bool mapperOpened = false;
 
         public List<Port> FindConnectedPort(Vector2 coord)
         {
@@ -274,6 +276,7 @@ namespace Modern
         {
             bb = GetComponent<BlockBehaviour>();
             CircuitText = AddText("Circuit Wire", "CW", "");
+            CreateWire = AddToggle("Create Wire", "CreateToggle", false);
         }
 
         public override void OnBlockPlaced()
@@ -300,7 +303,19 @@ namespace Modern
 
         public override void BuildingUpdate()
         {
-            if (Spotted)
+            try
+            {
+                mapperOpened = BlockMapper.CurrentInstance.Block == bb;
+            }
+            catch {
+                if (mapperOpened)
+                {
+                    CreateWire.SetValue(false);
+                    bb.OnSave(new XDataHolder());
+                }
+                mapperOpened = false;
+            }
+            if (!CreateWire.isDefaultValue && mapperOpened)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit[] hits = Tool.RaycastAllSorted(ray, 20f);
