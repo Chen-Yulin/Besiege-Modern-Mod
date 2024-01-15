@@ -226,6 +226,7 @@ namespace Modern
             WireObject.transform.parent = transform;
             WireObject.transform.localPosition = Vector3.zero;
             WireObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            WireObject.transform.localScale = Vector3.one;
             BoardWire wire = WireObject.AddComponent<BoardWire>();
             wire.InitWire(transform);
             wire.SetJointPosition(p1, p2);
