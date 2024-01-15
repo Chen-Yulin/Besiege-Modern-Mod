@@ -33,6 +33,7 @@ namespace Modern
         public override void OnUnitSimulateStart()
         {
             name = "While Unit";
+            Controls[0].Type = Data.DataType.Bool;
         }
 
         public override void UnitSimulateFixedUpdateHost()
