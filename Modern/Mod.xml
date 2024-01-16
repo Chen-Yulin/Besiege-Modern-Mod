@@ -33,6 +33,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Mux.xml" />
 		<Block path="Const.xml" />
 		<Block path="Switch.xml" />
+		<Block path="PoseSensor.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -72,6 +73,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
 		<Texture name="CONST Texture" path="Unit/CONST.png" />
+		<Texture name="POSE Texture" path="Unit/Pose.png" />
 		<Texture name="ENCODER Texture" path="Unit/Encoder.png" />
 		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
