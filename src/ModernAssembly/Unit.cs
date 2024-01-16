@@ -235,7 +235,7 @@ namespace Modern
                 res += "\n=== INPUT (" + InputNum.ToString() + ") ===\n";
                 foreach (var input in Inputs)
                 {
-                    res += "∟ " + input.Index.ToString() + ": " + input.MyData.ToString() + "\n";
+                    res += "∟ " + input.Index.ToString() + ": \n" + input.MyData.ToString(0) + "\n";
                 }
             }
             if (ControlNum != 0)
@@ -243,7 +243,7 @@ namespace Modern
                 res += "\n=== CONTROL (" + ControlNum.ToString() + ") ===\n";
                 foreach (var control in Controls)
                 {
-                    res += "∟ " + control.Index.ToString() + ": " + control.MyData.ToString() + "\n";
+                    res += "∟ " + control.Index.ToString() + ": \n" + control.MyData.ToString(0) + "\n";
                 }
             }
             if (OutputNum != 0)
@@ -251,7 +251,7 @@ namespace Modern
                 res += "\n=== OUTPUT (" + OutputNum.ToString() + ") ===\n";
                 foreach (var output in Outputs)
                 {
-                    res += "∟ " + output.Index.ToString() + ": " + output.MyData.ToString() + "\n";
+                    res += "∟ " + output.Index.ToString() + ": \n" + output.MyData.ToString(0) + "\n";
                 }
             }
             return res;

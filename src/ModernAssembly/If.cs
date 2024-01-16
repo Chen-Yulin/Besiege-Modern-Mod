@@ -63,7 +63,6 @@ namespace Modern
         {
             if (!CheckInputs())
             {
-                Debug.Log("null");
                 Outputs[0].MyData = new Data();
                 return;
             }
