@@ -54,6 +54,8 @@
     <Compile Include="Const.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
+    <Compile Include="Decoder.cs" />
+    <Compile Include="Encoder.cs" />
     <Compile Include="For.cs" />
     <Compile Include="If.cs" />
     <Compile Include="Mod.cs" />

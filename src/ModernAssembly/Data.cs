@@ -10,6 +10,7 @@ using Modding.Blocks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Modding.Blocks;
+using mattmc3.dotmore.Extensions;
 
 namespace Modern
 {
@@ -124,28 +125,35 @@ namespace Modern
             Type = DataType.Null;
         }
 
-        public override string ToString()
+        public string ToString(int depth)
         {
             switch (Type)
             {
                 case DataType.Null:
-                    return "<null>";
+                    return "  ".Repeat(depth) + "<null>";
                 case DataType.String:
-                    return "<str>\n      "+Str;
+                    return "  ".Repeat(depth) + "<str>\n" + "  ".Repeat(depth) + " ".Repeat(depth+1) + Str;
                 case DataType.Float:
-                    return "<float>\n      " + Flt.ToString();
+                    return "  ".Repeat(depth) + "<float>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Flt.ToString();
                 case DataType.Bool:
-                    return "<bool>\n      " + Bool.ToString();
+                    return "  ".Repeat(depth) + "<bool>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Bool.ToString();
                 case DataType.Vector2:
-                    return "<vec2>\n      " + Vec2.ToString();
+                    return "  ".Repeat(depth) + "<vec2>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec2.ToString();
                 case DataType.Vector3:
-                    return "<vec3>\n      " + Vec3.ToString();
+                    return "  ".Repeat(depth) + "<vec3>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec3.ToString();
                 case DataType.Quaternion:
-                    return "<quat>\n      " + Quat.ToString();
+                    return "  ".Repeat(depth) + "<quat>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Quat.ToString();
                 case DataType.Icon:
-                    return "<icon>\n      ";
+                    return "  ".Repeat(depth) + "<icon>";
                 case DataType.Package:
-                    return "<package>\n      ";
+                    string str = "  ".Repeat(depth) + "<package>\n";
+                    int i = 0;
+                    foreach (Data d in Package.DataArr)
+                    {
+                        str += " ".Repeat(depth) +"·"+ d.ToString(depth + 1) + (i != 3?"\n" : "");
+                        i++;
+                    }
+                    return str;
                 default:
                     return "<null>\n      ";
             }
@@ -195,10 +203,10 @@ namespace Modern
 
     public class M_Package
     {
-        public List<Data> DataArr;
-        public void AddData(Data data)
+        public Data[] DataArr;
+        public M_Package(Data d0, Data d1, Data d2, Data d3)
         {
-            DataArr.Append(data);
+            DataArr = new Data[4]{ d0, d1, d2, d3 };
         }
     }
 }

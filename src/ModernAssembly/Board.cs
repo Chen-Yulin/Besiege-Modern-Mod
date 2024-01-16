@@ -9,7 +9,6 @@ using Modding.Blocks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Modding.Blocks;
-using mattmc3.dotmore.Collections.Generic;
 
 namespace Modern
 {

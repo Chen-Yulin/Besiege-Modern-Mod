@@ -61,6 +61,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 	<Resources>
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
+		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
 		<Mesh name="Board Mesh" path="Board/board.obj" />
 		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
@@ -71,6 +72,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
 		<Texture name="CONST Texture" path="Unit/CONST.png" />
+		<Texture name="ENCODER Texture" path="Unit/Encoder.png" />
+		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
 		<Texture name="Board Wire Texture" path="Board/wire.png" />
 	</Resources>
