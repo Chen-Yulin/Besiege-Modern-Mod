@@ -39,6 +39,7 @@ namespace Modern
             }
         }
 
+
         public override void SafeAwake()
         {
             OnBoard = AddToggle("On Board", "OnBoard", "On Board", false);
@@ -77,7 +78,8 @@ namespace Modern
                         connectionInited = true;
                         PortsFindConnection();
                     }
-                    UnitSimulateFixedUpdateHost();
+                    Data res = SensorGenerate();
+                    Outputs[0].MyData = res;
                 }
                 if (frameCnt < 2)
                 {

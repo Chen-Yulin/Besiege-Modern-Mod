@@ -134,15 +134,15 @@ namespace Modern
                 case DataType.String:
                     return "  ".Repeat(depth) + "<str>\n" + "  ".Repeat(depth) + " ".Repeat(depth+1) + Str;
                 case DataType.Float:
-                    return "  ".Repeat(depth) + "<float>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Flt.ToString();
+                    return "  ".Repeat(depth) + "<float>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Flt.ToString("F3");
                 case DataType.Bool:
                     return "  ".Repeat(depth) + "<bool>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Bool.ToString();
                 case DataType.Vector2:
-                    return "  ".Repeat(depth) + "<vec2>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec2.ToString();
+                    return "  ".Repeat(depth) + "<vec2>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec2.ToString("F3");
                 case DataType.Vector3:
-                    return "  ".Repeat(depth) + "<vec3>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec3.ToString();
+                    return "  ".Repeat(depth) + "<vec3>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Vec3.ToString("F3");
                 case DataType.Quaternion:
-                    return "  ".Repeat(depth) + "<quat>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Quat.ToString();
+                    return "  ".Repeat(depth) + "<quat>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Quat.ToString("F3");
                 case DataType.Icon:
                     return "  ".Repeat(depth) + "<icon>";
                 case DataType.Package:
