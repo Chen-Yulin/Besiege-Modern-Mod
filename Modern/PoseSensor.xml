@@ -7,6 +7,8 @@
 	<Name>PoseSensor</Name>
 
 	<Mass>0.3</Mass>
+
+	<Script>Modern.PoseSensor</Script>
 	
 	<Mesh name="Square Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
