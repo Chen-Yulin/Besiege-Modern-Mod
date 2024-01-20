@@ -61,11 +61,15 @@
     <Compile Include="Mod.cs" />
     <Compile Include="ModController.cs" />
     <Compile Include="Port.cs" />
+    <Compile Include="PoseSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RF.cs" />
+    <Compile Include="Sensor.cs" />
     <Compile Include="Switch.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="While.cs" />
+    <Compile Include="WirelessManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

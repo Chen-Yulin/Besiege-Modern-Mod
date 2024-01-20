@@ -25,8 +25,8 @@ namespace Modern
 
         public Board MotherBoard;
 
-        private int frameCnt = 0;
-        private bool connectionInited = false;
+        protected int frameCnt = 0;
+        protected bool connectionInited = false;
 
         public void InitControlPorts()
         {
