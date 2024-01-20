@@ -14,6 +14,8 @@ namespace Modern
             myMod = new GameObject("Modern Mod");
             UnityEngine.Object.DontDestroyOnLoad(myMod);
             myMod.AddComponent<ModController>();
+            myMod.AddComponent<WirelessManager>();
+            myMod.AddComponent<DebugProbe>();
         }
 	}
 }

@@ -38,16 +38,36 @@ namespace Modern
                 InitOutputPorts();
             }
         }
-
+        public void UpdateMapper()
+        {
+            if (OnBoard.isDefaultValue)
+            {
+                Channel.DisplayInMapper = true;
+            }
+            else
+            {
+                Channel.DisplayInMapper = false;
+            }
+        }
 
         public override void SafeAwake()
         {
             OnBoard = AddToggle("On Board", "OnBoard", "On Board", false);
+            Channel = AddText("Channel", "Channel", "");
             OnBoard.Toggled += (bool value) =>
             {
                 _onBoardChanged = true;
             };
+
+            // left for customization
             SensorSafeAwake();
+        }
+
+        public override void OnBlockPlaced()
+        {
+            name = GetName();
+            InputNum = 0;
+            ControlNum = 0;
         }
 
         public override void BuildingUpdate()
@@ -56,12 +76,16 @@ namespace Modern
             {
                 _onBoardChanged = false;
                 UpdateOutput();
+                UpdateMapper();
             }
+
+            // left for customization
             SensorBuildUpdate();
         }
 
         public override void OnSimulateStart()
         {
+            name = GetName();
             UpdateOutput();
             SensorSimulateStart();
             onboard = !OnBoard.isDefaultValue;
@@ -92,17 +116,29 @@ namespace Modern
                     if (MotherBoard)
                     {
                         AddAllPortsToBoard();
+
+                        // left for customization
                         OnUnitSimulateStart();
                     }
                 }
             }
             else
             {
-
+                if (Channel.Value != "")
+                {
+                    WirelessManager.Instance.PassData(Channel.Value, SensorGenerate());
+                }
             }
             
         }
-
+        public override void OnSimulateStop()
+        {
+            WirelessManager.Instance.UnregisterChannel(Channel.Value);
+        }
+        public virtual string GetName()
+        {
+            return "Sensor";
+        }
         public virtual void SensorBuildUpdate()
         {
             return;
