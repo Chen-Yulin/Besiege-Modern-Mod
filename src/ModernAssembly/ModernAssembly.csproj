@@ -59,6 +59,7 @@
     <Compile Include="For.cs" />
     <Compile Include="GPS.cs" />
     <Compile Include="If.cs" />
+    <Compile Include="IMU.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="ModController.cs" />
     <Compile Include="Port.cs" />

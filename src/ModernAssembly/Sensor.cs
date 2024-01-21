@@ -87,8 +87,12 @@ namespace Modern
         {
             name = GetName();
             UpdateOutput();
-            SensorSimulateStart();
+            
             onboard = !OnBoard.isDefaultValue;
+            if (!onboard)
+            {
+                SensorSimulateStart();
+            }
         }
 
         public override void SimulateFixedUpdateHost()
@@ -102,6 +106,7 @@ namespace Modern
                         connectionInited = true;
                         PortsFindConnection();
                     }
+                    SensorSimulateFixedUpdate();
                     Data res = SensorGenerate();
                     Outputs[0].MyData = res;
                 }
@@ -118,12 +123,13 @@ namespace Modern
                         AddAllPortsToBoard();
 
                         // left for customization
-                        OnUnitSimulateStart();
+                        SensorSimulateStart();
                     }
                 }
             }
             else
             {
+                SensorSimulateFixedUpdate();
                 if (Channel.Value != "")
                 {
                     WirelessManager.Instance.PassData(Channel.Value, SensorGenerate());
@@ -134,6 +140,7 @@ namespace Modern
         public override void OnSimulateStop()
         {
             WirelessManager.Instance.UnregisterChannel(Channel.Value);
+            SensorSimulateStop();
         }
         public virtual string GetName()
         {
@@ -143,7 +150,15 @@ namespace Modern
         {
             return;
         }
+        public virtual void SensorSimulateFixedUpdate()
+        {
+            return;
+        }
         public virtual void SensorSimulateStart()
+        {
+
+        }
+        public virtual void SensorSimulateStop()
         {
 
         }

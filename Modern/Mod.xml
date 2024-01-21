@@ -36,6 +36,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="PoseSensor.xml" />
 		<Block path="Wireless.xml" />
 		<Block path="GPS.xml" />
+		<Block path="IMU.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -80,6 +81,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
 		<Texture name="RF Texture" path="Unit/RF.png" />
 		<Texture name="GPS Texture" path="Unit/GPS.png" />
+		<Texture name="IMU Texture" path="Unit/IMU.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
 		<Texture name="Board Wire Texture" path="Board/wire.png" />
 	</Resources>
