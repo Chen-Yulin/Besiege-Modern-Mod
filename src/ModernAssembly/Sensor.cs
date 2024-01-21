@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Modern
 {
-    class Sensor : Unit
+    public class Sensor : Unit
     {
         public MToggle OnBoard;
         public MText Channel;
