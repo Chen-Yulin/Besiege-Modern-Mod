@@ -31,8 +31,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Decoder.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
-		<Block path="Const.xml" />
 		<Block path="Switch.xml" />
+		<Block path="Const.xml" />
 		<Block path="PoseSensor.xml" />
 		<Block path="Wireless.xml" />
 	</Blocks>
