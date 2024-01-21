@@ -33,7 +33,7 @@
 	</Colliders>
 	
 	<BasePoint hasAddingPoint="false">
-		<Stickiness enabled="true" radius="0.2" />
+		<Stickiness enabled="true" radius="0.05" />
 		<Motion x="false" y="false" z="false" />
 	</BasePoint>
 	
