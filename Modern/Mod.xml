@@ -37,6 +37,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Wireless.xml" />
 		<Block path="GPS.xml" />
 		<Block path="IMU.xml" />
+		<Block path="InputPin.xml" />
+		<Block path="OutputPin.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -70,6 +72,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Mesh name="Board Mesh" path="Board/board.obj" />
 		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
 		<Mesh name="Board Wire Mesh" path="Board/wire.obj" />
+		<Mesh name="InputPin Mesh" path="Unit/InputPin.obj" />
+		<Mesh name="OutputPin Mesh" path="Unit/OutputPin.obj" />
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
 		<Texture name="IF Texture" path="Unit/IF.png" />
@@ -84,6 +88,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="IMU Texture" path="Unit/IMU.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
 		<Texture name="Board Wire Texture" path="Board/wire.png" />
+		<Texture name="InputPin Texture" path="Unit/InputPin.png" />
+		<Texture name="OutputPin Texture" path="Unit/OutputPin.png" />
 	</Resources>
 
 

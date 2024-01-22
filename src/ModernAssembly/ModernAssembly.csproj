@@ -60,8 +60,11 @@
     <Compile Include="GPS.cs" />
     <Compile Include="If.cs" />
     <Compile Include="IMU.cs" />
+    <Compile Include="InputPin.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="ModController.cs" />
+    <Compile Include="OutputPin.cs" />
+    <Compile Include="Pin.cs" />
     <Compile Include="Port.cs" />
     <Compile Include="PoseSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
