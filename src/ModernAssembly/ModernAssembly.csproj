@@ -74,6 +74,7 @@
     <Compile Include="Tool.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="While.cs" />
+    <Compile Include="Wire.cs" />
     <Compile Include="WirelessManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

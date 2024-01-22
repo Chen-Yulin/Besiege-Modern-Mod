@@ -11,6 +11,11 @@ namespace Modern
     {
         public Transform Vis;
 
+        public void Start()
+        {
+            name = "Input Pin";
+            transform.Find("Adding Point").GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.05f, 0.01f);
+        }
         public override void OnSimulateStart()
         {
             name = "Input Pin";

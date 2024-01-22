@@ -9,7 +9,11 @@ namespace Modern
     internal class OutputPin : Unit
     {
         public Transform Vis;
-
+        public void Start()
+        {
+            name = "Output Pin";
+            transform.Find("Adding Point").GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.05f, 0.01f);
+        }
         public override void OnSimulateStart()
         {
             name = "Output Pin";
