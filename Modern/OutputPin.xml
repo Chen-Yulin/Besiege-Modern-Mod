@@ -41,7 +41,7 @@
 	<AddingPoints>
 		<!-- TODO: Insert AddingPoint definitions here. Example:-->
 		<AddingPoint>
-			<Position x="0.0" y="0.0" z="0.05" />
+			<Position x="0.0" y="0.0" z="0.09" />
 			<Rotation x="0.0" y="0.0" z="0.0" />
 			<Scale x="0.1" y="0.1" z="0.01" />
 			<Stickiness enabled="true" radius="0.05"/>

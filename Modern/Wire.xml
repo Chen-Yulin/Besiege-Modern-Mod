@@ -6,6 +6,8 @@
 	<Name>Wire</Name>
 	
 	<Mass>0.3</Mass>
+
+	<Script>Modern.Wire</Script>
 	
 	<Mesh name="Wire Head Mesh"> 
 		<Position x="0.0" y="0.0" z="0.0" />
