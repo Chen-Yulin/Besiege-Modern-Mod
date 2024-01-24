@@ -55,6 +55,17 @@ namespace Modern
             joint.y = Mathf.Clamp(joint.y, 0, 63);
             return joint;
         }
+
+        public static Vector3 BesselCurve(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, float t)
+        {
+            float u = 1 - t;
+            float tt = t * t;
+            float uu = u * u;
+            float uuu = uu * u;
+            float ttt = tt * t;
+            Vector3 p = uuu * p1 + 3 * uu * t * p2 + 3 * u * tt * p3 + ttt * p4;
+            return p;
+        }
     }
 
     
