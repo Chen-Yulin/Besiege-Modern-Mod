@@ -33,6 +33,7 @@ namespace Modern
 
         public override void SafeAwake()
         {
+            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             InputType = AddMenu("Input Type 1", 0, DataTypeString);
             OptType = AddMenu("Opt Type", 0, OptTypeString);
         }

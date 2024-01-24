@@ -10,7 +10,10 @@ namespace Modern
     public class InputPin : Unit
     {
         public Transform Vis;
-
+        public override void SafeAwake()
+        {
+            Tool.SetOccluder(transform, new Vector3(0.06f, 0.06f, 1));
+        }
         public void Start()
         {
             name = "Input Pin";

@@ -1,4 +1,5 @@
 ﻿using Modding;
+using Modding.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace Modern
 {
     public class Wire : BlockScript
     {
-
         public GameObject Tail;
 
         public Vector3 TailPosition
@@ -133,7 +133,7 @@ namespace Modern
         }
         public override void SafeAwake()
         {
-            
+            Tool.SetOccluder(transform, new Vector3(0.06f, 0.06f, 1));
         }
 
         public override void OnBlockPlaced()

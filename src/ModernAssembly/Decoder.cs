@@ -16,6 +16,7 @@ namespace Modern
     {
         public override void SafeAwake()
         {
+            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
         }
         public override void OnBlockPlaced()
         {

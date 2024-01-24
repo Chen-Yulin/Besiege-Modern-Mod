@@ -8,6 +8,14 @@ namespace Modern
 {
     public class Tool
     {
+        public static void SetOccluder(Transform t, Vector3 size)
+        {
+            try
+            {
+                t.Find("Occluder").GetComponent<BoxCollider>().size = size;
+            }
+            catch { }
+        }
         public static RaycastHit[] RaycastAllSorted(Ray ray, float dist)
         {
             RaycastHit[] hits = Physics.RaycastAll(ray, dist);

@@ -318,6 +318,7 @@ namespace Modern
 
         public override void SafeAwake()
         {
+            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             InputNumMenu = AddMenu("Input", 0, new List<string> { "1 input", "2 inputs" });
             OneTypeMenu = AddMenu("One Type", 0, SingleDataTypeString);
             TwoTypeMenu = AddMenu("Two Type", 0, TwoDataTypeString);
