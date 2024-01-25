@@ -10,7 +10,10 @@ namespace Modern
 {
     public class Wire : BlockScript
     {
+        MSlider[] tailPose = new MSlider[6];
+
         public GameObject Tail;
+        BlockBehaviour bb;
 
         public Vector3 TailPosition
         {
@@ -35,6 +38,9 @@ namespace Modern
                 Tail.transform.rotation = value;
             }
         }
+
+        public Vector3 preTailPosition;
+        public Quaternion preTailRotation;
 
         public bool creatingWire = false;
 
@@ -70,13 +76,48 @@ namespace Modern
             WireObject[3].transform.localScale = new Vector3(1f, 1f, Vector3.Distance(JointObject[2].transform.position, JointObject[3].transform.position));
             WireObject[4].transform.localScale = new Vector3(1f, 1f, Vector3.Distance(JointObject[3].transform.position, Tail.transform.position + Tail.transform.up * 0.25f));
         }
-
+        public bool UpdateWireMapper()
+        {
+            if (Vector3.Distance(preTailPosition, TailPosition) > 0.001f || Quaternion.Angle(preTailRotation, TailRotation) > 0.1f)
+            {
+                preTailRotation = TailRotation;
+                preTailPosition = TailPosition;
+                SaveWireToMapper();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public Vector3 GetVirtualTailPos()
         {
             Vector3 normal = transform.position - Camera.main.transform.position;
             Vector3 screenPoint = Input.mousePosition;
             screenPoint.z = normal.magnitude;
             return Camera.main.ScreenToWorldPoint(screenPoint);
+        }
+        public void SaveWireToMapper()
+        {
+            tailPose[0].SetValue(TailPosition.x);
+            bb.OnSave(new XDataHolder());
+            tailPose[1].SetValue(TailPosition.y);
+            bb.OnSave(new XDataHolder());
+            tailPose[2].SetValue(TailPosition.z);
+            bb.OnSave(new XDataHolder());
+            tailPose[3].SetValue(TailRotation.eulerAngles.x);
+            bb.OnSave(new XDataHolder());
+            tailPose[4].SetValue(TailRotation.eulerAngles.y);
+            bb.OnSave(new XDataHolder());
+            tailPose[5].SetValue(TailRotation.eulerAngles.z);
+            bb.OnSave(new XDataHolder());
+        }
+        public void LoadWireFromMapper()
+        {
+            Vector3 tailpos = new Vector3(tailPose[0].Value, tailPose[1].Value, tailPose[2].Value);
+            Quaternion tailrot = Quaternion.Euler(tailPose[3].Value, tailPose[4].Value, tailPose[5].Value);
+            TailPosition = tailpos;
+            TailRotation = tailrot;
         }
         public void InitWire()
         {
@@ -133,19 +174,34 @@ namespace Modern
         }
         public override void SafeAwake()
         {
+            bb = GetComponent<BlockBehaviour>();
             Tool.SetOccluder(transform, new Vector3(0.06f, 0.06f, 1));
+            tailPose[0] = AddSlider("tail pose 0", "tail pose 0", 0, float.MinValue, float.MaxValue);
+            tailPose[1] = AddSlider("tail pose 1", "tail pose 1", 0, float.MinValue, float.MaxValue);
+            tailPose[2] = AddSlider("tail pose 2", "tail pose 2", 0, float.MinValue, float.MaxValue);
+            tailPose[3] = AddSlider("tail pose 3", "tail pose 3", 0, float.MinValue, float.MaxValue);
+            tailPose[4] = AddSlider("tail pose 4", "tail pose 4", 0, float.MinValue, float.MaxValue);
+            tailPose[5] = AddSlider("tail pose 5", "tail pose 5", 0, float.MinValue, float.MaxValue);
         }
 
         public override void OnBlockPlaced()
         {
-            creatingWire = true;
             InitTail();
             InitWire();
+            if (tailPose[0].Value == 0 && tailPose[1].Value == 0 && tailPose[2].Value == 0 &&
+                tailPose[3].Value == 0 && tailPose[4].Value == 0 && tailPose[5].Value == 0)
+            {
+                creatingWire = true;
+            }
+            else
+            {
+                creatingWire = false;
+                LoadWireFromMapper();
+            }
         }
 
         public override void BuildingUpdate()
         {
-            UpdateWireCurve();
             if (creatingWire)
             {
                 if (Input.GetMouseButton(0))
@@ -178,12 +234,16 @@ namespace Modern
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    SaveWireToMapper();
                     creatingWire = false;
                 }
             }
             else
             {
-
+                if (UpdateWireMapper())
+                {
+                    UpdateWireCurve();
+                }
             }
         }
 
