@@ -27,6 +27,17 @@ namespace Modern
             Array.Sort(distances, hits);
             return hits;
         }
+        public static RaycastHit[] SphereCastSorted(Vector3 pos, float radius)
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(pos, radius, Vector3.forward);
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < hits.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+            Array.Sort(distances, hits);
+            return hits;
+        }
         public static string RemoveLastLine(string str)
         {
             int index = str.LastIndexOf(";");

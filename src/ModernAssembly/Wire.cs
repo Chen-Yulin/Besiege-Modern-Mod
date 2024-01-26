@@ -48,6 +48,11 @@ namespace Modern
         public GameObject[] WireObject = new GameObject[5];
         public GameObject[] JointObject = new GameObject[4];
 
+        public InputPin DistPin = null;
+        public OutputPin SrcPin = null;
+
+        public int frameCnt = 0;
+
         public void UpdateWireCurve()
         {
             Transform vis = transform.Find("Vis");
@@ -154,7 +159,7 @@ namespace Modern
         }
         public void InitTail()
         {
-            if (!transform.Find("Tail"))
+            if (!transform.Find("Vis").Find("Tail"))
             {
                 Tail = new GameObject("Tail");
                 Tail.transform.SetParent(transform.Find("Vis"));
@@ -168,7 +173,7 @@ namespace Modern
             }
             else
             {
-                Tail = transform.Find("Tail").gameObject;
+                Tail = transform.Find("Vis").Find("Tail").gameObject;
             }
             
         }
@@ -206,6 +211,7 @@ namespace Modern
             {
                 if (Input.GetMouseButton(0))
                 {
+                    UpdateWireCurve();
                     bool findPin = false;
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit[] hits = Tool.RaycastAllSorted(ray, 20f);
@@ -249,7 +255,53 @@ namespace Modern
 
         public override void OnSimulateStart()
         {
+            bb = GetComponent<BlockBehaviour>();
             InitTail();
+            RaycastHit[] hits = Tool.SphereCastSorted(TailPosition, 0.02f);
+            foreach (var hit in hits)
+            {
+                if (hit.collider.name != "Adding Point")
+                {
+                    continue;
+                }
+                try
+                {
+                    SrcPin = hit.collider.transform.parent.GetComponent<OutputPin>();
+                    if (SrcPin)
+                    {
+                        //Debug.Log("Output found");
+                        break;
+                    }
+                }
+                catch { }
+            }
+        }
+
+        public override void SimulateFixedUpdateHost()
+        {
+            if (frameCnt < 2)
+            {
+                frameCnt++;
+            }
+            else if (frameCnt == 2)
+            {
+                frameCnt++;
+                // find connected input pin
+                if (SrcPin)
+                {
+                    foreach (var joint in bb.iJointTo)
+                    {
+                        DistPin = joint.connectedBody.GetComponent<InputPin>();
+                        if (DistPin)
+                        {
+                            //Debug.Log("Input found");
+                            SrcPin.DstPins.Add(DistPin);
+                            DistPin.SrcPin = SrcPin;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
     }

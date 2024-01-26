@@ -6,9 +6,11 @@ using UnityEngine;
 
 namespace Modern
 {
-    internal class OutputPin : Unit
+    public class OutputPin : Unit
     {
         public Transform Vis;
+
+        public List<InputPin> DstPins = new List<InputPin>();
         public override void SafeAwake()
         {
             Tool.SetOccluder(transform, new Vector3(0.06f, 0.06f, 1));
@@ -34,7 +36,10 @@ namespace Modern
         }
         public override void UpdateUnit()
         {
-            base.UpdateUnit();
+            foreach (var pin in DstPins)
+            {
+                pin.Outputs[0].MyData = Inputs[0].MyData;
+            }
         }
     }
 }
