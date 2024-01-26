@@ -8,9 +8,28 @@ namespace Modern
 {
     public class Tool
     {
+        public static void SetOccluder(Transform t, Vector3 size)
+        {
+            try
+            {
+                t.Find("Occluder").GetComponent<BoxCollider>().size = size;
+            }
+            catch { }
+        }
         public static RaycastHit[] RaycastAllSorted(Ray ray, float dist)
         {
             RaycastHit[] hits = Physics.RaycastAll(ray, dist);
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < hits.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+            Array.Sort(distances, hits);
+            return hits;
+        }
+        public static RaycastHit[] SphereCastSorted(Vector3 pos, float radius)
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(pos, radius, Vector3.forward);
             float[] distances = new float[hits.Length];
             for (int i = 0; i < hits.Length; i++)
             {
@@ -54,6 +73,17 @@ namespace Modern
             joint.y = Mathf.Round(joint.y / 0.058f);
             joint.y = Mathf.Clamp(joint.y, 0, 63);
             return joint;
+        }
+
+        public static Vector3 BesselCurve(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, float t)
+        {
+            float u = 1 - t;
+            float tt = t * t;
+            float uu = u * u;
+            float uuu = uu * u;
+            float ttt = tt * t;
+            Vector3 p = uuu * p1 + 3 * uu * t * p2 + 3 * u * tt * p3 + ttt * p4;
+            return p;
         }
     }
 

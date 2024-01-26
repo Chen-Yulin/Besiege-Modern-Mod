@@ -17,6 +17,7 @@ namespace Modern
         public bool IO = false; // false = input, true = output
         public Data.DataType Type = Data.DataType.Null;
         public int Index = 0;
+        public bool VisSpecified = false;
 
         private bool _asControl = false;
         public bool AsControl
@@ -160,7 +161,7 @@ namespace Modern
 
         public GameObject Vis;
 
-        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort, bool asControl = false) 
+        public void InitPort(Unit unit, bool io, Data.DataType type, int index, int totalPort, bool asControl = false, bool newVis = true) 
         {
             Vis = gameObject;
             IO = io;
@@ -168,9 +169,12 @@ namespace Modern
             Type = type;
             parentUnit = unit;
             Index = index;
-            InitPortVis(index, totalPort);
+            if (newVis)
+            {
+                InitPortVis(index, totalPort);
+                name = (IO ? "Output" : (AsControl ? "Control" : "Input")) + " Port " + index.ToString();
+            }
             //InitPortTrigger();
-            name = (IO ? "Output" : (AsControl? "Control" : "Input")) + " Port " + index.ToString();
         }
 
         public float GetOffset(int index, int totalPort)

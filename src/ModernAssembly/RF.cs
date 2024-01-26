@@ -18,6 +18,7 @@ namespace Modern
 
         public override void SafeAwake()
         {
+            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             ReceiveChannel = AddText("Receive Channel", "Receive", "");
             SendChannel = AddText("Send Channel", "Send", "");
         }
