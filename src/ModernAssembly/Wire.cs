@@ -13,6 +13,7 @@ namespace Modern
         MSlider[] tailPose = new MSlider[6];
 
         public GameObject Tail;
+        public GameObject Head;
         BlockBehaviour bb;
 
         public Vector3 TailPosition
@@ -51,11 +52,10 @@ namespace Modern
         public InputPin DistPin = null;
         public OutputPin SrcPin = null;
 
-        public int frameCnt = 0;
 
         public void UpdateWireCurve()
         {
-            Transform vis = transform.Find("Vis");
+            Transform vis = Head.transform;
             Vector3 p0 = vis.position + vis.up * 0.25f;
             Vector3 p1 = vis.position + vis.up * 0.75f;
             Vector3 p2 = Tail.transform.position + Tail.transform.up * 0.75f;
@@ -179,6 +179,7 @@ namespace Modern
         }
         public override void SafeAwake()
         {
+            
             bb = GetComponent<BlockBehaviour>();
             Tool.SetOccluder(transform, new Vector3(0.06f, 0.06f, 1));
             tailPose[0] = AddSlider("tail pose 0", "tail pose 0", 0, float.MinValue, float.MaxValue);
@@ -191,6 +192,8 @@ namespace Modern
 
         public override void OnBlockPlaced()
         {
+            Head = transform.Find("Vis").gameObject;
+            name = "Wire";
             InitTail();
             InitWire();
             if (tailPose[0].Value == 0 && tailPose[1].Value == 0 && tailPose[2].Value == 0 &&
@@ -255,8 +258,16 @@ namespace Modern
 
         public override void OnSimulateStart()
         {
+            name = "Wire";
             bb = GetComponent<BlockBehaviour>();
+            Head = transform.Find("Vis").gameObject;
             InitTail();
+
+            // destroy the physics
+            Destroy(GetComponent<ConfigurableJoint>());
+            Destroy(GetComponentInChildren<BoxCollider>());
+            GetComponent<Rigidbody>().useGravity = false;
+
             RaycastHit[] hits = Tool.SphereCastSorted(TailPosition, 0.02f);
             foreach (var hit in hits)
             {
@@ -269,39 +280,46 @@ namespace Modern
                     SrcPin = hit.collider.transform.parent.GetComponent<OutputPin>();
                     if (SrcPin)
                     {
+                        Tail.transform.SetParent(SrcPin.transform);
                         //Debug.Log("Output found");
                         break;
                     }
                 }
                 catch { }
             }
-        }
-
-        public override void SimulateFixedUpdateHost()
-        {
-            if (frameCnt < 2)
+            if (SrcPin)
             {
-                frameCnt++;
-            }
-            else if (frameCnt == 2)
-            {
-                frameCnt++;
-                // find connected input pin
-                if (SrcPin)
+                hits = Tool.SphereCastSorted(transform.position, 0.02f);
+                foreach (var hit in hits)
                 {
-                    foreach (var joint in bb.iJointTo)
+                    if (hit.collider.name != "Adding Point")
                     {
-                        DistPin = joint.connectedBody.GetComponent<InputPin>();
+                        continue;
+                    }
+                    try
+                    {
+                        DistPin = hit.collider.transform.parent.GetComponent<InputPin>();
                         if (DistPin)
                         {
-                            //Debug.Log("Input found");
+                            Head.transform.SetParent(DistPin.transform);
                             SrcPin.DstPins.Add(DistPin);
                             DistPin.SrcPin = SrcPin;
                             break;
                         }
                     }
+                    catch { }
                 }
             }
+
+        }
+
+        public override void SimulateLateUpdateAlways()
+        {
+            UpdateWireCurve();
+        }
+
+        public override void SimulateFixedUpdateHost()
+        {
         }
 
     }
