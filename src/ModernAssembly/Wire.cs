@@ -52,6 +52,8 @@ namespace Modern
         public InputPin DistPin = null;
         public OutputPin SrcPin = null;
 
+        public Transform buildTailTarget = null;
+
 
         public void UpdateWireCurve()
         {
@@ -268,6 +270,7 @@ namespace Modern
             Destroy(GetComponentInChildren<BoxCollider>());
             GetComponent<Rigidbody>().useGravity = false;
 
+            //find the output pin connected to tail
             RaycastHit[] hits = Tool.SphereCastSorted(TailPosition, 0.02f);
             foreach (var hit in hits)
             {
@@ -287,28 +290,26 @@ namespace Modern
                 }
                 catch { }
             }
-            if (SrcPin)
+
+            hits = Tool.SphereCastSorted(transform.position, 0.02f);
+            foreach (var hit in hits)
             {
-                hits = Tool.SphereCastSorted(transform.position, 0.02f);
-                foreach (var hit in hits)
+                if (hit.collider.name != "Adding Point")
                 {
-                    if (hit.collider.name != "Adding Point")
-                    {
-                        continue;
-                    }
-                    try
-                    {
-                        DistPin = hit.collider.transform.parent.GetComponent<InputPin>();
-                        if (DistPin)
-                        {
-                            Head.transform.SetParent(DistPin.transform);
-                            SrcPin.DstPins.Add(DistPin);
-                            DistPin.SrcPin = SrcPin;
-                            break;
-                        }
-                    }
-                    catch { }
+                    continue;
                 }
+                try
+                {
+                    DistPin = hit.collider.transform.parent.GetComponent<InputPin>();
+                    if (DistPin)
+                    {
+                        Head.transform.SetParent(DistPin.transform);
+                        SrcPin.DstPins.Add(DistPin);
+                        DistPin.SrcPin = SrcPin;
+                        break;
+                    }
+                }
+                catch { }
             }
 
         }
