@@ -105,7 +105,7 @@ namespace Modern
                 default:
                     break;
             }
-            //Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
+            Debug.Log("input: "+i1 + ", " + i2+"; output: "+res);
             Outputs[0].MyData = new Data(res);
         }
     }

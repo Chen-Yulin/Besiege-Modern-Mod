@@ -176,6 +176,13 @@ namespace Modern
             }
             return true;
         }
+        public void PassOutput()
+        {
+            foreach (var port in Outputs)
+            {
+                port.MyData = port.MyData;
+            }
+        }
 
         public override void OnSimulateStart()
         {
@@ -226,6 +233,7 @@ namespace Modern
         {
             return;
         }
+        
         public string DebugString()
         {
             string res = "";
