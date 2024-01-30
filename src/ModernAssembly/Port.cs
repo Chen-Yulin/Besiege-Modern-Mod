@@ -107,6 +107,8 @@ namespace Modern
 
         public LineRenderer SrcLine;
 
+        public bool pulsed = false;
+
         public Data MyData
         {
             get
@@ -115,6 +117,7 @@ namespace Modern
             }
             set
             {
+                pulsed = true;
                 //Debug.Log(Index + (IO?" output":" input") + " port of " + parentUnit.name);
                 if (_data.Equal(value))
                 {
