@@ -109,6 +109,8 @@ namespace Modern
 
         public bool pulsed = false;
 
+        public bool usePulse = false;
+
         public Data MyData
         {
             get
@@ -117,8 +119,7 @@ namespace Modern
             }
             set
             {
-                pulsed = true;
-                //Debug.Log(Index + (IO?" output":" input") + " port of " + parentUnit.name);
+
                 if (_data.Equal(value))
                 {
                     //Debug.Log("same data");
@@ -127,15 +128,7 @@ namespace Modern
 
                 if (Type != Data.DataType.Any && value.Type != Type)
                 {
-                    //Debug.Log("different type: " + Type + " " + value.Type);
-                    if (_data.Type != Data.DataType.Null)
-                    {
-                        _data.Type = Data.DataType.Null;
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    _data.Type = Data.DataType.Null;
                 }
                 else
                 {
@@ -143,10 +136,8 @@ namespace Modern
                 }
                 if (IO) // output
                 {
-                    //Debug.Log("as output to " + _distPorts.Count);
                     foreach (var port in _distPorts)
                     {
-                        //Debug.Log("update dist port " + port);
                         if (!port.IO) // the connected input ports
                         {
                             port.MyData = value;
@@ -155,8 +146,17 @@ namespace Modern
                 }
                 else
                 {
-                    parentUnit.UpdateUnit();
+                    StackLimiter.stackCnt++;
+                    if (StackLimiter.Capable)
+                    {
+                        parentUnit.UpdateUnit(this);
+                    }
+                    else
+                    {
+                        Debug.Log("Stack limit reached");
+                    }
                 }
+                
             }
         }
 

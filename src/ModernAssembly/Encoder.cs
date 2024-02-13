@@ -34,7 +34,7 @@ namespace Modern
             name = "Encoder Unit";
         }
 
-        public override void UpdateUnit()
+        public override void UpdateUnit(Port Caller)
         {
             //Debug.Log("update encoder");
             Outputs[0].MyData = new Data(new M_Package(Inputs[0].MyData, Inputs[1].MyData, Inputs[2].MyData, Inputs[3].MyData));

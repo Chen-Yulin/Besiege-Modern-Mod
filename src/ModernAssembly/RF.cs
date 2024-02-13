@@ -53,7 +53,7 @@ namespace Modern
             WirelessManager.Instance.UnregisterChannel(ReceiveChannel.Value);
         }
 
-        public override void UpdateUnit()
+        public override void UpdateUnit(Port Caller)
         {
             if (useSend)
             {

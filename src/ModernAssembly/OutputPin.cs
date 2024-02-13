@@ -34,7 +34,7 @@ namespace Modern
         {
             name = "Output Pin";
         }
-        public override void UpdateUnit()
+        public override void UpdateUnit(Port Caller)
         {
             foreach (var pin in DstPins)
             {

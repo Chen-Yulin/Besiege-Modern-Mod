@@ -79,9 +79,11 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Mesh name="Wire Tail Mesh" path="Wire/tail.obj" />
 		<Mesh name="Wire Joint Mesh" path="Wire/joint.obj" />
 		<Mesh name="Wire Mesh" path="Wire/wire.obj" />
+		<Mesh name="Switch Mesh" path="Unit/switch.obj" />
 
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
+		<Texture name="MUX Texture" path="Unit/MUX.png" />
 		<Texture name="IF Texture" path="Unit/IF.png" />
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
@@ -99,6 +101,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="Wire Head Texture" path="Wire/head.png" />
 		<Texture name="Wire Tail Texture" path="Wire/tail.png" />
 		<Texture name="Wire Texture" path="Wire/joint.png" />
+		<Texture name="SWITCH Texture" path="Unit/Switch.png" />
 	</Resources>
 
 
