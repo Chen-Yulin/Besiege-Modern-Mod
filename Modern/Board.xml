@@ -1,0 +1,49 @@
+<Block>
+
+	<Debug>True</Debug>
+	
+	<ID>1</ID>
+	
+	<Name>Board</Name>
+	
+	<Mass>0.2</Mass>
+
+	<Script>Modern.Board</Script>
+	
+	<Mesh name="Board Mesh">
+		<Position x="0.0" y="0.0" z="0.05" />
+		<Rotation x="0.0" y="90.0" z="90.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Mesh>
+	
+	<Texture name="Board Texture" />
+	
+	<Icon>
+		<Position x="0.0" y="0.0" z="-0.2" />
+		<Rotation x="-60.0" y="30" z="0" />
+		<Scale x="0.1" y="0.1" z="-0.1" />
+	</Icon>
+	
+	<Colliders>
+		<BoxCollider>
+			<Position x="0.0" y="0.0" z="0.04" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="4" y="4" z="0.06" />
+		</BoxCollider>
+	</Colliders>
+	
+	<BasePoint hasAddingPoint="false">
+		<Stickiness enabled="true" radius="0.05" />
+		<Motion x="false" y="false" z="false" />
+	</BasePoint>
+	
+	<AddingPoints>
+		<!-- TODO: Insert AddingPoint definitions here. Example:-->
+		<AddingPoint>
+			<Position x="0.0" y="0.0" z="0.05" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="4" y="4" z="0.01" />
+			<Stickiness enabled="true" radius="0.1"/>
+		</AddingPoint>
+	</AddingPoints>
+</Block>

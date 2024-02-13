@@ -1,0 +1,50 @@
+<Block>
+	<Debug>True</Debug>
+	
+	<ID>16</ID>
+	
+	<Name>InputPin</Name>
+	
+	<Mass>0.3</Mass>
+
+	<Script>Modern.InputPin</Script>
+	
+	<Mesh name="InputPin Mesh">
+		<Position x="0.0" y="0.0" z="0.05" />
+		<Rotation x="0.0" y="90.0" z="90.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Mesh>
+	
+	<Texture name="InputPin Texture" /> <!-- Must be defined as a resource in the manifest. -->
+	
+	<Icon>
+		<Position x="0.0" y="0.0" z="0.0" />
+		<Rotation x="0.0" y="0.0" z="0.0" />
+		<Scale x="2.0" y="2.0" z="2.0" />
+	</Icon>
+	
+	<Colliders>
+		<!-- TODO: Insert Collider definitions here.
+			 Examples: -->
+		<BoxCollider>
+			<Position x="0.0" y="0.0" z="0.1" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="0.05" y="0.05" z="0.15" />
+		</BoxCollider>
+	</Colliders>
+	
+	<BasePoint hasAddingPoint="false">
+		<Stickiness enabled="true" radius="0.05" />
+		<Motion x="false" y="false" z="false" />
+	</BasePoint>
+	
+	<AddingPoints>
+		<!-- TODO: Insert AddingPoint definitions here. Example:-->
+		<AddingPoint>
+			<Position x="0.0" y="0.0" z="0.23" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="0.1" y="0.1" z="0.0" />
+			<Stickiness enabled="true" radius="0.05"/>
+		</AddingPoint>
+	</AddingPoints>
+</Block>

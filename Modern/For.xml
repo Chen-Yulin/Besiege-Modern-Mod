@@ -6,6 +6,8 @@
 	<Name>FOR</Name>
 	
 	<Mass>0.1</Mass>
+
+	<Script>Modern.For</Script>
 	
 	<Mesh name="Square Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
@@ -30,7 +32,7 @@
 	</Colliders>
 	
 	<BasePoint hasAddingPoint="false">
-		<Stickiness enabled="true" radius="0.2" />
+		<Stickiness enabled="true" radius="0.05" />
 		<Motion x="false" y="false" z="false" />
 	</BasePoint>
 	

@@ -22,7 +22,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		 The path attribute is relative to the location of this file. -->
 	<Blocks>
 		<!-- <Block path="SomeBlock.xml" /> -->
-		<Block path="Switch.xml" />
+		<Block path="Board.xml" />
 		<Block path="If.xml" />
 		<Block path="ALU.xml" />
 		<Block path="While.xml" />
@@ -31,6 +31,15 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Decoder.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
+		<Block path="Switch.xml" />
+		<Block path="Const.xml" />
+		<Block path="PoseSensor.xml" />
+		<Block path="Wireless.xml" />
+		<Block path="GPS.xml" />
+		<Block path="IMU.xml" />
+		<Block path="InputPin.xml" />
+		<Block path="OutputPin.xml" />
+		<Block path="Wire.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -59,12 +68,40 @@ Add some modern electronic technology to Besiege. v0.0.1
 	<Resources>
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
+		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
+		<Mesh name="Board Mesh" path="Board/board.obj" />
+		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
+		<Mesh name="Board Wire Mesh" path="Board/wire.obj" />
+		<Mesh name="InputPin Mesh" path="Unit/InputPin.obj" />
+		<Mesh name="OutputPin Mesh" path="Unit/OutputPin.obj" />
+		<Mesh name="Wire Head Mesh" path="Wire/head.obj" />
+		<Mesh name="Wire Tail Mesh" path="Wire/tail.obj" />
+		<Mesh name="Wire Joint Mesh" path="Wire/joint.obj" />
+		<Mesh name="Wire Mesh" path="Wire/wire.obj" />
+		<Mesh name="Switch Mesh" path="Unit/switch.obj" />
+
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
+		<Texture name="MUX Texture" path="Unit/MUX.png" />
 		<Texture name="IF Texture" path="Unit/IF.png" />
 		<Texture name="FOR Texture" path="Unit/FOR.png" />
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
+		<Texture name="CONST Texture" path="Unit/CONST.png" />
+		<Texture name="POSE Texture" path="Unit/Pose.png" />
+		<Texture name="ENCODER Texture" path="Unit/Encoder.png" />
+		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
+		<Texture name="RF Texture" path="Unit/RF.png" />
+		<Texture name="GPS Texture" path="Unit/GPS.png" />
+		<Texture name="IMU Texture" path="Unit/IMU.png" />
+		<Texture name="Board Texture" path="Board/board.png" />
+		<Texture name="Board Wire Texture" path="Board/wire.png" />
+		<Texture name="InputPin Texture" path="Unit/InputPin.png" />
+		<Texture name="OutputPin Texture" path="Unit/OutputPin.png" />
+		<Texture name="Wire Head Texture" path="Wire/head.png" />
+		<Texture name="Wire Tail Texture" path="Wire/tail.png" />
+		<Texture name="Wire Texture" path="Wire/joint.png" />
+		<Texture name="SWITCH Texture" path="Unit/Switch.png" />
 	</Resources>
 
 

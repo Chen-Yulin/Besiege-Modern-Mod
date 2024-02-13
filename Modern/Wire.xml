@@ -1,0 +1,41 @@
+<Block>
+	<Debug>True</Debug>
+	
+	<ID>18</ID>
+	
+	<Name>Wire</Name>
+	
+	<Mass>0.3</Mass>
+
+	<Script>Modern.Wire</Script>
+	
+	<Mesh name="Wire Head Mesh"> 
+		<Position x="0.0" y="0.0" z="0.0" />
+		<Rotation x="0.0" y="90.0" z="90.0" />
+		<Scale x="1.0" y="1.0" z="1.0" />
+	</Mesh>
+	
+	<Texture name="Wire Head Texture" /> <!-- Must be defined as a resource in the manifest. -->
+	
+	<Icon>
+		<Position x="0.0" y="0.0" z="0.0" />
+		<Rotation x="0.0" y="0.0" z="0.0" />
+		<Scale x="2.0" y="2.0" z="2.0" />
+	</Icon>
+	
+	<Colliders>
+		<BoxCollider>
+			<Position x="0.0" y="0.0" z="0.1" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="0.05" y="0.05" z="0.15" />
+		</BoxCollider>
+	</Colliders>
+	
+	<BasePoint hasAddingPoint="false">
+		<Stickiness enabled="true" radius="0.05" />
+		<Motion x="false" y="false" z="false" />
+	</BasePoint>
+	
+	<AddingPoints>
+	</AddingPoints>
+</Block>

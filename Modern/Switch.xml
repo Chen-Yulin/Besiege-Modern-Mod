@@ -1,19 +1,21 @@
 <Block>
 	<Debug>True</Debug>
 	
-	<ID>1</ID>
+	<ID>10</ID>
 	
 	<Name>SWITCH</Name>
 	
 	<Mass>0.1</Mass>
+
+	<Script>Modern.Switch</Script>
 	
-	<Mesh name="Ladder Mesh">
+	<Mesh name="Switch Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
 		<Rotation x="0.0" y="90.0" z="90.0" />
-		<Scale x="1.0" y="1.0" z="-1.0" />
+		<Scale x="1.0" y="1.0" z="1.0" />
 	</Mesh>
 	
-	<Texture name="IF Texture" />
+	<Texture name="SWITCH Texture" />
 	
 	<Icon>
 		<Position x="0.0" y="0.0" z="0.0" />
@@ -30,7 +32,7 @@
 	</Colliders>
 	
 	<BasePoint hasAddingPoint="false">
-		<Stickiness enabled="true" radius="0.2" />
+		<Stickiness enabled="true" radius="0.05" />
 		<Motion x="false" y="false" z="false" />
 	</BasePoint>
 	
