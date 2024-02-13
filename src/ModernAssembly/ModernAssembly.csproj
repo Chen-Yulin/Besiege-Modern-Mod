@@ -64,6 +64,7 @@
     <Compile Include="InputPin.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="ModController.cs" />
+    <Compile Include="Mux.cs" />
     <Compile Include="OutputPin.cs" />
     <Compile Include="Pin.cs" />
     <Compile Include="PinFollower.cs" />

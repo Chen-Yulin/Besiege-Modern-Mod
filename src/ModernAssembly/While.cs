@@ -25,7 +25,7 @@ namespace Modern
         {
             name = "While Unit";
             InputNum = 2;
-            OutputNum = 2;
+            OutputNum = 3; // 0 for result, 1 for loop condition, 2 for loop body
             ControlNum = 1;
             InitInputPorts();
             InitOutputPorts();
@@ -36,76 +36,35 @@ namespace Modern
         {
             name = "While Unit";
             Controls[0].Type = Data.DataType.Bool;
-            Inputs[1].usePulse = true;
-            Controls[0].usePulse = true;
-            Outputs[1].usePulse = true;
         }
 
-        public override void UpdateUnit()
+        public override void UpdateUnit(Port Caller)
         {
-            if ((Controls[0].MyData.Type == Data.DataType.Null && Inputs[0].MyData.Type != Data.DataType.Null) && !inloop) // start state
+            if (Caller.Index == 0 && !Caller.AsControl)
             {
-                Debug.Log("Enter starting state");
-                inloop = true;
-                Outputs[1].MyData = Inputs[0].MyData; // will write data to control 0 and input 1
+                Debug.Log("Initial input");
+                Outputs[1].MyData = Inputs[0].MyData; // judge the condition
+                Debug.Log("initial condition" + Controls[0].MyData.Bool);
+                Outputs[2].MyData = Inputs[0].MyData; // generate value of this loop
             }
-            else if (inloop) // loop state
+            else if (Caller.Index == 1 && !Caller.AsControl)
             {
-                Debug.Log("Entering loop");
-                if (Controls[0].pulsed && Inputs[1].pulsed) // when both control 0 and input 1 are updated
+                Debug.Log("loop value changed, condition" + Controls[0].MyData.Bool);
+                if (DataTrue(Controls[0].MyData))
                 {
-                    Controls[0].pulsed = false;
-                    Inputs[1].pulsed = false;
-                    Debug.Log("Looping");
-                    if (DataTrue(Controls[0].MyData))
-                    {
-                        Debug.Log("Loop true");
-                        Debug.Log("Updating output 1");
-                        Outputs[1].MyData = Inputs[1].MyData;
-                        Debug.Log("Finish updating output 1");
-                    }
-                    else
-                    {
-                        if (Controls[0].Type == Data.DataType.Null)
-                        {
-                            Debug.Log("Loop null");
-                        }
-                        else
-                        {
-                            Debug.Log("Loop false");
-                        }
-                        inloop = false;
-                        Outputs[0].MyData = Outputs[1].MyData;
-                        Outputs[1].MyData = new Data();
-                        Debug.Log("exit loop");
-                    }
+                    Outputs[1].MyData = Inputs[1].MyData; // judge the condition
+                    Outputs[2].MyData = Inputs[1].MyData; // generate value of this loop
                 }
                 else
                 {
-                    Debug.Log("But not all port updated, waiting");
+                    Outputs[0].MyData = Inputs[1].MyData;
                 }
             }
         }
-        /*
         public override void UnitSimulateFixedUpdateHost()
         {
-            if ((Controls[0].MyData.Type  == Data.DataType.Null && Inputs[0].MyData.Type != Data.DataType.Null) ||
-                DataTrue(Controls[0].MyData))
-            {
-                if (Inputs[1].MyData.Type == Data.DataType.Null)
-                {
-                    Outputs[1].MyData = Inputs[0].MyData;
-                }
-                else
-                {
-                    Outputs[1].MyData = Inputs[1].MyData;
-                }
-            }
-            else if (DataFalse(Controls[0].MyData))
-            {
-                Outputs[0].MyData = new Data(Outputs[1].MyData);
-                Outputs[1].MyData = new Data();
-            }
-        }*/
+            //UpdateUnit(Inputs[0]);
+        }
+
     }
 }

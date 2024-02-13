@@ -119,9 +119,11 @@ namespace Modern
             }
             set
             {
-                if (usePulse)
+
+                if (_data.Equal(value))
                 {
-                    pulsed = true;
+                    //Debug.Log("same data");
+                    return;
                 }
 
                 if (Type != Data.DataType.Any && value.Type != Type)
@@ -147,7 +149,7 @@ namespace Modern
                     StackLimiter.stackCnt++;
                     if (StackLimiter.Capable)
                     {
-                        parentUnit.UpdateUnit();
+                        parentUnit.UpdateUnit(this);
                     }
                     else
                     {

@@ -192,6 +192,13 @@ namespace Modern
             InitControlPorts();
         }
 
+        public override void SimulateUpdateHost()
+        {
+            if (connectionInited)
+            {
+                UnitSimulateUpdateHost();
+            }
+        }
         public override void SimulateFixedUpdateHost()
         {
             if (MotherBoard)
@@ -229,7 +236,11 @@ namespace Modern
         {
             return;
         }
-        public virtual void UpdateUnit()
+        public virtual void UnitSimulateUpdateHost()
+        {
+            return;
+        }
+        public virtual void UpdateUnit(Port Caller)
         {
             return;
         }

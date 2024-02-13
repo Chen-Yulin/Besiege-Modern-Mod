@@ -6,6 +6,8 @@
 	<Name>MUX</Name>
 	
 	<Mass>0.1</Mass>
+
+	<Script>Modern.Mux</Script>
 	
 	<Mesh name="Ladder Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
@@ -13,7 +15,7 @@
 		<Scale x="1.0" y="1.0" z="-1.0" />
 	</Mesh>
 	
-	<Texture name="IF Texture" />
+	<Texture name="MUX Texture" />
 	
 	<Icon>
 		<Position x="0.0" y="0.0" z="0.0" />

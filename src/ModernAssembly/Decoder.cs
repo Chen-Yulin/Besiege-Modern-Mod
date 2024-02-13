@@ -33,7 +33,7 @@ namespace Modern
         {
             name = "Decoder Unit";
         }
-        public override void UpdateUnit()
+        public override void UpdateUnit(Port Caller)
         {
             if (CheckInputs())
             {

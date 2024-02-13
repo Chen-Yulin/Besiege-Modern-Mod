@@ -148,7 +148,7 @@ namespace Modern
 
         public override void UnitSimulateFixedUpdateHost()
         {
-            if (initCount == 1)
+            if (initCount == 0)
             {
                 initCount++;
                 switch (TypeMenu.Value)
@@ -171,10 +171,6 @@ namespace Modern
                     default:
                         break;
                 }
-            }
-            else if (initCount == 0) 
-            {
-                initCount++;
             }
         }
     }
