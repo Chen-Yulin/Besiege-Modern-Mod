@@ -12,7 +12,7 @@ namespace Modern
         public MToggle DefaultOn;
 
         public Transform Vis;
-
+        private int initCount = 0;
         private bool on = false;
 
         public bool On{
@@ -59,17 +59,23 @@ namespace Modern
             name = "Switch Unit";
             Outputs[0].Type = Data.DataType.Bool;
             On = !DefaultOn.isDefaultValue;
-            Outputs[0].MyData = new Data(On);
         }
 
         public override void UnitSimulateUpdateHost()
         {
-            if (SwitchKey.IsPressed)
+            if (initCount == 1)
             {
-                On = !On;
+                if (SwitchKey.IsPressed)
+                {
+                    On = !On;
+                }
                 Outputs[0].MyData = new Data(On);
             }
-            
+            else if (initCount == 0)
+            {
+                initCount++;
+            }
+
         }
 
     }
