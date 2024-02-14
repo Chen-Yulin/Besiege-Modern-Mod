@@ -136,6 +136,7 @@ namespace Modern
     {
         public MText CircuitText;
         public MToggle CreateWire;
+        public MToggle UndoWire;
 
         public bool Spotted;
 
@@ -220,8 +221,6 @@ namespace Modern
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
             Connections.Push(new Connection(p1, p2));
-            CircuitText.SetValue(CircuitText.Value + ";"+ p1.ToString() + "-" + p2.ToString());
-            bb.OnSave(new XDataHolder());
 
             GameObject WireObject = new GameObject("Circuit Wire");
             WireObject.transform.parent = transform;
@@ -241,10 +240,22 @@ namespace Modern
             {
                 currentWire.SetJointPosition(currentWire.connection.joint1, pos);
                 Connections.Peek().joint2 = pos;
-                CircuitText.Value = Tool.RemoveLastLine(CircuitText.Value);
-                CircuitText.SetValue(CircuitText.Value + ";" + currentWire.connection.joint1.ToString() + "-" + pos.ToString());
-                bb.OnSave(new XDataHolder());
             }
+        }
+
+        public void SaveTextFromConnection()
+        {
+            string data = "";
+            bb.OnSave(new XDataHolder());
+            foreach (var connection in Connections)
+            {
+                Vector2 p1 = connection.joint1;
+                Vector2 p2 = connection.joint2;
+                data += ";" + p1.ToString() + "-" + p2.ToString();
+            }
+            Debug.Log(data);
+            CircuitText.SetValue(data);
+            bb.OnSave(new XDataHolder());
         }
 
         public void LoadWire()
@@ -342,6 +353,7 @@ namespace Modern
                         else if(Input.GetMouseButtonUp(0))
                         {
                             currentWire = null;
+                            SaveTextFromConnection();
                         }
 
                         break;
