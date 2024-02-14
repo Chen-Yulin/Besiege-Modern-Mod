@@ -61,10 +61,6 @@ namespace Modern
                 }
             }
         }
-        public override void UnitSimulateFixedUpdateHost()
-        {
-            //UpdateUnit(Inputs[0]);
-        }
 
     }
 }
