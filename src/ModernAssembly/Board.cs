@@ -137,6 +137,10 @@ namespace Modern
         public MText CircuitText;
         public MToggle CreateWire;
         public MToggle UndoWire;
+        public MToggle RedoWire;
+
+        private bool undoPressed;
+        private bool redoPressed;
 
         public bool Spotted;
 
@@ -150,6 +154,9 @@ namespace Modern
         public Stack<Connection> Connections = new Stack<Connection>();
 
         public List<BoardWire> wires = new List<BoardWire>();
+
+        public List<String> history = new List<String>();
+        public int currHistory = -1;
 
         private BoardWire currentWire;
 
@@ -172,6 +179,54 @@ namespace Modern
         }
 
         public bool mapperOpened = false;
+
+        public void LoadHistory()
+        {
+            if (history.Count > 0)
+            {
+                CircuitText.SetValue(history[currHistory]);
+                Connections.Clear();
+                foreach (var wire in wires)
+                {
+                    Destroy(wire.gameObject);
+                }
+                wires.Clear();
+                LoadWire();
+            }
+        }
+        public void AddHistory(string data)
+        {
+            if (currHistory < history.Count - 1)
+            {
+                history.RemoveRange(currHistory + 1, history.Count - currHistory - 1);
+            }
+            if (currHistory == history.Count - 1)
+            {
+                history.Add(data);
+                currHistory++;
+            }
+            else
+            {
+                Debug.Log("WTF");
+            }
+        }
+
+        public void UndoHistory()
+        {
+            if (currHistory > 0)
+            {
+                currHistory--;
+                LoadHistory();
+            }
+        }
+        public void RedoHistory()
+        {
+            if (currHistory < history.Count - 1)
+            {
+                currHistory++;
+                LoadHistory();
+            }
+        }
 
         public List<Port> FindConnectedPort(Vector2 coord)
         {
@@ -221,7 +276,6 @@ namespace Modern
         public BoardWire CreateConnection(Vector2 p1, Vector2 p2)
         {
             Connections.Push(new Connection(p1, p2));
-
             GameObject WireObject = new GameObject("Circuit Wire");
             WireObject.transform.parent = transform;
             WireObject.transform.localPosition = Vector3.zero;
@@ -253,9 +307,10 @@ namespace Modern
                 Vector2 p2 = connection.joint2;
                 data += ";" + p1.ToString() + "-" + p2.ToString();
             }
-            Debug.Log(data);
+            //Debug.Log(data);
             CircuitText.SetValue(data);
             bb.OnSave(new XDataHolder());
+            AddHistory(data);
         }
 
         public void LoadWire()
@@ -287,6 +342,24 @@ namespace Modern
             bb = GetComponent<BlockBehaviour>();
             CircuitText = AddText("Circuit Wire", "CW", "");
             CreateWire = AddToggle("Create Wire", "CreateToggle", false);
+            UndoWire = AddToggle("Undo Wire", "UndoWire",false);
+            RedoWire = AddToggle("Redo Wire", "RedoWire", false);
+            UndoWire.Toggled += (bool value) =>
+            {
+                if (value)
+                {
+                    undoPressed = true;
+                    //Debug.Log("Undo Pressed");
+                }
+            };
+            RedoWire.Toggled += (bool value) =>
+            {
+                if (value)
+                {
+                    redoPressed = true;
+                    //Debug.Log("Redo Pressed");
+                }
+            };
         }
 
         public override void OnBlockPlaced()
@@ -308,11 +381,32 @@ namespace Modern
             }
 
             LoadWire();
+            AddHistory(CircuitText.Value);
 
         }
 
         public override void BuildingUpdate()
         {
+            try
+            {
+                if (undoPressed)
+                {
+                    undoPressed = false;
+                    UndoWire.SetValue(false);
+                    bb.OnSave(new XDataHolder());
+                    UndoWire.ApplyValue();
+                    UndoHistory();
+                }
+                if (redoPressed)
+                {
+                    redoPressed = false;
+                    RedoWire.SetValue(false);
+                    bb.OnSave(new XDataHolder());
+                    RedoWire.ApplyValue();
+                    RedoHistory();
+                }
+            }
+            catch { }
             try
             {
                 mapperOpened = BlockMapper.CurrentInstance.Block == bb;
@@ -337,25 +431,35 @@ namespace Modern
                         {
                             continue;
                         }
-                        Vector2 spotCoord = Tool.GetBoardCoordinate(hit.point, transform);
-                        JointGhost.transform.localPosition = new Vector3(spotCoord.x * 0.058f - 0.058f * 31f - 0.029f, spotCoord.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
-                        ShowJointGhost = true;
+                        Board b = null;
+                        try
+                        {
+                            b = hit.collider.transform.parent.parent.GetComponent<Board>();
+                        }
+                        catch
+                        {
+                        }
+                        if (b)
+                        {
+                            Vector2 spotCoord = Tool.GetBoardCoordinate(hit.point, transform);
+                            JointGhost.transform.localPosition = new Vector3(spotCoord.x * 0.058f - 0.058f * 31f - 0.029f, spotCoord.y * 0.058f - 0.058f * 31f - 0.029f, 0.09f);
+                            ShowJointGhost = true;
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            currentWire = CreateConnection(spotCoord, spotCoord);
-                        }
-                        else if (Input.GetMouseButton(0))
-                        {
-                            
-                            DragCurrentWireJoint(spotCoord);
-                        }
-                        else if(Input.GetMouseButtonUp(0))
-                        {
-                            currentWire = null;
-                            SaveTextFromConnection();
-                        }
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                currentWire = CreateConnection(spotCoord, spotCoord);
+                            }
+                            else if (Input.GetMouseButton(0))
+                            {
 
+                                DragCurrentWireJoint(spotCoord);
+                            }
+                            else if (Input.GetMouseButtonUp(0))
+                            {
+                                currentWire = null;
+                                SaveTextFromConnection();
+                            }
+                        }
                         break;
                     }
                 }
