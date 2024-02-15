@@ -40,6 +40,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="InputPin.xml" />
 		<Block path="OutputPin.xml" />
 		<Block path="Wire.xml" />
+		<Block path="Clock.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -102,6 +103,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="Wire Tail Texture" path="Wire/tail.png" />
 		<Texture name="Wire Texture" path="Wire/joint.png" />
 		<Texture name="SWITCH Texture" path="Unit/Switch.png" />
+		<Texture name="REG Texture" path="Unit/REG.png" />
+		<Texture name="CLOCK Texture" path="Unit/CLOCK.png" />
 	</Resources>
 
 
