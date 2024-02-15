@@ -16,7 +16,7 @@ namespace Modern
             name = "Reg Unit";
             InputNum = 1;
             OutputNum = 1;
-            ControlNum = 1;
+            ControlNum = 2;
             InitInputPorts();
             InitOutputPorts();
             InitControlPorts();
@@ -26,13 +26,17 @@ namespace Modern
         {
             name = "Reg Unit";
             Controls[0].Type = Data.DataType.Bool;
+            Controls[1].Type = Data.DataType.Bool;
         }
 
         public override void UpdateUnit(Port Caller)
         {
             if (Caller.Index == 0 && Caller.AsControl && DataTrue(Controls[0].MyData)) // poseEdge of control 0
             {
-                Outputs[0].MyData = Inputs[0].MyData;
+                if (DataTrue(Controls[1].MyData))
+                {
+                    Outputs[0].MyData = Inputs[0].MyData;
+                }
             }
         }
     }
