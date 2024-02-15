@@ -5,20 +5,11 @@ using System.Text;
 
 namespace Modern
 {
-    class PoseSensor : Sensor
+    public class RadarSensor : Sensor
     {
-        public MSlider Range;
         public override string GetName()
         {
-            return "Pose Sensor";
-        }
-
-        public override void SensorSafeAwake()
-        {
-        }
-        public override void SensorBuildUpdate()
-        {
-            base.SensorBuildUpdate();
+            return "Radar Sensor";
         }
         public override Data SensorGenerate()
         {
