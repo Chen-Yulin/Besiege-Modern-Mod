@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ALU.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Clock.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
