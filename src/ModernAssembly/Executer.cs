@@ -2,41 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using UnityEngine;
 
 namespace Modern
 {
-    public class Sensor : Unit
+    public class Executer : Unit
     {
         public MToggle OnBoard;
         public MText Channel;
 
-        private bool _onBoardChanged;
+        protected bool _onBoardChanged;
 
         public bool onboard;
 
-        public void UpdateOutput()
+        public void UpdateInput()
         {
             if (OnBoard.isDefaultValue)
             {
-                OutputNum = 0;
+                InputNum = 0;
                 int j = 0;
-                foreach (var port in Outputs)
+                foreach (var port in Inputs)
                 {
                     Destroy(port.gameObject);
                     j++;
                 }
-                Outputs.Clear();
+                Inputs.Clear();
             }
             else
             {
-                foreach (var port in Outputs)
+                foreach (var port in Inputs)
                 {
                     Destroy(port.gameObject);
                 }
-                Outputs.Clear();
-                OutputNum = 1;
-                InitOutputPorts();
+                Inputs.Clear();
+                InputNum = 1;
+                InitInputPorts();
             }
         }
         public void UpdateMapper()
@@ -48,21 +49,24 @@ namespace Modern
         {
             Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             OnBoard = AddToggle("On Board", "OnBoard", "On Board", false);
-            Channel = AddText("Send Channel", "Channel", "");
+            Channel = AddText("Receive Channel", "Channel", "");
             OnBoard.Toggled += (bool value) =>
             {
                 _onBoardChanged = true;
             };
 
             // left for customization
-            SensorSafeAwake();
+            ExecuterSafeAwake();
         }
 
         public override void OnBlockPlaced()
         {
-            name = GetName();
-            InputNum = 0;
+            if (GetName()!=null)
+            {
+                name = GetName();
+            }
             ControlNum = 0;
+            OutputNum = 0;
         }
 
         public override void BuildingUpdate()
@@ -70,23 +74,23 @@ namespace Modern
             if (_onBoardChanged)
             {
                 _onBoardChanged = false;
-                UpdateOutput();
+                UpdateInput();
                 UpdateMapper();
             }
 
             // left for customization
-            SensorBuildUpdate();
+            ExecuterBuildUpdate();
         }
 
         public override void OnSimulateStart()
         {
             name = GetName();
-            UpdateOutput();
-            
+            UpdateInput();
+
             onboard = !OnBoard.isDefaultValue;
             if (!onboard)
             {
-                SensorSimulateStart();
+                ExecuterSimulateStart();
             }
         }
 
@@ -101,9 +105,7 @@ namespace Modern
                         connectionInited = true;
                         PortsFindConnection();
                     }
-                    SensorSimulateFixedUpdate();
-                    Data res = SensorGenerate();
-                    Outputs[0].MyData = res;
+                    ExecuterSimulateFixedUpdate();
                 }
                 if (frameCnt < 2)
                 {
@@ -118,17 +120,13 @@ namespace Modern
                         AddAllPortsToBoard();
 
                         // left for customization
-                        SensorSimulateStart();
+                        ExecuterSimulateStart();
                     }
                 }
             }
             else
             {
-                SensorSimulateFixedUpdate();
-                if (Channel.Value != "")
-                {
-                    WirelessManager.Instance.PassData(Channel.Value, SensorGenerate());
-                }
+                ExecuterSimulateFixedUpdate();
             }
         }
         public override void SimulateUpdateHost()
@@ -137,51 +135,56 @@ namespace Modern
             {
                 if (MotherBoard)
                 {
-                    SensorSimulateUpdate();
+                    ExecuterSimulateUpdate();
                 }
             }
             else
             {
-                SensorSimulateUpdate();
+                ExecuterSimulateUpdate();
             }
         }
         public override void OnSimulateStop()
         {
             WirelessManager.Instance.UnregisterChannel(Channel.Value);
-            SensorSimulateStop();
+            ExecuterSimulateStop();
         }
+
+        public override void UpdateUnit(Port Caller)
+        {
+            ExecuterUpdateOuput(Caller);
+        }
+
         public virtual string GetName()
         {
-            return "Sensor";
+            return "Executer";
         }
-        public virtual void SensorBuildUpdate()
+        public virtual void ExecuterBuildUpdate()
         {
             return;
         }
-        public virtual void SensorSimulateFixedUpdate()
+        public virtual void ExecuterSimulateFixedUpdate()
         {
             return;
         }
-        public virtual void SensorSimulateUpdate()
-        {
-            
-        }
-        public virtual void SensorSimulateStart()
+        public virtual void ExecuterSimulateUpdate()
         {
 
         }
-        public virtual void SensorSimulateStop()
+        public virtual void ExecuterSimulateStart()
         {
 
         }
-        public virtual void SensorSafeAwake()
+        public virtual void ExecuterSimulateStop()
+        {
+
+        }
+        public virtual void ExecuterSafeAwake()
         {
             return;
         }
-        public virtual Data SensorGenerate()
+        public virtual void ExecuterUpdateOuput(Port Caller)
         {
-            Data data = new Data();
-            return data;
+            return;
         }
     }
 }
