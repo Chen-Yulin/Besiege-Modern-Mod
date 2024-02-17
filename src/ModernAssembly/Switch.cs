@@ -6,13 +6,12 @@ using UnityEngine;
 
 namespace Modern
 {
-    public class Switch : Unit
+    public class Switch : Sensor
     {
         public MKey SwitchKey;
         public MToggle DefaultOn;
 
         public Transform Vis;
-        private int initCount = 0;
         private bool on = false;
 
         public bool On{
@@ -39,43 +38,41 @@ namespace Modern
             }
         }
 
-        public override void SafeAwake()
+        public override string GetName()
         {
-            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
+            return "Switch";
+        }
+
+        public override void SensorSafeAwake()
+        {
             SwitchKey = AddKey("Switch Key", "Switch Key", KeyCode.T);
             DefaultOn = AddToggle("Default On", "Default On", false);
         }
-        public override void OnBlockPlaced()
-        {
-            name = "Switch Unit";
-            InputNum = 0;
-            ControlNum = 0;
-            OutputNum = 1;
-            InitOutputPorts();
-        }
 
-        public override void OnUnitSimulateStart()
+        public override void SensorSimulateStart()
         {
-            name = "Switch Unit";
-            Outputs[0].Type = Data.DataType.Bool;
             On = !DefaultOn.isDefaultValue;
         }
 
-        public override void UnitSimulateUpdateHost()
+        public override Data SensorGenerate()
         {
-            if (initCount == 1)
+            return new Data(On);
+        }
+
+        public override void SensorSimulateFixedUpdate()
+        {
+            if (SwitchKey.EmulationPressed())
             {
-                if (SwitchKey.IsPressed)
-                {
-                    On = !On;
-                }
-                Outputs[0].MyData = new Data(On);
-            }
-            else if (initCount == 0)
-            {
-                initCount++;
+                On = !On;
             }
 
+        }
+        public override void SensorSimulateUpdate()
+        {
+            if (SwitchKey.IsPressed)
+            {
+                On = !On;
+            }
         }
 
     }

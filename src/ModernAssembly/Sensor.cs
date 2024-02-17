@@ -137,7 +137,20 @@ namespace Modern
                     WirelessManager.Instance.PassData(Channel.Value, SensorGenerate());
                 }
             }
-            
+        }
+        public override void SimulateUpdateHost()
+        {
+            if (onboard)
+            {
+                if (MotherBoard)
+                {
+                    SensorSimulateUpdate();
+                }
+            }
+            else
+            {
+                SensorSimulateUpdate();
+            }
         }
         public override void OnSimulateStop()
         {
@@ -155,6 +168,10 @@ namespace Modern
         public virtual void SensorSimulateFixedUpdate()
         {
             return;
+        }
+        public virtual void SensorSimulateUpdate()
+        {
+            
         }
         public virtual void SensorSimulateStart()
         {
