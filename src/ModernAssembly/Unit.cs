@@ -244,7 +244,10 @@ namespace Modern
         {
             return;
         }
-        
+        public virtual void WirelessReceiveData(Data data)
+        {
+            return;
+        }
         public string DebugString()
         {
             string res = "";

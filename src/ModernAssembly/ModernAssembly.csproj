@@ -50,16 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ALU.cs" />
+    <Compile Include="AttachedExecuter.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
     <Compile Include="Decoder.cs" />
     <Compile Include="Encoder.cs" />
+    <Compile Include="Executer.cs" />
     <Compile Include="Follower.cs" />
     <Compile Include="For.cs" />
     <Compile Include="GPS.cs" />
+    <Compile Include="HingeDriver.cs" />
     <Compile Include="If.cs" />
     <Compile Include="IMU.cs" />
     <Compile Include="InputPin.cs" />

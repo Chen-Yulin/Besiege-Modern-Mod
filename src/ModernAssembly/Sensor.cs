@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using UnityEngine;
 
 namespace Modern
@@ -9,11 +10,14 @@ namespace Modern
     public class Sensor : Unit
     {
         public MToggle OnBoard;
-        public MText Channel;
+        public MText OuputChannel;
+        public MText InputChannel;
 
         private bool _onBoardChanged;
 
         public bool onboard;
+
+        public virtual bool needPara() { return false; }
 
         public void UpdateOutput()
         {
@@ -39,23 +43,48 @@ namespace Modern
                 InitOutputPorts();
             }
         }
-        public void UpdateMapper()
+        public void UpdateInput()
         {
             if (OnBoard.isDefaultValue)
             {
-                Channel.DisplayInMapper = true;
+                InputNum = 0;
+                int j = 0;
+                foreach (var port in Inputs)
+                {
+                    Destroy(port.gameObject);
+                    j++;
+                }
+                Inputs.Clear();
             }
             else
             {
-                Channel.DisplayInMapper = false;
+                foreach (var port in Inputs)
+                {
+                    Destroy(port.gameObject);
+                }
+                Inputs.Clear();
+                InputNum = 1;
+                InitInputPorts();
             }
+        }
+        public void UpdateMapper()
+        {
+            if (needPara())
+            {
+                InputChannel.DisplayInMapper = OnBoard.isDefaultValue;
+            }
+            OuputChannel.DisplayInMapper = OnBoard.isDefaultValue;
         }
 
         public override void SafeAwake()
         {
             Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             OnBoard = AddToggle("On Board", "OnBoard", "On Board", false);
-            Channel = AddText("Channel", "Channel", "");
+            if (needPara())
+            {
+                InputChannel = AddText("Parameter Channel", "P Channel", "");
+            }
+            OuputChannel = AddText("Send Channel", "Channel", "");
             OnBoard.Toggled += (bool value) =>
             {
                 _onBoardChanged = true;
@@ -77,6 +106,10 @@ namespace Modern
             if (_onBoardChanged)
             {
                 _onBoardChanged = false;
+                if (needPara())
+                {
+                    UpdateInput();
+                }
                 UpdateOutput();
                 UpdateMapper();
             }
@@ -88,11 +121,16 @@ namespace Modern
         public override void OnSimulateStart()
         {
             name = GetName();
+            if (needPara())
+            {
+                UpdateInput();
+            }
             UpdateOutput();
             
             onboard = !OnBoard.isDefaultValue;
             if (!onboard)
             {
+                WirelessManager.Instance.RegisterUnit(InputChannel.Value, this);
                 SensorSimulateStart();
             }
         }
@@ -132,9 +170,9 @@ namespace Modern
             else
             {
                 SensorSimulateFixedUpdate();
-                if (Channel.Value != "")
+                if (OuputChannel.Value != "")
                 {
-                    WirelessManager.Instance.PassData(Channel.Value, SensorGenerate());
+                    WirelessManager.Instance.PassData(OuputChannel.Value, SensorGenerate());
                 }
             }
         }
@@ -154,8 +192,28 @@ namespace Modern
         }
         public override void OnSimulateStop()
         {
-            WirelessManager.Instance.UnregisterChannel(Channel.Value);
             SensorSimulateStop();
+            if (!onboard)
+            {
+                WirelessManager.Instance.UnregisterChannel(InputChannel.Value);
+            }
+        }
+        public override void UpdateUnit(Port Caller)
+        {
+            SensorUpdatePara();
+        }
+        public override void WirelessReceiveData(Data data)
+        {
+            WirelessSensorUpdatePara(data);
+        }
+
+        public virtual void SensorUpdatePara()
+        {
+            return;
+        }
+        public virtual void WirelessSensorUpdatePara(Data data)
+        {
+            return;
         }
         public virtual string GetName()
         {
