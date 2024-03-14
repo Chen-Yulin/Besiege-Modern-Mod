@@ -210,6 +210,10 @@ namespace Modern
                 }
                 UnitSimulateFixedUpdateHost();
             }
+            else if (frameCnt > 2)
+            {
+                UnboardUnitSimulateFixedUpdateHost();
+            }
             if (frameCnt < 2)
             {
                 frameCnt++;
@@ -233,6 +237,10 @@ namespace Modern
             return;
         }
         public virtual void UnitSimulateFixedUpdateHost()
+        {
+            return;
+        }
+        public virtual void UnboardUnitSimulateFixedUpdateHost()
         {
             return;
         }

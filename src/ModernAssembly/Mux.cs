@@ -96,7 +96,7 @@ namespace Modern
         {
             if (Controls[0].MyData.Type == Data.DataType.Null)
             {
-                Outputs[0].MyData = new Data();
+                Outputs[0].MyData = Inputs[0].MyData;
             }
             else
             {
