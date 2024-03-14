@@ -58,6 +58,7 @@
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
     <Compile Include="Decoder.cs" />
+    <Compile Include="Driver.cs" />
     <Compile Include="Encoder.cs" />
     <Compile Include="Executer.cs" />
     <Compile Include="Follower.cs" />
