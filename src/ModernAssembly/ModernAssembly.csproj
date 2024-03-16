@@ -57,9 +57,10 @@
     <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
-    <Compile Include="Decoder.cs" />
+    <Compile Include="Memory.cs" />
+    <Compile Include="Unpacker.cs" />
     <Compile Include="Driver.cs" />
-    <Compile Include="Encoder.cs" />
+    <Compile Include="Packer.cs" />
     <Compile Include="Executer.cs" />
     <Compile Include="Follower.cs" />
     <Compile Include="For.cs" />
