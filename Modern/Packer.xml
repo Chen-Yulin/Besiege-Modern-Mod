@@ -3,11 +3,11 @@
 	
 	<ID>6</ID>
 	
-	<Name>ENCODER</Name>
+	<Name>PACKER</Name>
 	
 	<Mass>0.1</Mass>
 
-	<Script>Modern.Encoder</Script>
+	<Script>Modern.Packer</Script>
 	
 	<Mesh name="Triangle Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
@@ -15,7 +15,7 @@
 		<Scale x="1.0" y="1.0" z="-1.0" />
 	</Mesh>
 	
-	<Texture name="ENCODER Texture" />
+	<Texture name="PACKER Texture" />
 	
 	<Icon>
 		<Position x="0.0" y="0.0" z="0.0" />

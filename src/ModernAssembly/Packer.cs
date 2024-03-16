@@ -12,7 +12,7 @@ using Modding.Blocks;
 
 namespace Modern
 {
-    class Encoder : Unit
+    class Packer : Unit
     {
         public override void SafeAwake()
         {
@@ -20,7 +20,7 @@ namespace Modern
         }
         public override void OnBlockPlaced()
         {
-            name = "Encoder Unit";
+            name = "Packer Unit";
             InputNum = 4;
             OutputNum = 1;
             ControlNum = 0;
@@ -31,7 +31,7 @@ namespace Modern
 
         public override void OnUnitSimulateStart()
         {
-            name = "Encoder Unit";
+            name = "Packer Unit";
         }
 
         public override void UpdateUnit(Port Caller)
