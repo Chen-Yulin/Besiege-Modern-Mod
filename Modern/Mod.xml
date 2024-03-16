@@ -27,8 +27,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="ALU.xml" />
 		<Block path="While.xml" />
 		<Block path="For.xml" />
-		<Block path="Encoder.xml" />
-		<Block path="Decoder.xml" />
+		<Block path="Packer.xml" />
+		<Block path="Unpacker.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
 		<Block path="Switch.xml" />
@@ -93,8 +93,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
 		<Texture name="CONST Texture" path="Unit/CONST.png" />
 		<Texture name="POSE Texture" path="Unit/Pose.png" />
-		<Texture name="ENCODER Texture" path="Unit/Encoder.png" />
-		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
+		<Texture name="PACKER Texture" path="Unit/Packer.png" />
+		<Texture name="UNPACKER Texture" path="Unit/Unpacker.png" />
 		<Texture name="RF Texture" path="Unit/RF.png" />
 		<Texture name="GPS Texture" path="Unit/GPS.png" />
 		<Texture name="IMU Texture" path="Unit/IMU.png" />
