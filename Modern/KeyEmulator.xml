@@ -1,0 +1,61 @@
+<Block>
+	<!-- Block definition file.
+		 Optional elements are mostly out-commented.
+		 Remember to insert appropriate values where specified,
+		 the mod will not load correctly until you do.
+		 Restart the game to load the block once this file is completed.
+		 
+		 Values that should always be changed are marked with "TODO".
+		 
+		 See the documentation for further information on any of these elements.
+	-->
+	
+	<!-- Optional. Enables debug mode.
+		 In debug mode, colliders and adding points are shown visually
+		 to assist in positioning them correctly.
+		 (Capsule colliders are shown as cubes, imagine their edges were rounded off.) -->
+	<Debug>True</Debug>
+	
+	<!-- ID of your block. See "Note on IDs" in Mod.xml.
+		 The ID must be unique among blocks in your mod.
+		 It may conflict with blocks of other mods, the mod loader handles this.
+		 The easiest way of assigning IDs is to use 1, 2, 3, etc.-->
+	<ID>22</ID>
+	
+	<!-- Name of the block, shown in the user interface. -->
+	<Name>KeyEmulator</Name>
+	
+	<Mass>0.1</Mass>
+
+	<Script>Modern.KeyEmulator</Script>
+	
+	<Mesh name="Square Mesh">
+		<Position x="0.0" y="0.0" z="0.05" />
+		<Rotation x="0.0" y="90.0" z="90.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Mesh>
+	
+	<Texture name="KeyEmulator Texture" />
+	
+	<Icon>
+		<Position x="0.0" y="0.0" z="0.0" />
+		<Rotation x="-90.0" y="0.0" z="0.0" />
+		<Scale x="1.0" y="1.0" z="-1.0" />
+	</Icon>
+	
+	<Colliders>
+		<BoxCollider>
+			<Position x="0.0" y="0.0" z="0.1" />
+			<Rotation x="0.0" y="0.0" z="0.0" />
+			<Scale x="0.3" y="0.3" z="0.1" />
+		</BoxCollider>
+	</Colliders>
+	
+	<BasePoint hasAddingPoint="false">
+		<Stickiness enabled="true" radius="0.05" />
+		<Motion x="false" y="false" z="false" />
+	</BasePoint>
+	
+	<AddingPoints>
+	</AddingPoints>
+</Block>

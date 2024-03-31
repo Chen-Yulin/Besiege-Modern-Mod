@@ -57,6 +57,7 @@
     <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
+    <Compile Include="KeyEmulator.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="Unpacker.cs" />
     <Compile Include="Driver.cs" />
