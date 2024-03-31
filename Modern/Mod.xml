@@ -44,6 +44,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="Clock.xml" />
 		<Block path="Radar.xml" />
 		<Block path="Memory.xml" />
+		<Block path="KeyEmulator.xml" />
 	</Blocks>
 	
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -114,6 +115,7 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="MEMORY Texture" path="Unit/MEMORY.png" />
 		<Texture name="CLOCK Texture" path="Unit/CLOCK.png" />
 		<Texture name="Radar Texture" path="Radar/Radar.png" />
+		<Texture name="KeyEmulator Texture" path="Unit/KEY.png" />
 	</Resources>
 
 
