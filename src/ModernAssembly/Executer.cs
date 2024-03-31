@@ -90,6 +90,7 @@ namespace Modern
             onboard = !OnBoard.isDefaultValue;
             if (!onboard)
             {
+                WirelessManager.Instance.RegisterUnit(Channel.Value, this);
                 ExecuterSimulateStart();
             }
         }
@@ -153,6 +154,10 @@ namespace Modern
         {
             ExecuterUpdateOuput(Caller);
         }
+        public override void WirelessReceiveData(Data data)
+        {
+            ExecuterWirelessReceiveData(data);
+        }
 
         public virtual string GetName()
         {
@@ -185,6 +190,10 @@ namespace Modern
         public virtual void ExecuterUpdateOuput(Port Caller)
         {
             return;
+        }
+        public virtual void ExecuterWirelessReceiveData(Data data)
+        {
+
         }
     }
 }
