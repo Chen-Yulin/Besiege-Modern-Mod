@@ -3,12 +3,13 @@
 	<Author>Chen Yulin</Author> <!-- FIX: Insert your name here. -->
 	<!-- Major.Minor.Build -->
 	<Version>0.0.1</Version>
+	<Icon name="icon"/>
 	
 	<Description>
 Add some modern electronic technology to Besiege. v0.0.1
 	</Description>
 
-	<Debug>true</Debug>
+	<Debug>false</Debug>
 	
 	<MultiplayerCompatible>true</MultiplayerCompatible>
 	
@@ -69,6 +70,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 	</Keys>
 	
 	<Resources>
+		<Texture name="icon" path="icon.png"/>
+
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
 		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
