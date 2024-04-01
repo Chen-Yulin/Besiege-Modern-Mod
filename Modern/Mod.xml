@@ -2,11 +2,11 @@
 	<Name>Modern</Name>
 	<Author>Chen Yulin</Author> <!-- FIX: Insert your name here. -->
 	<!-- Major.Minor.Build -->
-	<Version>0.0.1</Version>
+	<Version>0.0.2</Version>
 	<Icon name="icon"/>
 	
 	<Description>
-Add some modern electronic technology to Besiege. v0.0.1
+Add key emulator, v0.0.2
 	</Description>
 
 	<Debug>false</Debug>
