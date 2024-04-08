@@ -17,6 +17,7 @@ namespace Modern
             myMod.AddComponent<WirelessManager>();
             myMod.AddComponent<DebugProbe>();
             myMod.AddComponent<StackLimiter>();
+            myMod.AddComponent<CustomBlockController>();
         }
 	}
 }

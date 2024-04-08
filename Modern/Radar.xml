@@ -1,33 +1,34 @@
 <Block>
-	<Debug>false</Debug>
-	
-	<ID>2</ID>
-	
-	<Name>IF</Name>
-	
-	<Mass>0.1</Mass>
 
-	<Script>Modern.If</Script>
+	<Debug>false</Debug>
+
+	<ID>20</ID>
+
+	<Name>Radar</Name>
+
+	<Mass>0.1</Mass>
 	
-	<Mesh name="Ladder Mesh">
+	<Script>Modern.RadarSensor</Script>
+	
+	<Mesh name="Radar Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
 		<Rotation x="0.0" y="90.0" z="90.0" />
 		<Scale x="1.0" y="1.0" z="-1.0" />
 	</Mesh>
 	
-	<Texture name="IF Texture" />
+	<Texture name="Radar Texture" />
 	
 	<Icon>
 		<Position x="0.0" y="0.0" z="0.0" />
 		<Rotation x="-90.0" y="0.0" z="0.0" />
-		<Scale x="1.0" y="1.0" z="-1.0" />
+		<Scale x="1.0" y="1.0" z="1.0" />
 	</Icon>
 	
 	<Colliders>
 		<BoxCollider>
-			<Position x="0.0" y="0.0" z="0.1" />
+			<Position x="0.0" y="0.0" z="0.2" />
 			<Rotation x="0.0" y="0.0" z="0.0" />
-			<Scale x="0.3" y="0.3" z="0.1" />
+			<Scale x="0.4" y="0.4" z="0.1" />
 		</BoxCollider>
 	</Colliders>
 	

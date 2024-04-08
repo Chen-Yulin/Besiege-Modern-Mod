@@ -1,21 +1,21 @@
 <Block>
 	<Debug>false</Debug>
 	
-	<ID>2</ID>
+	<ID>6</ID>
 	
-	<Name>IF</Name>
+	<Name>PACKER</Name>
 	
 	<Mass>0.1</Mass>
 
-	<Script>Modern.If</Script>
+	<Script>Modern.Packer</Script>
 	
-	<Mesh name="Ladder Mesh">
+	<Mesh name="Triangle Mesh">
 		<Position x="0.0" y="0.0" z="0.05" />
 		<Rotation x="0.0" y="90.0" z="90.0" />
 		<Scale x="1.0" y="1.0" z="-1.0" />
 	</Mesh>
 	
-	<Texture name="IF Texture" />
+	<Texture name="PACKER Texture" />
 	
 	<Icon>
 		<Position x="0.0" y="0.0" z="0.0" />

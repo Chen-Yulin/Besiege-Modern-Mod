@@ -2,22 +2,23 @@
 	<Name>Modern</Name>
 	<Author>Chen Yulin</Author> <!-- FIX: Insert your name here. -->
 	<!-- Major.Minor.Build -->
-	<Version>0.0.1</Version>
-	
+	<Version>0.0.3</Version>
+	<Icon name="icon"/>
+
 	<Description>
-Add some modern electronic technology to Besiege. v0.0.1
+Add button feature for switch, v0.0.3
 	</Description>
 
-	<Debug>true</Debug>
-	
+	<Debug>false</Debug>
+
 	<MultiplayerCompatible>true</MultiplayerCompatible>
-	
+
 	<Assemblies>
 		<!-- <Assembly path="SomeAssembly.dll" /> -->
 		<!-- <ScriptAssembly path="SomeAssembly/" /> -->
 		<Assembly path="ModernAssembly.dll" />
 	</Assemblies>
-	
+
 	<!-- Any blocks your mod adds to the game.
 		 The path attribute is relative to the location of this file. -->
 	<Blocks>
@@ -27,8 +28,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="ALU.xml" />
 		<Block path="While.xml" />
 		<Block path="For.xml" />
-		<Block path="Encoder.xml" />
-		<Block path="Decoder.xml" />
+		<Block path="Packer.xml" />
+		<Block path="Unpacker.xml" />
 		<Block path="Register.xml" />
 		<Block path="Mux.xml" />
 		<Block path="Switch.xml" />
@@ -41,32 +42,37 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Block path="OutputPin.xml" />
 		<Block path="Wire.xml" />
 		<Block path="Clock.xml" />
+		<Block path="Radar.xml" />
+		<Block path="Memory.xml" />
+		<Block path="KeyEmulator.xml" />
 	</Blocks>
-	
+
 	<!-- Any entities (level objects) your mod adds to the game.
 		 The path attribute is relative to the location of this file. -->
 	<Entities>
 		<!-- <Entity path="SomeEntity.xml" /> -->
 	</Entities>
-	
+
 	<!-- Any logic trigger types your mod adds to the game. -->
 	<!-- See the ModTriggers class for info on how to activate your triggers. -->
 	<Triggers>
-		
+
 	</Triggers>
-	
+
 	<!-- Any logic event types your mod adds to the game. -->
 	<!-- See the ModEvents class for info on how to handle your events being activated. -->
 	<Events>
-	
+
 	</Events>
-	
+
 	<!-- Access these keys using the ModKeys class. -->
 	<Keys>
-		
+
 	</Keys>
-	
+
 	<Resources>
+		<Texture name="icon" path="icon.png"/>
+
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
 		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
@@ -81,6 +87,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Mesh name="Wire Joint Mesh" path="Wire/joint.obj" />
 		<Mesh name="Wire Mesh" path="Wire/wire.obj" />
 		<Mesh name="Switch Mesh" path="Unit/switch.obj" />
+		<Mesh name="Radar Mesh" path="Radar/Radar.obj" />
+		<Mesh name="Cube Mesh" path="Cube.obj" />
 
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
@@ -90,8 +98,8 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="WHILE Texture" path="Unit/WHILE.png" />
 		<Texture name="CONST Texture" path="Unit/CONST.png" />
 		<Texture name="POSE Texture" path="Unit/Pose.png" />
-		<Texture name="ENCODER Texture" path="Unit/Encoder.png" />
-		<Texture name="DECODER Texture" path="Unit/Decoder.png" />
+		<Texture name="PACKER Texture" path="Unit/Packer.png" />
+		<Texture name="UNPACKER Texture" path="Unit/Unpacker.png" />
 		<Texture name="RF Texture" path="Unit/RF.png" />
 		<Texture name="GPS Texture" path="Unit/GPS.png" />
 		<Texture name="IMU Texture" path="Unit/IMU.png" />
@@ -104,7 +112,10 @@ Add some modern electronic technology to Besiege. v0.0.1
 		<Texture name="Wire Texture" path="Wire/joint.png" />
 		<Texture name="SWITCH Texture" path="Unit/Switch.png" />
 		<Texture name="REG Texture" path="Unit/REG.png" />
+		<Texture name="MEMORY Texture" path="Unit/MEMORY.png" />
 		<Texture name="CLOCK Texture" path="Unit/CLOCK.png" />
+		<Texture name="Radar Texture" path="Radar/Radar.png" />
+		<Texture name="KeyEmulator Texture" path="Unit/KEY.png" />
 	</Resources>
 
 

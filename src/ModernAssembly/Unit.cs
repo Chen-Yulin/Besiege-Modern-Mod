@@ -210,6 +210,10 @@ namespace Modern
                 }
                 UnitSimulateFixedUpdateHost();
             }
+            else if (frameCnt > 2)
+            {
+                UnboardUnitSimulateFixedUpdateHost();
+            }
             if (frameCnt < 2)
             {
                 frameCnt++;
@@ -236,6 +240,10 @@ namespace Modern
         {
             return;
         }
+        public virtual void UnboardUnitSimulateFixedUpdateHost()
+        {
+            return;
+        }
         public virtual void UnitSimulateUpdateHost()
         {
             return;
@@ -244,7 +252,10 @@ namespace Modern
         {
             return;
         }
-        
+        public virtual void WirelessReceiveData(Data data)
+        {
+            return;
+        }
         public string DebugString()
         {
             string res = "";

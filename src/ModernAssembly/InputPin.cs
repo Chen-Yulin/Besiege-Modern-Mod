@@ -15,6 +15,8 @@ namespace Modern
 
         public LineRenderer SrcLine;
 
+        public Driver driver;
+
         public void InitSrcLine()
         {
             try
@@ -57,6 +59,29 @@ namespace Modern
         public override void OnUnitSimulateStart()
         {
             name = "Input Pin";
+        }
+
+        public override void UnboardUnitSimulateFixedUpdateHost()
+        {
+            if (!driver)
+            {
+                foreach (var joint in GetComponent<BlockBehaviour>().iJointTo)
+                {
+                    if (joint.connectedBody)
+                    {
+                        driver = joint.connectedBody.gameObject.GetComponent<Driver>();
+                        if (driver)
+                        {
+                            Debug.Log("Driver found");
+                        }
+                        
+                    }
+                }
+            }
+            if (driver)
+            {
+                driver.DriverGetData(Outputs[0].MyData);
+            }
         }
 
         public override void SimulateLateUpdateAlways()

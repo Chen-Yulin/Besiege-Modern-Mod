@@ -6,10 +6,13 @@ using UnityEngine;
 
 namespace Modern
 {
-    public class Switch : Unit
+    public class Switch : Sensor
     {
         public MKey SwitchKey;
         public MToggle DefaultOn;
+        public MToggle AutoReturn;
+
+        public bool useEmulate = false;
 
         public Transform Vis;
 
@@ -39,37 +42,74 @@ namespace Modern
             }
         }
 
-        public override void SafeAwake()
+        public override string GetName()
         {
-            Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
-            SwitchKey = AddKey("Switch Key", "Switch Key", KeyCode.T);
-            DefaultOn = AddToggle("Default On", "Default On", false);
-        }
-        public override void OnBlockPlaced()
-        {
-            name = "Switch Unit";
-            InputNum = 0;
-            ControlNum = 0;
-            OutputNum = 1;
-            InitOutputPorts();
+            return "Switch";
         }
 
-        public override void OnUnitSimulateStart()
+        public override void SensorSafeAwake()
         {
-            name = "Switch Unit";
-            Outputs[0].Type = Data.DataType.Bool;
+            SwitchKey = AddKey("Switch Key", "Switch Key", KeyCode.T);
+            DefaultOn = AddToggle("Default On", "Default On", false);
+            AutoReturn = AddToggle("Auto Reset", "Auto Reset", false);
+        }
+
+        public override void SensorSimulateStart()
+        {
             On = !DefaultOn.isDefaultValue;
             Outputs[0].MyData = new Data(On);
         }
 
-        public override void UnitSimulateUpdateHost()
+        public override Data SensorGenerate()
         {
-            if (SwitchKey.IsPressed)
+            return new Data(On);
+        }
+
+        public override void SensorSimulateFixedUpdate()
+        {
+            if (AutoReturn.isDefaultValue)
             {
-                On = !On;
-                Outputs[0].MyData = new Data(On);
+                if (SwitchKey.EmulationPressed())
+                {
+                    On = !On;
+                }
+            }
+            else
+            {
+                if (SwitchKey.EmulationHeld())
+                {
+                    On = true;
+                    useEmulate = true;
+                }
+                else if (useEmulate)
+                {
+                    On = false;
+                }
             }
             
+
+        }
+        public override void SensorSimulateUpdate()
+        {
+            if (AutoReturn.isDefaultValue)
+            {
+                if (SwitchKey.IsPressed)
+                {
+                    On = !On;
+                }
+            }
+            else
+            {
+                if (SwitchKey.IsHeld)
+                {
+                    On = true;
+                    useEmulate = false;
+                }
+                else if (!useEmulate)
+                {
+                    On = false;
+                }
+            }
         }
 
     }
