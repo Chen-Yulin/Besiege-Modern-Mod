@@ -15,6 +15,7 @@ namespace Modern
         public bool useEmulate = false;
 
         public Transform Vis;
+
         private bool on = false;
 
         public bool On{
@@ -56,6 +57,7 @@ namespace Modern
         public override void SensorSimulateStart()
         {
             On = !DefaultOn.isDefaultValue;
+            Outputs[0].MyData = new Data(On);
         }
 
         public override Data SensorGenerate()
