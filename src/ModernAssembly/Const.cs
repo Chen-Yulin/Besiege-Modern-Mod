@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Modern
 {
-    public class Const : Unit
+    public class Const : Sensor
     {
         List<string> DataTypeString = new List<string> {
               "Bool",
@@ -24,8 +24,6 @@ namespace Modern
         public MSlider[] QuaternionSelection = new MSlider[4];
 
         public bool TypeChanged = false;
-
-        private int initCount = 0;
 
         public void TypeChangeHandler()
         {
@@ -101,7 +99,7 @@ namespace Modern
             }
         }
 
-        public override void SafeAwake()
+        public override void SensorSafeAwake()
         {
             Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
             TypeMenu = AddMenu("Type", 0, DataTypeString);
@@ -121,18 +119,13 @@ namespace Modern
             QuaternionSelection[2] = AddSlider("Quaternion Z", "Quaternion_Z", 0, float.MinValue, float.MaxValue);
             QuaternionSelection[3] = AddSlider("Quaternion W", "Quaternion_W", 0, float.MinValue, float.MaxValue);
         }
-        public override void OnBlockPlaced()
+
+        public override string GetName()
         {
-            name = "Const Unit";
-            InputNum = 0;
-            ControlNum = 0;
-            OutputNum = 1;
-            InitInputPorts();
-            InitOutputPorts();
-            InitControlPorts();
+            return "Const Unit";
         }
 
-        public override void BuildingUpdate()
+        public override void SensorBuildUpdate()
         {
             if (TypeChanged)
             {
@@ -140,37 +133,29 @@ namespace Modern
             }
         }
 
-        public override void OnUnitSimulateStart()
+        public override void SensorSimulateStart()
         {
-            name = "Const Unit";
             Outputs[0].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), TypeMenu.Selection);
         }
 
-        public override void UnitSimulateFixedUpdateHost()
+
+        public override Data SensorGenerate()
         {
-            if (initCount == 0)
+            switch (TypeMenu.Value)
             {
-                initCount++;
-                switch (TypeMenu.Value)
-                {
-                    case 0:
-                        Outputs[0].MyData = new Data(BoolSelection.Value == 1);
-                        break;
-                    case 1:
-                        Outputs[0].MyData = new Data(FloatSelection.Value);
-                        break;
-                    case 2:
-                        Outputs[0].MyData = new Data(new Vector2(Vector2Selection[0].Value, Vector2Selection[1].Value));
-                        break;
-                    case 3:
-                        Outputs[0].MyData = new Data(new Vector3(Vector3Selection[0].Value, Vector3Selection[1].Value, Vector3Selection[2].Value));
-                        break;
-                    case 4:
-                        Outputs[0].MyData = new Data(new Quaternion(QuaternionSelection[0].Value, QuaternionSelection[1].Value, QuaternionSelection[2].Value, QuaternionSelection[3].Value));
-                        break;
-                    default:
-                        break;
-                }
+                case 0:
+                    return new Data(BoolSelection.Value == 1);
+                case 1:
+                    return new Data(FloatSelection.Value);
+                case 2:
+                    return new Data(new Vector2(Vector2Selection[0].Value, Vector2Selection[1].Value));
+                case 3:
+                    return new Data(new Vector3(Vector3Selection[0].Value, Vector3Selection[1].Value, Vector3Selection[2].Value));
+                case 4:
+                    return new Data(new Quaternion(QuaternionSelection[0].Value, QuaternionSelection[1].Value, QuaternionSelection[2].Value, QuaternionSelection[3].Value));
+                default:
+                    return new Data();
+
             }
         }
     }
