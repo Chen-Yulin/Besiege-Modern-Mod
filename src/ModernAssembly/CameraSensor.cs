@@ -8,20 +8,39 @@ namespace Modern
 {
     public class CameraSensor:Sensor
     {
-        public MSlider FOV;
-        public Beam beam;
+        public MSlider FOVSlider;
 
-        public MSlider Power;
+        public Camera cam;
 
-        public float power = 1;
+        public MSlider Width;
+        public MSlider Height;
 
-        public void AdjustBeam(float dist)
+        public RenderTexture rt;
+
+        private float fov;
+        public float Fov
         {
-            beam.transform.localScale = new Vector3(1 / transform.lossyScale.x / Mathf.Sqrt(dist), 1 / transform.lossyScale.y / Mathf.Sqrt(dist), dist / transform.lossyScale.z) * power;
+            get { return fov; }
+            set 
+            { 
+                fov = value;
+                if (cam)
+                {
+                    cam.fieldOfView = value;
+                }
+            }
+        }
+        private Texture2D RenderTextureToTexture2D(RenderTexture texture)
+        {
+            RenderTexture RT = RenderTexture.active;
+            RenderTexture.active = texture;
+            Texture2D texture2D = new Texture2D(texture.width, texture.height);
+            texture2D.ReadPixels(new Rect(0, 0, texture2D.width, texture2D.height), 0, 0);
+            return texture2D;
         }
         public override string GetName()
         {
-            return "Radar Sensor";
+            return "Camera Sensor";
         }
         public override bool needPara()
         {
@@ -29,24 +48,18 @@ namespace Modern
         }
         public override void SensorSafeAwake()
         {
-            Power = AddSlider("Power", "Power", 10, 1, 1000);
-            Power.ValueChanged += (float value) =>
-            {
-                power = value;
-            };
+            Width = AddSlider("Horizontal resolution", "Width", 1920, 320, 2560);
+            Height = AddSlider("Vertical resolution", "Height", 1080, 180, 1440);
+            FOVSlider = AddSlider("Default FOV", "FOV", 60, 10, 120);
         }
 
 
         public override void SensorSimulateStart()
         {
-            GameObject BeamObject = new GameObject("Beam");
-            BeamObject.transform.parent = transform;
-            BeamObject.transform.localPosition = Vector3.zero;
-            BeamObject.transform.localRotation = Quaternion.identity;
-            BeamObject.transform.localScale = new Vector3(power / transform.lossyScale.x, power / transform.lossyScale.y, power / transform.lossyScale.z);
-            beam = BeamObject.AddComponent<Beam>();
-
-
+            cam = gameObject.AddComponent<Camera>();
+            rt = new RenderTexture((int)Width.Value, (int)Height.Value, 16, RenderTextureFormat.ARGB32);
+            cam.targetTexture = rt;
+            Fov = FOVSlider.Value;
             if (onboard)
             {
                 Inputs[0].Type = Data.DataType.Float;
@@ -54,49 +67,23 @@ namespace Modern
         }
         public override Data SensorGenerate()
         {
-            List<BlockBehaviour> targetList = beam.scannedColliders.Keys.ToList();
-            List<BlockBehaviour> sampleList = targetList.Where((x, i) => i % 5 == 0).ToList();
-            if (sampleList.Count > 0)
-            {
-                try
-                {
-                    M_Package pkg = new M_Package(new Data(true), new Data(sampleList[0].transform.position), new Data(sampleList[0].Rigidbody.velocity), new Data());
-                    return new Data(pkg);
-                }
-                catch
-                {
-                    M_Package pkg = new M_Package(new Data(false), new Data(), new Data(), new Data());
-                    return new Data(pkg);
-                }
-
-            }
-            else
-            {
-                M_Package pkg = new M_Package(new Data(false), new Data(), new Data(), new Data());
-                return new Data(pkg);
-            }
+            return new Data(RenderTextureToTexture2D(rt));
 
         }
 
         public override void SensorUpdatePara()
         {
-            float dist = power;
             if (Inputs[0].MyData.Type != Data.DataType.Null)
             {
-                dist = Inputs[0].MyData.Flt;
+                Fov = Inputs[0].MyData.Flt;
             }
-
-            AdjustBeam(dist);
         }
         public override void WirelessSensorUpdatePara(Data data)
         {
-            float dist = power;
             if (data.Type != Data.DataType.Null)
             {
-                dist = data.Flt;
+                Fov = data.Flt;
             }
-
-            AdjustBeam(dist);
         }
     }
 }
