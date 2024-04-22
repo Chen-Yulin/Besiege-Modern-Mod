@@ -374,7 +374,7 @@ namespace Modern
             if (!CheckInputs())
             {
                 Outputs[0].MyData = new Data();
-                return;
+                return; 
             }
             if (InputNum == 1)
             {

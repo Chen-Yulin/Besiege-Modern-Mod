@@ -208,7 +208,7 @@ namespace Modern
                     connectionInited = true;
                     PortsFindConnection();
                 }
-                UnitSimulateFixedUpdateHost();
+                UnitSimulateFixedUpdateHost();// one frame ahead of sensors
             }
             else if (frameCnt > 2)
             {

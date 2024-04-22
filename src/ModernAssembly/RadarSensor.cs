@@ -138,6 +138,8 @@ namespace Modern
     {
         public Beam beam;
 
+        public MSlider Power;
+
         public float power = 1;
 
         public void AdjustBeam(float dist)
@@ -152,6 +154,16 @@ namespace Modern
         {
             return true;
         }
+        public override void SensorSafeAwake()
+        {
+            Power = AddSlider("Power", "Power", 10, 1, 1000);
+            Power.ValueChanged += (float value) =>
+            {
+                power = value;
+            };
+        }
+
+
         public override void SensorSimulateStart()
         {
             GameObject BeamObject = new GameObject("Beam");

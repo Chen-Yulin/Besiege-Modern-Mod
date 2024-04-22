@@ -54,6 +54,8 @@ namespace Modern
 
         public Transform buildTailTarget = null;
 
+        public bool firstFrame = false;
+
 
         public void UpdateWireCurve()
         {
@@ -270,48 +272,7 @@ namespace Modern
             Destroy(GetComponentInChildren<BoxCollider>());
             GetComponent<Rigidbody>().useGravity = false;
 
-            //find the output pin connected to tail
-            RaycastHit[] hits = Tool.SphereCastSorted(TailPosition, 0.02f);
-            foreach (var hit in hits)
-            {
-                if (hit.collider.name != "Adding Point")
-                {
-                    continue;
-                }
-                try
-                {
-                    SrcPin = hit.collider.transform.parent.GetComponent<OutputPin>();
-                    if (SrcPin)
-                    {
-                        Tail.transform.SetParent(SrcPin.transform);
-                        //Debug.Log("Output found");
-                        break;
-                    }
-                }
-                catch { }
-            }
-
-            hits = Tool.SphereCastSorted(transform.position, 0.02f);
-            foreach (var hit in hits)
-            {
-                if (hit.collider.name != "Adding Point")
-                {
-                    continue;
-                }
-                try
-                {
-                    DistPin = hit.collider.transform.parent.GetComponent<InputPin>();
-                    if (DistPin)
-                    {
-                        Head.transform.SetParent(DistPin.transform);
-                        SrcPin.DstPins.Add(DistPin);
-                        DistPin.SrcPin = SrcPin;
-                        break;
-                    }
-                }
-                catch { }
-            }
-
+            
         }
 
         public override void SimulateLateUpdateAlways()
@@ -321,6 +282,51 @@ namespace Modern
 
         public override void SimulateFixedUpdateHost()
         {
+            if (!firstFrame)
+            {
+                firstFrame = true;//find the output pin connected to tail
+                RaycastHit[] hits = Tool.SphereCastSorted(TailPosition, 0.02f);
+                foreach (var hit in hits)
+                {
+                    if (hit.collider.name != "Adding Point")
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        SrcPin = hit.collider.transform.parent.GetComponent<OutputPin>();
+                        if (SrcPin)
+                        {
+                            Tail.transform.SetParent(SrcPin.transform);
+                            //Debug.Log("Output found");
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+
+                hits = Tool.SphereCastSorted(transform.position, 0.02f);
+                foreach (var hit in hits)
+                {
+                    if (hit.collider.name != "Adding Point")
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        DistPin = hit.collider.transform.parent.GetComponent<InputPin>();
+                        if (DistPin)
+                        {
+                            Head.transform.SetParent(DistPin.transform);
+                            SrcPin.DstPins.Add(DistPin);
+                            DistPin.SrcPin = SrcPin;
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+
+            }
         }
 
     }
