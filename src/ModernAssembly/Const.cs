@@ -114,10 +114,10 @@ namespace Modern
             Vector3Selection[0] = AddSlider("Vector3 X", "Vector3_X", 0, float.MinValue, float.MaxValue);
             Vector3Selection[1] = AddSlider("Vector3 Y", "Vector3_Y", 0, float.MinValue, float.MaxValue);
             Vector3Selection[2] = AddSlider("Vector3 Z", "Vector3_Z", 0, float.MinValue, float.MaxValue);
+            QuaternionSelection[3] = AddSlider("Quaternion W", "Quaternion_W", 0, float.MinValue, float.MaxValue);
             QuaternionSelection[0] = AddSlider("Quaternion X", "Quaternion_X", 0, float.MinValue, float.MaxValue);
             QuaternionSelection[1] = AddSlider("Quaternion Y", "Quaternion_Y", 0, float.MinValue, float.MaxValue);
             QuaternionSelection[2] = AddSlider("Quaternion Z", "Quaternion_Z", 0, float.MinValue, float.MaxValue);
-            QuaternionSelection[3] = AddSlider("Quaternion W", "Quaternion_W", 0, float.MinValue, float.MaxValue);
         }
 
         public override string GetName()
