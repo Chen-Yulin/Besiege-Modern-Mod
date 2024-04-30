@@ -45,6 +45,8 @@ Add button feature for switch, v0.0.3
 		<Block path="Radar.xml" />
 		<Block path="Memory.xml" />
 		<Block path="KeyEmulator.xml" />
+		<Block path="Camera.xml" />
+		<Block path="Converter.xml" />
 	</Blocks>
 
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -77,6 +79,7 @@ Add button feature for switch, v0.0.3
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
 		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
+		<Mesh name="Camera Mesh" path="Unit/camera.obj" />
 		<Mesh name="Board Mesh" path="Board/board.obj" />
 		<Mesh name="Board Joint Mesh" path="Board/joint.obj" />
 		<Mesh name="Board Wire Mesh" path="Board/wire.obj" />
@@ -103,6 +106,7 @@ Add button feature for switch, v0.0.3
 		<Texture name="RF Texture" path="Unit/RF.png" />
 		<Texture name="GPS Texture" path="Unit/GPS.png" />
 		<Texture name="IMU Texture" path="Unit/IMU.png" />
+		<Texture name="CAMERA Texture" path="Unit/CAMERA.png" />
 		<Texture name="Board Texture" path="Board/board.png" />
 		<Texture name="Board Wire Texture" path="Board/wire.png" />
 		<Texture name="InputPin Texture" path="Unit/InputPin.png" />
@@ -114,6 +118,7 @@ Add button feature for switch, v0.0.3
 		<Texture name="REG Texture" path="Unit/REG.png" />
 		<Texture name="MEMORY Texture" path="Unit/MEMORY.png" />
 		<Texture name="CLOCK Texture" path="Unit/CLOCK.png" />
+		<Texture name="CONVERTER Texture" path="Unit/CONVERTER.png" />
 		<Texture name="Radar Texture" path="Radar/Radar.png" />
 		<Texture name="KeyEmulator Texture" path="Unit/KEY.png" />
 	</Resources>
