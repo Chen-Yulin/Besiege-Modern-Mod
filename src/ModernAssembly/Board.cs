@@ -124,7 +124,7 @@ namespace Modern
                 {
                     WireVis.SetActive(false);
                 }
-                
+
             }
 
         }
@@ -262,7 +262,7 @@ namespace Modern
                 }
                 else if (Vector2.Equals(coord, connection.joint2))
                 {
-                    nextWaypoint= connection.joint1;
+                    nextWaypoint = connection.joint1;
                 }
                 else
                 {
@@ -287,7 +287,7 @@ namespace Modern
             wires.Add(wire);
             return wire;
         }
-        
+
         public void DragCurrentWireJoint(Vector2 pos)
         {
             if (currentWire)
@@ -342,7 +342,7 @@ namespace Modern
             bb = GetComponent<BlockBehaviour>();
             CircuitText = AddText("Circuit Wire", "CW", "");
             CreateWire = AddToggle("Create Wire", "CreateToggle", false);
-            UndoWire = AddToggle("Undo Wire", "UndoWire",false);
+            UndoWire = AddToggle("Undo Wire", "UndoWire", false);
             RedoWire = AddToggle("Redo Wire", "RedoWire", false);
             UndoWire.Toggled += (bool value) =>
             {
@@ -369,7 +369,7 @@ namespace Modern
                 JointGhost = new GameObject("Circuit Joint Ghost");
                 JointGhost.transform.parent = transform;
                 JointGhost.transform.localPosition = Vector3.zero;
-                JointGhost.transform.localRotation = Quaternion.Euler(-90,0,0);
+                JointGhost.transform.localRotation = Quaternion.Euler(-90, 0, 0);
                 JointGhost.transform.localScale = new Vector3(0.3f, 1, 0.3f);
                 JointGhost.AddComponent<MeshFilter>().mesh = ModResource.GetMesh("Board Joint Mesh").Mesh;
                 JointGhost.AddComponent<MeshRenderer>().material.mainTexture = ModResource.GetTexture("Board Wire Texture").Texture;
@@ -411,7 +411,8 @@ namespace Modern
             {
                 mapperOpened = BlockMapper.CurrentInstance.Block == bb;
             }
-            catch {
+            catch
+            {
                 if (mapperOpened)
                 {
                     CreateWire.SetValue(false);

@@ -138,6 +138,7 @@ namespace Modern
             Outputs[0].Type = (Data.DataType)Enum.Parse(typeof(Data.DataType), TypeMenu.Selection);
         }
 
+
         public override Data SensorGenerate()
         {
             switch (TypeMenu.Value)
@@ -154,6 +155,7 @@ namespace Modern
                     return new Data(new Quaternion(QuaternionSelection[0].Value, QuaternionSelection[1].Value, QuaternionSelection[2].Value, QuaternionSelection[3].Value));
                 default:
                     return new Data();
+
             }
         }
     }
