@@ -26,6 +26,7 @@ namespace Modern
             Vector3,
             Quaternion,
             Icon,
+            Image,
             Package,
             Any // only for port
         }
@@ -37,6 +38,7 @@ namespace Modern
         public Vector3 Vec3;
         public Quaternion Quat;
         public M_Icon Icon;
+        public Texture2D Img;
         public M_Package Package;
 
         public Data(string str)
@@ -73,6 +75,11 @@ namespace Modern
         {
             Type = DataType.Icon;
             this.Icon = icon;
+        }
+        public Data(Texture2D img)
+        {
+            Type = DataType.Image;
+            this.Img = img;
         }
         public Data(M_Package package)
         {
@@ -113,6 +120,8 @@ namespace Modern
                     return Quat == d.Quat;
                 case DataType.Icon:
                     return Icon == d.Icon;
+                case DataType.Image:
+                    return Img == d.Img;
                 case DataType.Package:
                     return Package == d.Package;
                 default:
@@ -179,6 +188,8 @@ namespace Modern
                     return Quat;
                 case DataType.Icon:
                     return Icon;
+                case DataType.Image:
+                    return Img;
                 case DataType.Package:
                     return Package;
                 default:

@@ -21,7 +21,7 @@ namespace Modern
 
         public void UpdateOutput()
         {
-            if (OnBoard.isDefaultValue)
+            if (!OnBoard.isDefaultValue)
             {
                 OutputNum = 0;
                 int j = 0;
@@ -45,7 +45,7 @@ namespace Modern
         }
         public void UpdateInput()
         {
-            if (OnBoard.isDefaultValue)
+            if (!OnBoard.isDefaultValue)
             {
                 InputNum = 0;
                 int j = 0;
@@ -71,15 +71,15 @@ namespace Modern
         {
             if (needPara())
             {
-                InputChannel.DisplayInMapper = OnBoard.isDefaultValue;
+                InputChannel.DisplayInMapper = !OnBoard.isDefaultValue;
             }
-            OuputChannel.DisplayInMapper = OnBoard.isDefaultValue;
+            OuputChannel.DisplayInMapper = !OnBoard.isDefaultValue;
         }
 
         public override void SafeAwake()
         {
             Tool.SetOccluder(transform, new Vector3(0.7f, 0.7f, 1));
-            OnBoard = AddToggle("On Board", "OnBoard", "On Board", false);
+            OnBoard = AddToggle("On Board", "OnBoard", "On Board", true);
             if (needPara())
             {
                 InputChannel = AddText("Parameter Channel", "P Channel", "");
@@ -127,7 +127,7 @@ namespace Modern
             }
             UpdateOutput();
             
-            onboard = !OnBoard.isDefaultValue;
+            onboard = OnBoard.isDefaultValue;
             if (!onboard)
             {
                 WirelessManager.Instance.RegisterUnit(InputChannel.Value, this);
@@ -146,9 +146,12 @@ namespace Modern
                         connectionInited = true;
                         PortsFindConnection();
                     }
-                    SensorSimulateFixedUpdate();
-                    Data res = SensorGenerate();
-                    Outputs[0].MyData = res;
+                    else
+                    {
+                        SensorSimulateFixedUpdate();
+                        Data res = SensorGenerate();
+                        Outputs[0].MyData = res;
+                    }
                 }
                 if (frameCnt < 2)
                 {

@@ -52,8 +52,10 @@
     <Compile Include="ALU.cs" />
     <Compile Include="AttachedExecuter.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="CameraSensor.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
