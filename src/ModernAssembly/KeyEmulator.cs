@@ -68,7 +68,7 @@ namespace Modern
 
         public override void ExecuterWirelessReceiveData(Data data)
         {
-            Debug.Log("data received");
+            //Debug.Log("data received");
             if (data.Type == Data.DataType.Bool)
             {
                 if (data.Bool)

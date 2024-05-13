@@ -67,7 +67,14 @@ namespace Modern
             {
                 if (DataTrue(Controls[1].MyData))
                 {
-                    Outputs[0].MyData = Inputs[0].MyData;
+                    if (Inputs[0].MyData.Type == Data.DataType.Image)
+                    {
+                        Outputs[0].MyData = Inputs[0].MyData;
+                    }
+                    else
+                    {
+                        Outputs[0].MyData = Inputs[0].MyData;
+                    }
                 }
             }
         }

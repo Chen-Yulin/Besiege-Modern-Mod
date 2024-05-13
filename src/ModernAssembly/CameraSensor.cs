@@ -17,6 +17,8 @@ namespace Modern
 
         public RenderTexture rt;
 
+        public Texture2D tex;
+
         private float fov;
         public float Fov
         {
@@ -30,13 +32,9 @@ namespace Modern
                 }
             }
         }
-        private Texture2D RenderTextureToTexture2D(RenderTexture texture)
+        private void RenderTextureToTexture2D(RenderTexture texture, Texture2D dst)
         {
-            RenderTexture RT = RenderTexture.active;
-            RenderTexture.active = texture;
-            Texture2D texture2D = new Texture2D(texture.width, texture.height);
-            texture2D.ReadPixels(new Rect(0, 0, texture2D.width, texture2D.height), 0, 0);
-            return texture2D;
+            Graphics.CopyTexture(texture, dst);
         }
         public override string GetName()
         {
@@ -56,19 +54,25 @@ namespace Modern
 
         public override void SensorSimulateStart()
         {
-            cam = gameObject.AddComponent<Camera>();
+            GameObject camObject = new GameObject("Camera");
+            camObject.transform.SetParent(transform);
+            camObject.transform.localPosition = new Vector3(0, 0, 0.3f);
+            camObject.transform.localRotation = Quaternion.identity;
+            cam = camObject.AddComponent<Camera>();
             rt = new RenderTexture((int)Width.Value, (int)Height.Value, 16, RenderTextureFormat.ARGB32);
             cam.targetTexture = rt;
+            cam.farClipPlane = 8000f;
             Fov = FOVSlider.Value;
             if (onboard)
             {
                 Inputs[0].Type = Data.DataType.Float;
             }
+            tex = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
         }
         public override Data SensorGenerate()
         {
-            return new Data(RenderTextureToTexture2D(rt));
-
+            RenderTextureToTexture2D(rt, tex);
+            return new Data(tex);
         }
 
         public override void SensorUpdatePara()

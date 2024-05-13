@@ -61,6 +61,7 @@
     <Compile Include="DebugProbe.cs" />
     <Compile Include="KeyEmulator.cs" />
     <Compile Include="Memory.cs" />
+    <Compile Include="ScreenUnit.cs" />
     <Compile Include="Unpacker.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="Packer.cs" />
