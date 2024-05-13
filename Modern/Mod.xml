@@ -47,6 +47,7 @@ Add button feature for switch, v0.0.3
 		<Block path="Memory.xml" />
 		<Block path="KeyEmulator.xml" />
 		<Block path="Camera.xml" />
+		<Block path="Screen.xml" />
 	</Blocks>
 
 	<!-- Any entities (level objects) your mod adds to the game.
@@ -77,6 +78,7 @@ Add button feature for switch, v0.0.3
 
 		<Mesh name="Ladder Mesh" path="Unit/ladder.obj" />
 		<Mesh name="Square Mesh" path="Unit/square.obj" />
+		<Mesh name="Screen Mesh" path="Unit/screen.obj" />
 		<Mesh name="Triangle Mesh" path="Unit/triangle.obj" />
 		<Mesh name="Port Mesh" path="Unit/port.obj" />
 		<Mesh name="Camera Mesh" path="Unit/camera.obj" />
@@ -92,6 +94,7 @@ Add button feature for switch, v0.0.3
 		<Mesh name="Switch Mesh" path="Unit/switch.obj" />
 		<Mesh name="Radar Mesh" path="Radar/Radar.obj" />
 		<Mesh name="Cube Mesh" path="Cube.obj" />
+		<Mesh name="Plane Mesh" path="Plane.obj" />
 
 		<Texture name="Port Texture" path="Unit/port.png" />
 		<Texture name="ALU Texture" path="Unit/ALU.png" />
@@ -121,6 +124,7 @@ Add button feature for switch, v0.0.3
 		<Texture name="CONVERTER Texture" path="Unit/CONVERTER.png" />
 		<Texture name="Radar Texture" path="Radar/Radar.png" />
 		<Texture name="KeyEmulator Texture" path="Unit/KEY.png" />
+		<Texture name="SCREEN Texture" path="Unit/Screen.png" />
 	</Resources>
 
 
