@@ -86,7 +86,7 @@ namespace Modern
 
         public override void SimulateLateUpdateAlways()
         {
-            if (SrcPin && SrcPin.DstPins.Contains(this) && SrcLine)
+            if (SrcPin && SrcPin.DstPins.Contains(this) && SrcLine && DebugProbe.Instance.Enabled)
             {
                 SrcLine.enabled = true;
                 SrcLine.SetPosition(3, transform.position);

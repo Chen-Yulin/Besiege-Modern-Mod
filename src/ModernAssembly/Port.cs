@@ -111,6 +111,8 @@ namespace Modern
 
         public bool usePulse = false;
 
+        public uint TempTexID;
+
         public Data MyData
         {
             get
@@ -134,6 +136,7 @@ namespace Modern
                 {
                     _data = value;
                 }
+                
                 if (IO) // output
                 {
                     foreach (var port in _distPorts)
@@ -156,7 +159,6 @@ namespace Modern
                         Debug.Log("Stack limit reached");
                     }
                 }
-                
             }
         }
 
@@ -177,6 +179,7 @@ namespace Modern
                 InitPortVis(index, totalPort);
                 name = (IO ? "Output" : (AsControl ? "Control" : "Input")) + " Port " + index.ToString();
             }
+            TempTexID = TempTextureManager.Instance.RegisterID();
             //InitPortTrigger();
         }
 
@@ -298,7 +301,7 @@ namespace Modern
 
         public void LateUpdate()
         {
-            if (SrcPort && SrcPort._distPorts.Contains(this) && SrcLine)
+            if (SrcPort && SrcPort._distPorts.Contains(this) && SrcLine && DebugProbe.Instance.Enabled)
             {
                 SrcLine.enabled = true;
                 SrcLine.SetPosition(3, transform.position);

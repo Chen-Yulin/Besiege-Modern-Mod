@@ -67,14 +67,10 @@ namespace Modern
             {
                 if (DataTrue(Controls[1].MyData))
                 {
-                    if (Inputs[0].MyData.Type == Data.DataType.Image)
-                    {
-                        Outputs[0].MyData = Inputs[0].MyData;
-                    }
-                    else
-                    {
-                        Outputs[0].MyData = Inputs[0].MyData;
-                    }
+                    Data tmp = new Data();
+                    tmp.TempTexID = Outputs[0].TempTexID;
+                    tmp.DeepCopy(Inputs[0].MyData);
+                    Outputs[0].MyData = tmp;
                 }
             }
         }

@@ -69,6 +69,10 @@ namespace Modern
             }
             tex = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
         }
+        public override void SensorSimulateStop()
+        {
+            Destroy(tex);
+        }
         public override Data SensorGenerate()
         {
             RenderTextureToTexture2D(rt, tex);

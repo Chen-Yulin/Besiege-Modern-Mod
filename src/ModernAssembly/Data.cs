@@ -11,11 +11,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Modding.Blocks;
 using mattmc3.dotmore.Extensions;
+using System.Security.Cryptography;
 
 namespace Modern
 {
     public class Data
     {
+        public uint TempTexID = 0;
         public enum DataType
         {
             Null,
@@ -38,7 +40,19 @@ namespace Modern
         public Vector3 Vec3;
         public Quaternion Quat;
         public M_Icon Icon;
-        public Texture2D Img;
+
+        public Texture2D img;
+        public Texture2D Img
+        {
+            get
+            {
+                return TempTextureManager.Instance.GetTexture(TempTexID);
+            }
+            set
+            {
+                TempTextureManager.Instance.GetTextureCopy(value, TempTexID);
+            }
+        }
         public M_Package Package;
 
         public Data(string str)
@@ -121,7 +135,7 @@ namespace Modern
                 case DataType.Icon:
                     return Icon == d.Icon;
                 case DataType.Image:
-                    return Img == d.Img;
+                    return false;
                 case DataType.Package:
                     return Package == d.Package;
                 default:
@@ -154,6 +168,8 @@ namespace Modern
                     return "  ".Repeat(depth) + "<quat>\n" + "  ".Repeat(depth) + " ".Repeat(depth + 1) + Quat.ToString("F3");
                 case DataType.Icon:
                     return "  ".Repeat(depth) + "<icon>";
+                case DataType.Image:
+                    return "  ".Repeat(depth) + "<img>";
                 case DataType.Package:
                     string str = "  ".Repeat(depth) + "<package>\n";
                     int i = 0;
@@ -197,6 +213,28 @@ namespace Modern
             }
         }
 
+        public void DeepCopy(Data src)
+        {
+            Type = src.Type;
+            Str = src.Str;
+            Flt = src.Flt;
+            Bool = src.Bool;
+            Vec2 = src.Vec2;
+            Vec3 = src.Vec3;
+            Quat = src.Quat;
+            Icon = src.Icon;
+            if (src.Package != null)
+            {
+                Package = new M_Package();
+                Package.DeepCopy(src.Package);
+            }
+            
+            if (Type == DataType.Image)
+            {
+                Img = src.Img;
+            }
+        }
+
     }
 
     public class M_Icon
@@ -215,9 +253,21 @@ namespace Modern
     public class M_Package
     {
         public Data[] DataArr;
+        public M_Package()
+        {
+
+        }
         public M_Package(Data d0, Data d1, Data d2, Data d3)
         {
             DataArr = new Data[4]{ d0, d1, d2, d3 };
+        }
+
+        public void DeepCopy(M_Package src)
+        {
+            DataArr[0] = src.DataArr[0];
+            DataArr[1] = src.DataArr[1];
+            DataArr[2] = src.DataArr[2];
+            DataArr[3] = src.DataArr[3];
         }
     }
 }

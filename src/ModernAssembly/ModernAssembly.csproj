@@ -59,6 +59,7 @@
     <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
+    <Compile Include="TempTextureManager.cs" />
     <Compile Include="KeyEmulator.cs" />
     <Compile Include="Memory.cs" />
     <Compile Include="ScreenUnit.cs" />
