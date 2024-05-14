@@ -18,6 +18,7 @@ namespace Modern
             myMod.AddComponent<DebugProbe>();
             myMod.AddComponent<StackLimiter>();
             myMod.AddComponent<CustomBlockController>();
+            myMod.AddComponent<TempTextureManager>();
         }
 	}
 }

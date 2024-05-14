@@ -54,7 +54,7 @@ namespace Modern
                 else
                 {
                     beam.scannedColliders.Add(hitedBlock, 1);
-                    Debug.Log(hitedBlock.name + "Enter");
+                    //Debug.Log(hitedBlock.name + "Enter");
                 }
             }
             catch
@@ -80,7 +80,7 @@ namespace Modern
                     if (beam.scannedColliders[hitedBlock] == 0)
                     {
                         beam.scannedColliders.Remove(hitedBlock);
-                        Debug.Log(hitedBlock.name + "Exit");
+                        //Debug.Log(hitedBlock.name + "Exit");
                     }
                 }
             }
