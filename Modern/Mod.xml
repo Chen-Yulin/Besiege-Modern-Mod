@@ -2,11 +2,11 @@
 	<Name>Modern</Name>
 	<Author>Chen Yulin</Author> <!-- FIX: Insert your name here. -->
 	<!-- Major.Minor.Build -->
-	<Version>0.0.3</Version>
+	<Version>0.0.4</Version>
 	<Icon name="icon"/>
 
 	<Description>
-Add button feature for switch, v0.0.3
+Add Camera, Screen, Convertor
 	</Description>
 
 	<Debug>false</Debug>
