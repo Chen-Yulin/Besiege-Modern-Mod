@@ -57,7 +57,6 @@ namespace Modern
         public override void SensorSimulateStart()
         {
             On = !DefaultOn.isDefaultValue;
-            Outputs[0].MyData = new Data(On);
         }
 
         public override Data SensorGenerate()
@@ -78,12 +77,12 @@ namespace Modern
             {
                 if (SwitchKey.EmulationHeld())
                 {
-                    On = true;
+                    On = AutoReturn.isDefaultValue;
                     useEmulate = true;
                 }
                 else if (useEmulate)
                 {
-                    On = false;
+                    On = !AutoReturn.isDefaultValue;
                 }
             }
             
@@ -102,12 +101,12 @@ namespace Modern
             {
                 if (SwitchKey.IsHeld)
                 {
-                    On = true;
+                    On = AutoReturn.isDefaultValue;
                     useEmulate = false;
                 }
                 else if (!useEmulate)
                 {
-                    On = false;
+                    On = !AutoReturn.isDefaultValue;
                 }
             }
         }
