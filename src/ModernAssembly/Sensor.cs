@@ -130,7 +130,10 @@ namespace Modern
             onboard = OnBoard.isDefaultValue;
             if (!onboard)
             {
-                WirelessManager.Instance.RegisterUnit(InputChannel.Value, this);
+                if (needPara())
+                {
+                    WirelessManager.Instance.RegisterUnit(InputChannel.Value, this);
+                }
                 SensorSimulateStart();
             }
         }

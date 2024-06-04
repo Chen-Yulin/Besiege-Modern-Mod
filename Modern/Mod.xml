@@ -2,11 +2,11 @@
 	<Name>Modern</Name>
 	<Author>Chen Yulin</Author> <!-- FIX: Insert your name here. -->
 	<!-- Major.Minor.Build -->
-	<Version>0.0.4</Version>
+	<Version>0.0.6</Version>
 	<Icon name="icon"/>
 
 	<Description>
-Add Camera, Screen, Convertor
+v 0.0.6
 	</Description>
 
 	<Debug>false</Debug>
@@ -94,6 +94,7 @@ Add Camera, Screen, Convertor
 		<Mesh name="Switch Mesh" path="Unit/switch.obj" />
 		<Mesh name="Radar Mesh" path="Radar/Radar.obj" />
 		<Mesh name="Cube Mesh" path="Cube.obj" />
+		<Mesh name="Sphere Mesh" path="Sphere.obj" />
 		<Mesh name="Plane Mesh" path="Plane.obj" />
 
 		<Texture name="Port Texture" path="Unit/port.png" />
