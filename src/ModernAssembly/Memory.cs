@@ -58,23 +58,29 @@ namespace Modern
                 default:
                     break;
             }
+            bool valuechanged = false;
             if (triggered)
             {
                 if (DataTrue(Controls[1].MyData))
                 {
+                    valuechanged = true;
                     int wrt_addr = (Inputs[2].MyData.Type == Data.DataType.Null) ? 0 : (int)Mathf.Round(Inputs[2].MyData.Flt);
+                    Data tmp = new Data();
+                    tmp.TempTexID = (uint)(Outputs[0].TempTexID * 1000 + wrt_addr);
+                    tmp.DeepCopy(Inputs[0].MyData);
                     if (memory.ContainsKey(wrt_addr))
                     {
-                        memory[wrt_addr] = Inputs[0].MyData;
+                        memory[wrt_addr] = tmp;
                     }
                     else
                     {
-                        memory.Add(wrt_addr, Inputs[0].MyData);
+                        memory.Add(wrt_addr, tmp);
                     }
+
                 }
             }
 
-            if (Caller.Index == 1 && !Caller.AsControl)//read_addr
+            if ((Caller.Index == 1 && !Caller.AsControl) || valuechanged)//read_addr
             {
                 int read_addr = (Inputs[1].MyData.Type == Data.DataType.Null) ? 0 : (int)Mathf.Round(Inputs[1].MyData.Flt);
                 Outputs[0].MyData = memory.ContainsKey(read_addr) ? memory[read_addr] : new Data();

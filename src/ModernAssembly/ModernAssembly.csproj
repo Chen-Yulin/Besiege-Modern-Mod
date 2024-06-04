@@ -52,13 +52,17 @@
     <Compile Include="ALU.cs" />
     <Compile Include="AttachedExecuter.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="CameraSensor.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="CustomBlockController.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="DebugProbe.cs" />
+    <Compile Include="TempTextureManager.cs" />
     <Compile Include="KeyEmulator.cs" />
     <Compile Include="Memory.cs" />
+    <Compile Include="ScreenUnit.cs" />
     <Compile Include="Unpacker.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="Packer.cs" />

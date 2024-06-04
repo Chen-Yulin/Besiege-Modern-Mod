@@ -67,7 +67,10 @@ namespace Modern
             {
                 if (DataTrue(Controls[1].MyData))
                 {
-                    Outputs[0].MyData = Inputs[0].MyData;
+                    Data tmp = new Data();
+                    tmp.TempTexID = Outputs[0].TempTexID;
+                    tmp.DeepCopy(Inputs[0].MyData);
+                    Outputs[0].MyData = tmp;
                 }
             }
         }
