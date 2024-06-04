@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,9 +38,28 @@ namespace Modern
                         Vector3 scale = Vis.localScale;
                         scale.z = Mathf.Abs(scale.z) * (On?-1:1);
                         Vis.localScale = scale;
+                        Indicator.SetActive(on);
                     }
                 }
             }
+        }
+
+        public GameObject Indicator;
+
+        public void InitIndicator()
+        {
+            Indicator = new GameObject("Indicator");
+            Indicator.transform.parent = this.transform;
+            Indicator.transform.localPosition = new Vector3(0, 0, 0.19f);
+            Indicator.transform.localRotation = Quaternion.identity;
+            Indicator.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            Indicator.AddComponent<MeshFilter>().sharedMesh = ModResource.GetMesh("Sphere Mesh").Mesh;
+            MeshRenderer mr = Indicator.AddComponent<MeshRenderer>();
+            mr.material = new Material(Shader.Find("Particles/Alpha Blended"));
+            Color displayColor = Color.green;
+            displayColor.a = 0.5f;
+            mr.material.SetColor("_TintColor", displayColor);
+            Indicator.SetActive(false);
         }
 
         public override string GetName()
@@ -56,6 +76,7 @@ namespace Modern
 
         public override void SensorSimulateStart()
         {
+            InitIndicator();
             On = !DefaultOn.isDefaultValue;
         }
 
